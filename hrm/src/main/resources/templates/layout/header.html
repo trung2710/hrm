@@ -1,0 +1,184 @@
+<div th:fragment="header">
+
+    <nav class="topbar navbar navbar-expand navbar-light bg-white mb-4 static-top shadow">
+        <div class="container-fluid">
+            <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <form
+                    class="d-none d-sm-inline-block form-inline me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown no-arrow d-sm-none">
+                    <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-search"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end p-3 shadow animated--grow-in"
+                         aria-labelledby="searchDropdown">
+                        <form class="form-inline me-auto w-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small"
+                                       placeholder="Tìm kiếm..." aria-label="Search"
+                                       aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-danger badge-counter">3+</span>
+                    </a>
+                    <div class="dropdown-list dropdown-menu dropdown-menu-end shadow animated--grow-in"
+                         aria-labelledby="alertsDropdown">
+                        <h6 class="dropdown-header">Thông báo</h6>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="me-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="bi bi-file-text text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">12/12/2023</div>
+                                <span class="fw-bold">Báo cáo tháng mới đã sẵn sàng!</span>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="me-3">
+                                <div class="icon-circle bg-success">
+                                    <i class="bi bi-cash text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">10/12/2023</div>
+                                Lương tháng 12 đã được chuyển!
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="me-3">
+                                <div class="icon-circle bg-warning">
+                                    <i class="bi bi-exclamation-triangle text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">08/12/2023</div>
+                                Cảnh báo: 5 hợp đồng sắp hết hạn
+                            </div>
+                        </a>
+                        <a class="dropdown-item text-center small text-gray-500" href="#">
+                            Xem tất cả thông báo
+                        </a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-envelope"></i>
+                        <span class="badge bg-danger badge-counter">7</span>
+                    </a>
+                    <div class="dropdown-list dropdown-menu dropdown-menu-end shadow animated--grow-in"
+                         aria-labelledby="messagesDropdown">
+                        <h6 class="dropdown-header">Tin nhắn</h6>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="dropdown-list-image me-3">
+                                <img class="rounded-circle" src="https://via.placeholder.com/60" alt="...">
+                                <div class="status-indicator bg-success"></div>
+                            </div>
+                            <div>
+                                <div class="text-truncate">Xin chào! Tôi cần xin nghỉ phép vào tuần sau...</div>
+                                <div class="small text-gray-500">Nguyễn Văn A · 58m</div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="dropdown-list-image me-3">
+                                <img class="rounded-circle" src="https://via.placeholder.com/60" alt="...">
+                                <div class="status-indicator"></div>
+                            </div>
+                            <div>
+                                <div class="text-truncate">Báo cáo dự án đã được cập nhật, vui lòng kiểm tra...
+                                </div>
+                                <div class="small text-gray-500">Trần Thị B · 1d</div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="dropdown-list-image me-3">
+                                <img class="rounded-circle" src="https://via.placeholder.com/60" alt="...">
+                                <div class="status-indicator bg-warning"></div>
+                            </div>
+                            <div>
+                                <div class="text-truncate">Cuộc họp phòng ban sẽ được tổ chức vào 15h chiều
+                                    nay...</div>
+                                <div class="small text-gray-500">Lê Văn C · 2d</div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item text-center small text-gray-500" href="#">
+                            Xem tất cả tin nhắn
+                        </a>
+                    </div>
+                </li>
+
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="me-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                        <img class="img-profile rounded-circle" src="https://via.placeholder.com/60"
+                             alt="Profile" style="width: 32px; height: 32px;">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
+                         aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-person me-2 text-gray-400"></i>
+                            Hồ sơ
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-gear me-2 text-gray-400"></i>
+                            Cài đặt
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-list me-2 text-gray-400"></i>
+                            Nhật ký hoạt động
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                            <i class="bi bi-box-arrow-right me-2 text-gray-400"></i>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <script src="/js/script.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+</div>

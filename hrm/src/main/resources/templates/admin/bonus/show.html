@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Thưởng - Hệ Thống Quản Lý Nhân Sự</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div id="wrapper">
+  <!--  SideBar-->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý thưởng</h1>
+        <div>
+          <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm me-2"
+                  data-bs-toggle="modal" data-bs-target="#addBonusTypeModal">
+            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm loại thưởng
+          </button>
+          <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
+                  data-bs-target="#addBonusModal">
+            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm thưởng nhân viên
+          </button>
+        </div>
+      </div>
+
+      <!-- Bonus Types Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Danh sách loại thưởng</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+              <div class="dropdown-header">Tùy chọn:</div>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-printer me-2"></i>In danh sách
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="bonusTypeTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Mã loại</th>
+                <th>Tên loại thưởng</th>
+                <th>Mô tả</th>
+                <th>Mức thưởng mặc định</th>
+                <th>Loại tính toán</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>TH001</td>
+                <td>Thưởng thành tích</td>
+                <td>Thưởng cho nhân viên có thành tích xuất sắc</td>
+                <td>2,000,000 VND</td>
+                <td>Cố định</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>TH002</td>
+                <td>Thưởng dự án</td>
+                <td>Thưởng hoàn thành dự án đúng tiến độ</td>
+                <td>10%</td>
+                <td>Phần trăm lương</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>TH003</td>
+                <td>Thưởng lễ tết</td>
+                <td>Thưởng nhân dịp lễ tết</td>
+                <td>1,500,000 VND</td>
+                <td>Cố định</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc thưởng nhân viên</h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option value="">Loại thưởng</option>
+                <option value="1">Thưởng thành tích</option>
+                <option value="2">Thưởng dự án</option>
+                <option value="3">Thưởng lễ tết</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option value="">Phòng ban</option>
+                <option value="1">Kỹ thuật</option>
+                <option value="2">Kinh doanh</option>
+                <option value="3">Nhân sự</option>
+                <option value="4">Kế toán</option>
+                <option value="5">Marketing</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary w-100">
+                <i class="bi bi-search me-1"></i> Tìm kiếm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Employee Bonuses List -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Danh sách thưởng nhân viên</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink2">
+              <div class="dropdown-header">Tùy chọn:</div>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-printer me-2"></i>In danh sách
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="employeeBonusTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Mã NV</th>
+                <th>Họ tên</th>
+                <th>Phòng ban</th>
+                <th>Loại thưởng</th>
+                <th>Mức thưởng</th>
+                <th>Ngày thưởng</th>
+                <th>Lý do</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>NV001</td>
+                <td>Nguyễn Văn A</td>
+                <td>Kỹ thuật</td>
+                <td>Thưởng thành tích</td>
+                <td>2,000,000 VND</td>
+                <td>15/12/2023</td>
+                <td>Hoàn thành xuất sắc công việc</td>
+                <td><span class="badge bg-success">Đã duyệt</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewBonusModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editBonusModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>NV002</td>
+                <td>Trần Thị B</td>
+                <td>Kinh doanh</td>
+                <td>Thưởng dự án</td>
+                <td>3,000,000 VND</td>
+                <td>20/12/2023</td>
+                <td>Hoàn thành dự án trước thời hạn</td>
+                <td><span class="badge bg-warning">Chờ duyệt</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewBonusModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editBonusModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>Hiển thị 1 đến 2 của 50 bản ghi</div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll to Top Button -->
+<a class="scroll-to-top rounded" href="#">
+  <i class="bi bi-chevron-up"></i>
+</a>
+
+<!-- Modals -->
+<!-- Add Bonus Type Modal -->
+<div class="modal fade" id="addBonusTypeModal" tabindex="-1" aria-labelledby="addBonusTypeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBonusTypeModalLabel">Thêm loại thưởng mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="bonusTypeId" class="form-label">Mã loại thưởng <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="bonusTypeId" placeholder="Mã loại thưởng"
+                   required>
+          </div>
+          <div class="mb-3">
+            <label for="bonusTypeName" class="form-label">Tên loại thưởng <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="bonusTypeName" placeholder="Tên loại thưởng"
+                   required>
+          </div>
+          <div class="mb-3">
+            <label for="bonusTypeDescription" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="bonusTypeDescription" rows="3"
+                      placeholder="Mô tả loại thưởng"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="calculationType" class="form-label">Loại tính toán <span
+                    class="text-danger">*</span></label>
+            <select class="form-select" id="calculationType" required>
+              <option value="">Chọn loại tính toán</option>
+              <option value="1">Cố định</option>
+              <option value="2">Phần trăm lương</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="defaultAmount" class="form-label">Mức thưởng mặc định <span
+                    class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="defaultAmount"
+                     placeholder="Mức thưởng mặc định" required>
+              <select class="form-select" style="max-width: 100px;">
+                <option value="VND">VND</option>
+                <option value="%">%</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Bonus Type Modal -->
+<div class="modal fade" id="editBonusTypeModal" tabindex="-1" aria-labelledby="editBonusTypeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editBonusTypeModalLabel">Chỉnh sửa loại thưởng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="editBonusTypeId" class="form-label">Mã loại thưởng <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editBonusTypeId" value="TH001" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="editBonusTypeName" class="form-label">Tên loại thưởng <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editBonusTypeName" value="Thưởng thành tích"
+                   required>
+          </div>
+          <div class="mb-3">
+            <label for="editBonusTypeDescription" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="editBonusTypeDescription"
+                      rows="3">Thưởng cho nhân viên có thành tích xuất sắc</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editCalculationType" class="form-label">Loại tính toán <span
+                    class="text-danger">*</span></label>
+            <select class="form-select" id="editCalculationType" required>
+              <option value="">Chọn loại tính toán</option>
+              <option value="1" selected>Cố định</option>
+              <option value="2">Phần trăm lương</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="editDefaultAmount" class="form-label">Mức thưởng mặc định <span
+                    class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="editDefaultAmount" value="2000000"
+                     required>
+              <select class="form-select" style="max-width: 100px;">
+                <option value="VND" selected>VND</option>
+                <option value="%">%</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Bonus Type Modal -->
+<div class="modal fade" id="deleteBonusTypeModal" tabindex="-1" aria-labelledby="deleteBonusTypeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteBonusTypeModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn xóa loại thưởng này không? Hành động này không thể hoàn tác.</p>
+        <p class="text-danger">Lưu ý: Việc xóa loại thưởng sẽ ảnh hưởng đến tất cả các khoản thưởng của nhân
+          viên thuộc loại này.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Employee Bonus Modal -->
+<div class="modal fade" id="addBonusModal" tabindex="-1" aria-labelledby="addBonusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBonusModalLabel">Thêm thưởng nhân viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="employee" class="form-label">Nhân viên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="employee" required>
+                <option value="">Chọn nhân viên</option>
+                <option value="1">Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+                <option value="3">Lê Văn C</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="bonusType" class="form-label">Loại thưởng <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="bonusType" required>
+                <option value="">Chọn loại thưởng</option>
+                <option value="1">Thưởng thành tích</option>
+                <option value="2">Thưởng dự án</option>
+                <option value="3">Thưởng lễ tết</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="bonusAmount" class="form-label">Mức thưởng <span
+                      class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="bonusAmount" placeholder="Mức thưởng"
+                       required>
+                <select class="form-select" style="max-width: 100px;">
+                  <option value="VND">VND</option>
+                  <option value="%">%</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="bonusDate" class="form-label">Ngày thưởng <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="bonusDate" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="reason" class="form-label">Lý do thưởng <span
+                    class="text-danger">*</span></label>
+            <textarea class="form-control" id="reason" rows="3" placeholder="Nhập lý do thưởng"
+                      required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="approver" class="form-label">Người phê duyệt</label>
+            <select class="form-select" id="approver">
+              <option value="">Chọn người phê duyệt</option>
+              <option value="1">Giám đốc</option>
+              <option value="2">Trưởng phòng nhân sự</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="notes" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="notes" rows="2" placeholder="Ghi chú thêm"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Employee Bonus Modal -->
+<div class="modal fade" id="editBonusModal" tabindex="-1" aria-labelledby="editBonusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editBonusModalLabel">Chỉnh sửa thưởng nhân viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editEmployee" class="form-label">Nhân viên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editEmployee" required>
+                <option value="">Chọn nhân viên</option>
+                <option value="1" selected>Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+                <option value="3">Lê Văn C</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="editBonusType" class="form-label">Loại thưởng <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editBonusType" required>
+                <option value="">Chọn loại thưởng</option>
+                <option value="1" selected>Thưởng thành tích</option>
+                <option value="2">Thưởng dự án</option>
+                <option value="3">Thưởng lễ tết</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editBonusAmount" class="form-label">Mức thưởng <span
+                      class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editBonusAmount" value="2000000"
+                       required>
+                <select class="form-select" style="max-width: 100px;">
+                  <option value="VND" selected>VND</option>
+                  <option value="%">%</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="editBonusDate" class="form-label">Ngày thưởng <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="editBonusDate" value="2023-12-15" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="editReason" class="form-label">Lý do thưởng <span
+                    class="text-danger">*</span></label>
+            <textarea class="form-control" id="editReason" rows="3"
+                      required>Hoàn thành xuất sắc công việc</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editApprover" class="form-label">Người phê duyệt</label>
+            <select class="form-select" id="editApprover">
+              <option value="">Chọn người phê duyệt</option>
+              <option value="1" selected>Giám đốc</option>
+              <option value="2">Trưởng phòng nhân sự</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="editNotes" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="editNotes" rows="2">Đã duyệt và thanh toán</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Employee Bonus Modal -->
+<div class="modal fade" id="viewBonusModal" tabindex="-1" aria-labelledby="viewBonusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewBonusModalLabel">Chi tiết thưởng nhân viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin nhân viên</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Mã nhân viên</th>
+                <td>NV001</td>
+              </tr>
+              <tr>
+                <th>Họ tên</th>
+                <td>Nguyễn Văn A</td>
+              </tr>
+              <tr>
+                <th>Phòng ban</th>
+                <td>Kỹ thuật</td>
+              </tr>
+              <tr>
+                <th>Chức vụ</th>
+                <td>Trưởng phòng</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin thưởng</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Loại thưởng</th>
+                <td>Thưởng thành tích</td>
+              </tr>
+              <tr>
+                <th>Mức thưởng</th>
+                <td>2,000,000 VND</td>
+              </tr>
+              <tr>
+                <th>Ngày thưởng</th>
+                <td>15/12/2023</td>
+              </tr>
+              <tr>
+                <th>Trạng thái</th>
+                <td><span class="badge bg-success">Đã duyệt</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h6 class="font-weight-bold">Lý do thưởng</h6>
+            <p>Hoàn thành xuất sắc công việc được giao. Đạt các chỉ tiêu đề ra.</p>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12">
+            <h6 class="font-weight-bold">Lịch sử thay đổi</h6>
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Ngày thay đổi</th>
+                <th>Người thay đổi</th>
+                <th>Nội dung thay đổi</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>15/12/2023</td>
+                <td>Admin</td>
+                <td>Tạo mới khoản thưởng</td>
+              </tr>
+              <tr>
+                <td>16/12/2023</td>
+                <td>Giám đốc</td>
+                <td>Phê duyệt khoản thưởng</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                data-bs-target="#editBonusModal">Chỉnh sửa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Employee Bonus Modal -->
+<div class="modal fade" id="deleteBonusModal" tabindex="-1" aria-labelledby="deleteBonusModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteBonusModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa khoản thưởng này không? Hành động này không thể hoàn tác.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Bạn muốn đăng xuất?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Chọn "Đăng xuất" bên dưới nếu bạn đã sẵn sàng kết thúc phiên làm việc hiện tại.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+</body>
+
+</html>

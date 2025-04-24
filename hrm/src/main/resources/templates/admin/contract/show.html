@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Hợp đồng - HR Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .stats-card {
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    .stats-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .border-left-primary {
+      border-left: 4px solid #4e73df !important;
+    }
+
+    .border-left-success {
+      border-left: 4px solid #1cc88a !important;
+    }
+
+    .border-left-warning {
+      border-left: 4px solid #f6c23e !important;
+    }
+
+    .border-left-info {
+      border-left: 4px solid #36b9cc !important;
+    }
+
+    .contract-list {
+      margin-top: 2rem;
+    }
+
+    .contract-item {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.15);
+    }
+
+    .contract-item:hover {
+      box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.25);
+    }
+
+    .contract-status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
+    .contract-status.active {
+      background-color: #1cc88a;
+      color: white;
+    }
+
+    .contract-status.pending {
+      background-color: #f6c23e;
+      color: white;
+    }
+
+    .contract-status.expired {
+      background-color: #858796;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!--Top Bar    -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Thống kê -->
+      <div class="row mb-4">
+        <div class="col-xl-3 col-md-6">
+          <div class="card stats-card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    TỔNG SỐ HỢP ĐỒNG</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">245</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-file-text fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card stats-card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                    HỢP ĐỒNG ĐANG HIỆU LỰC</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">180</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-check-circle fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card stats-card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                    HỢP ĐỒNG SẮP HẾT HẠN</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-exclamation-circle fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="card stats-card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                    CHỜ PHÊ DUYỆT</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-hourglass-split fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thanh tìm kiếm và lọc -->
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Tìm kiếm hợp đồng...">
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Loại hợp đồng</option>
+                <option>Toàn thời gian</option>
+                <option>Bán thời gian</option>
+                <option>Thử việc</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Trạng thái</option>
+                <option>Đang hiệu lực</option>
+                <option>Chờ phê duyệt</option>
+                <option>Hết hạn</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary w-100">
+                <i class="bi bi-search"></i> Tìm kiếm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danh sách hợp đồng -->
+      <div class="contract-list">
+        <div class="contract-item">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h5 class="mb-1">Hợp đồng lao động toàn thời gian</h5>
+              <p class="text-muted mb-0">HD2025042301</p>
+            </div>
+            <span class="contract-status active">Đang hiệu lực</span>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <small class="text-muted">Nhân viên:</small>
+              <p class="mb-0">Nguyễn Văn A</p>
+            </div>
+            <div class="col-md-3">
+              <small class="text-muted">Phòng ban:</small>
+              <p class="mb-0">Phòng Kỹ thuật</p>
+            </div>
+            <div class="col-md-3">
+              <small class="text-muted">Ngày bắt đầu:</small>
+              <p class="mb-0">01/01/2025</p>
+            </div>
+            <div class="col-md-3">
+              <small class="text-muted">Ngày kết thúc:</small>
+              <p class="mb-0">31/12/2025</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge bg-success">12 tháng</span>
+            <div>
+              <button class="btn btn-sm btn-info me-1" title="Xem chi tiết" data-bs-toggle="modal"
+                      data-bs-target="#viewContractModal">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                      data-bs-target="#deleteContractModal">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="contract-item">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h5 class="mb-1">Hợp đồng thử việc</h5>
+              <p class="text-muted mb-0">HD2025042302</p>
+            </div>
+            <span class="contract-status pending">Chờ phê duyệt</span>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <small class="text-muted">Nhân viên:</small>
+              <p class="mb-0">Trần Thị B</p>
+            </div>
+            <div class="col-md-3">
+              <small class="text-muted">Phòng ban:</small>
+              <p class="mb-0">Phòng Marketing</p>
+            </div>
+            <div class="col-md-3">
+              <small class="text-muted">Ngày bắt đầu:</small>
+              <p class="mb-0">01/05/2025</p>
+            </div>
+            <div class="col-md-3">
+              <small class="text-muted">Ngày kết thúc:</small>
+              <p class="mb-0">31/07/2025</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge bg-warning">3 tháng</span>
+            <div>
+              <button class="btn btn-sm btn-info me-1" title="Xem chi tiết" data-bs-toggle="modal"
+                      data-bs-target="#viewContractModal">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                      data-bs-target="#deleteContractModal">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phân trang -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <div>Hiển thị 1 đến 2 của 245 hợp đồng</div>
+        <nav>
+          <ul class="pagination mb-0">
+            <li class="page-item disabled">
+              <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Xem chi tiết hợp đồng -->
+<div class="modal fade" id="viewContractModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chi tiết hợp đồng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="mb-3">Thông tin cơ bản</h6>
+            <table class="table table-borderless">
+              <tr>
+                <td width="40%"><strong>Mã hợp đồng:</strong></td>
+                <td>HD2025042301</td>
+              </tr>
+              <tr>
+                <td><strong>Loại hợp đồng:</strong></td>
+                <td>Toàn thời gian</td>
+              </tr>
+              <tr>
+                <td><strong>Trạng thái:</strong></td>
+                <td><span class="badge bg-success">Đang hiệu lực</span></td>
+              </tr>
+              <tr>
+                <td><strong>Thời hạn:</strong></td>
+                <td>12 tháng</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h6 class="mb-3">Thông tin nhân viên</h6>
+            <table class="table table-borderless">
+              <tr>
+                <td width="40%"><strong>Nhân viên:</strong></td>
+                <td>Nguyễn Văn A</td>
+              </tr>
+              <tr>
+                <td><strong>Phòng ban:</strong></td>
+                <td>Phòng Kỹ thuật</td>
+              </tr>
+              <tr>
+                <td><strong>Chức vụ:</strong></td>
+                <td>Nhân viên</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="mb-3">Thông tin thời gian</h6>
+            <table class="table table-borderless">
+              <tr>
+                <td width="40%"><strong>Ngày bắt đầu:</strong></td>
+                <td>01/01/2025</td>
+              </tr>
+              <tr>
+                <td><strong>Ngày kết thúc:</strong></td>
+                <td>31/12/2025</td>
+              </tr>
+              <tr>
+                <td><strong>Ngày ký:</strong></td>
+                <td>15/12/2024</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h6 class="mb-3">Thông tin lương</h6>
+            <table class="table table-borderless">
+              <tr>
+                <td width="40%"><strong>Lương cơ bản:</strong></td>
+                <td>15,000,000 VNĐ</td>
+              </tr>
+              <tr>
+                <td><strong>Phụ cấp:</strong></td>
+                <td>2,000,000 VNĐ</td>
+              </tr>
+              <tr>
+                <td><strong>Tổng thu nhập:</strong></td>
+                <td>17,000,000 VNĐ</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h6 class="mb-3">Nội dung hợp đồng</h6>
+          <div class="contract-content p-3 border rounded bg-light">
+            <p><strong>ĐIỀU 1: ĐIỀU KHOẢN CHUNG</strong></p>
+            <p>Công việc phải làm: Theo đúng vị trí tuyển dụng và mô tả công việc đã thỏa thuận.</p>
+            <p>Địa điểm làm việc: Văn phòng công ty tại TP.HCM</p>
+            <p>Thời giờ làm việc: 8 giờ/ngày, 5 ngày/tuần</p>
+            <!-- Thêm nội dung hợp đồng khác -->
+          </div>
+        </div>
+
+        <div>
+          <h6 class="mb-3">Tài liệu đính kèm</h6>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">
+              <i class="bi bi-file-pdf text-danger me-2"></i>
+              Hợp đồng đã ký.pdf
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <i class="bi bi-file-text text-primary me-2"></i>
+              Phụ lục hợp đồng.docx
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary">
+          <i class="bi bi-printer"></i> In hợp đồng
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Xóa hợp đồng -->
+<div class="modal fade" id="deleteContractModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xác nhận xóa hợp đồng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn xóa hợp đồng này không?</p>
+        <p class="text-danger mb-0">
+          <i class="bi bi-exclamation-triangle me-1"></i>
+          Thao tác này không thể hoàn tác sau khi thực hiện.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+</body>
+
+</html>

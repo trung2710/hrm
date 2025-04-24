@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý chức vụ - Hệ Thống Quản Lý Nhân Sự</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý chức vụ</h1>
+        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                data-bs-target="#addPositionModal">
+          <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm chức vụ
+        </button>
+      </div>
+
+      <!-- Position List -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Danh sách chức vụ</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+              <div class="dropdown-header">Tùy chọn:</div>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-printer me-2"></i>In danh sách
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Mã chức vụ</th>
+                <th>Tên chức vụ</th>
+                <th>Phòng ban</th>
+                <th>Mức lương cơ bản</th>
+                <th>Phụ cấp</th>
+                <th>Số nhân viên</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>CV001</td>
+                <td>Giám đốc</td>
+                <td>Ban giám đốc</td>
+                <td>50,000,000 VND</td>
+                <td>10,000,000 VND</td>
+                <td>1</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CV002</td>
+                <td>Trưởng phòng</td>
+                <td>Kỹ thuật</td>
+                <td>25,000,000 VND</td>
+                <td>5,000,000 VND</td>
+                <td>3</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CV003</td>
+                <td>Nhân viên</td>
+                <td>Kỹ thuật</td>
+                <td>15,000,000 VND</td>
+                <td>2,000,000 VND</td>
+                <td>15</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CV004</td>
+                <td>Trưởng phòng</td>
+                <td>Kinh doanh</td>
+                <td>25,000,000 VND</td>
+                <td>5,000,000 VND</td>
+                <td>2</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CV005</td>
+                <td>Nhân viên</td>
+                <td>Kinh doanh</td>
+                <td>15,000,000 VND</td>
+                <td>2,000,000 VND</td>
+                <td>12</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Add Position Modal -->
+<div class="modal fade" id="addPositionModal" tabindex="-1" aria-labelledby="addPositionModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPositionModalLabel">Thêm chức vụ mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="positionId" class="form-label">Mã chức vụ <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="positionId" placeholder="Mã chức vụ" required>
+          </div>
+          <div class="mb-3">
+            <label for="positionName" class="form-label">Tên chức vụ <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="positionName" placeholder="Tên chức vụ"
+                   required>
+          </div>
+          <div class="mb-3">
+            <label for="department" class="form-label">Phòng ban <span
+                    class="text-danger">*</span></label>
+            <select class="form-select" id="department" required>
+              <option value="">Chọn phòng ban</option>
+              <option value="1">Ban giám đốc</option>
+              <option value="2">Kỹ thuật</option>
+              <option value="3">Kinh doanh</option>
+              <option value="4">Nhân sự</option>
+              <option value="5">Kế toán</option>
+              <option value="6">Marketing</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="baseSalary" class="form-label">Mức lương cơ bản <span
+                    class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="baseSalary" placeholder="Mức lương cơ bản"
+                     required>
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="allowance" class="form-label">Phụ cấp</label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="allowance" placeholder="Phụ cấp">
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Mô tả công việc</label>
+            <textarea class="form-control" id="description" rows="3"
+                      placeholder="Mô tả công việc"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Position Modal -->
+<div class="modal fade" id="editPositionModal" tabindex="-1" aria-labelledby="editPositionModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPositionModalLabel">Chỉnh sửa chức vụ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="editPositionId" class="form-label">Mã chức vụ <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editPositionId" value="CV001" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="editPositionName" class="form-label">Tên chức vụ <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editPositionName" value="Giám đốc" required>
+          </div>
+          <div class="mb-3">
+            <label for="editDepartment" class="form-label">Phòng ban <span
+                    class="text-danger">*</span></label>
+            <select class="form-select" id="editDepartment" required>
+              <option value="1" selected>Ban giám đốc</option>
+              <option value="2">Kỹ thuật</option>
+              <option value="3">Kinh doanh</option>
+              <option value="4">Nhân sự</option>
+              <option value="5">Kế toán</option>
+              <option value="6">Marketing</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="editBaseSalary" class="form-label">Mức lương cơ bản <span
+                    class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="editBaseSalary" value="50000000" required>
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="editAllowance" class="form-label">Phụ cấp</label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="editAllowance" value="10000000">
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="editDescription" class="form-label">Mô tả công việc</label>
+            <textarea class="form-control" id="editDescription"
+                      rows="3">Điều hành và quản lý toàn bộ hoạt động của công ty. Xây dựng chiến lược phát triển và đưa ra các quyết định quan trọng.</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Position Modal -->
+<div class="modal fade" id="viewPositionModal" tabindex="-1" aria-labelledby="viewPositionModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewPositionModalLabel">Chi tiết chức vụ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin cơ bản</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Mã chức vụ</th>
+                <td>CV001</td>
+              </tr>
+              <tr>
+                <th>Tên chức vụ</th>
+                <td>Giám đốc</td>
+              </tr>
+              <tr>
+                <th>Phòng ban</th>
+                <td>Ban giám đốc</td>
+              </tr>
+              <tr>
+                <th>Số nhân viên</th>
+                <td>1</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin lương</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Mức lương cơ bản</th>
+                <td>50,000,000 VND</td>
+              </tr>
+              <tr>
+                <th>Phụ cấp</th>
+                <td>10,000,000 VND</td>
+              </tr>
+              <tr>
+                <th>Tổng chi phí</th>
+                <td>60,000,000 VND</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h6 class="font-weight-bold">Mô tả công việc</h6>
+        <p>Điều hành và quản lý toàn bộ hoạt động của công ty. Xây dựng chiến lược phát triển và đưa ra các
+          quyết định quan trọng.</p>
+
+        <h6 class="font-weight-bold border-bottom pb-2 mt-4">Danh sách nhân viên</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Mã NV</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Số điện thoại</th>
+              <th>Ngày bổ nhiệm</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>NV001</td>
+              <td>Nguyễn Văn A</td>
+              <td>nguyenvana@example.com</td>
+              <td>0901234567</td>
+              <td>01/01/2020</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Position Modal -->
+<div class="modal fade" id="deletePositionModal" tabindex="-1" aria-labelledby="deletePositionModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePositionModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn xóa chức vụ này không? Hành động này không thể hoàn tác.</p>
+        <div class="alert alert-warning">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          Lưu ý: Chức vụ này đang có nhân viên. Việc xóa có thể ảnh hưởng đến dữ liệu liên quan.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+</body>
+
+</html>

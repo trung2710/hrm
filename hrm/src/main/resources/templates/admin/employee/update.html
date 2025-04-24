@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chỉnh sửa thông tin nhân viên - HR Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div id="wrapper">
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <div th:replace="~{layout/header :: header}"></div>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-brand d-flex align-items-center justify-content-center py-4">
+          <div class="sidebar-brand-icon">
+            <i class="bi bi-building fs-4"></i>
+          </div>
+          <div class="sidebar-brand-text mx-3">HR Manager</div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Tổng quan</div>
+
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">
+            <i class="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Quản lý nhân sự</div>
+
+        <div class="nav-item">
+          <a href="employees.html" class="nav-link">
+            <i class="bi bi-people"></i>
+            <span>Nhân viên</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="departments.html" class="nav-link">
+            <i class="bi bi-diagram-3"></i>
+            <span>Phòng ban</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="positions.html" class="nav-link">
+            <i class="bi bi-person-badge"></i>
+            <span>Chức vụ</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Quản lý hợp đồng</div>
+
+        <div class="nav-item">
+          <a href="contracts.html" class="nav-link">
+            <i class="bi bi-file-earmark-text"></i>
+            <span>Hợp đồng</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="insurance.html" class="nav-link">
+            <i class="bi bi-shield-check"></i>
+            <span>Bảo hiểm</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Quản lý lương</div>
+
+        <div class="nav-item">
+          <a href="salary.html" class="nav-link">
+            <i class="bi bi-cash-stack"></i>
+            <span>Lương</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="allowances.html" class="nav-link">
+            <i class="bi bi-cash"></i>
+            <span>Phụ cấp</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="bonuses.html" class="nav-link">
+            <i class="bi bi-trophy"></i>
+            <span>Thưởng</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Quản lý chấm công</div>
+
+        <div class="nav-item">
+          <a href="attendance.html" class="nav-link">
+            <i class="bi bi-calendar-check"></i>
+            <span>Chấm công</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="leave.html" class="nav-link">
+            <i class="bi bi-calendar-x"></i>
+            <span>Nghỉ phép</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Quản lý khác</div>
+
+        <div class="nav-item">
+          <a href="violations.html" class="nav-link">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span>Vi phạm</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="projects.html" class="nav-link">
+            <i class="bi bi-kanban"></i>
+            <span>Dự án</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="notifications.html" class="nav-link">
+            <i class="bi bi-bell"></i>
+            <span>Thông báo</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="forms.html" class="nav-link">
+            <i class="bi bi-file-earmark"></i>
+            <span>Đơn từ</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Báo cáo</div>
+
+        <div class="nav-item">
+          <a href="reports.html" class="nav-link">
+            <i class="bi bi-bar-chart"></i>
+            <span>Báo cáo</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Hệ thống</div>
+
+        <div class="nav-item">
+          <a href="users.html" class="nav-link">
+            <i class="bi bi-person-lock"></i>
+            <span>Tài khoản</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="settings.html" class="nav-link">
+            <i class="bi bi-gear"></i>
+            <span>Cài đặt</span>
+          </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="text-center d-none d-md-inline mt-3">
+          <button class="btn rounded-circle border-0" id="sidebarToggle">
+            <i class="bi bi-arrow-left text-white"></i>
+          </button>
+        </div>
+      </div>
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa thông tin nhân viên</h1>
+        <div>
+          <a href="employees.html" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i>
+            Quay lại
+          </a>
+          <button type="submit" class="btn btn-primary ms-2">
+            <i class="bi bi-save me-1"></i>
+            Lưu thay đổi
+          </button>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <form>
+            <!-- Personal Information -->
+            <div class="row mb-4">
+              <div class="col-lg-3 text-lg-end">
+                <label class="col-form-label fw-bold">Thông tin cá nhân</label>
+              </div>
+              <div class="col-lg-9">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label class="form-label">Mã nhân viên <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" value="NV001" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Họ và tên <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" value="Nguyễn Văn A"
+                               required>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label class="form-label">Email <span
+                                class="text-danger">*</span></label>
+                        <input type="email" class="form-control"
+                               value="nguyenvana@example.com" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Số điện thoại <span
+                                class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" value="0901234567" required>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" value="1990-01-01">
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Giới tính</label>
+                        <select class="form-select">
+                          <option value="male">Nam</option>
+                          <option value="female">Nữ</option>
+                          <option value="other">Khác</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <label class="form-label">Địa chỉ</label>
+                        <textarea class="form-control"
+                                  rows="2">123 Đường ABC, Quận XYZ, TP.HCM</textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Work Information -->
+            <div class="row mb-4">
+              <div class="col-lg-3 text-lg-end">
+                <label class="col-form-label fw-bold">Thông tin công việc</label>
+              </div>
+              <div class="col-lg-9">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label class="form-label">Phòng ban <span
+                                class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                          <option value="tech" selected>Kỹ thuật</option>
+                          <option value="hr">Nhân sự</option>
+                          <option value="finance">Kế toán</option>
+                          <option value="marketing">Marketing</option>
+                          <option value="sales">Kinh doanh</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Chức vụ <span
+                                class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                          <option value="manager" selected>Trưởng phòng</option>
+                          <option value="employee">Nhân viên</option>
+                          <option value="intern">Thực tập sinh</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label class="form-label">Ngày vào làm <span
+                                class="text-danger">*</span></label>
+                        <input type="date" class="form-control" value="2024-01-01" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Trạng thái</label>
+                        <select class="form-select">
+                          <option value="active" selected>Đang làm việc</option>
+                          <option value="leave">Nghỉ phép</option>
+                          <option value="resigned">Nghỉ việc</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <label class="form-label">Ghi chú</label>
+                        <textarea class="form-control"
+                                  rows="2">Nhân viên xuất sắc quý 1/2025</textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Photo -->
+            <div class="row mb-4">
+              <div class="col-lg-3 text-lg-end">
+                <label class="col-form-label fw-bold">Ảnh đại diện</label>
+              </div>
+              <div class="col-lg-9">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/100" class="rounded-circle me-3"
+                           alt="Avatar">
+                      <div>
+                        <input type="file" class="form-control" accept="image/*">
+                        <small class="text-muted">Cho phép JPG, GIF hoặc PNG. Kích thước tối
+                          đa 2MB</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="row">
+              <div class="col-lg-9 offset-lg-3">
+                <button type="submit" class="btn btn-primary me-2">
+                  <i class="bi bi-save me-1"></i>
+                  Lưu thay đổi
+                </button>
+                <a href="employees.html" class="btn btn-secondary">
+                  <i class="bi bi-x-circle me-1"></i>
+                  Hủy bỏ
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+</body>
+
+</html>

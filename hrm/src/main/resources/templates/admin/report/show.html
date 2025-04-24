@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo & Thống kê - Hệ Thống Quản Lý Nhân Sự</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Topbar -->
+        <div th:replace="~{layout/header :: header}"></div>
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Báo cáo & Thống kê</h1>
+                <div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download me-1"></i> Xuất báo cáo
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-excel me-2"></i>Excel</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-pdf me-2"></i>PDF</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i>In báo cáo</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Filters -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Bộ lọc báo cáo</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Khoảng thời gian</label>
+                            <select class="form-select">
+                                <option value="today">Hôm nay</option>
+                                <option value="yesterday">Hôm qua</option>
+                                <option value="last7days">7 ngày qua</option>
+                                <option value="thisMonth" selected>Tháng này</option>
+                                <option value="lastMonth">Tháng trước</option>
+                                <option value="last3months">3 tháng gần đây</option>
+                                <option value="thisYear">Năm nay</option>
+                                <option value="custom">Tùy chỉnh</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Phòng ban</label>
+                            <select class="form-select">
+                                <option value="">Tất cả phòng ban</option>
+                                <option value="tech">Phòng Kỹ thuật</option>
+                                <option value="hr">Phòng Nhân sự</option>
+                                <option value="sales">Phòng Kinh doanh</option>
+                                <option value="marketing">Phòng Marketing</option>
+                                <option value="finance">Phòng Tài chính</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Loại báo cáo</label>
+                            <select class="form-select">
+                                <option value="overview" selected>Tổng quan</option>
+                                <option value="attendance">Chấm công</option>
+                                <option value="performance">Hiệu suất</option>
+                                <option value="salary">Lương thưởng</option>
+                                <option value="recruitment">Tuyển dụng</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-primary w-100">
+                                <i class="bi bi-search me-1"></i> Áp dụng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overview Metrics -->
+            <div class="row">
+                <!-- Total Employees -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card metric-card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Tổng số nhân viên</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">245</div>
+                                    <div class="mt-2">
+                                            <span class="trend-indicator up">
+                                                <i class="bi bi-arrow-up"></i> 5.3%
+                                            </span>
+                                        <small class="text-muted ms-1">so với tháng trước</small>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="metric-icon primary">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Average Attendance -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card metric-card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Tỷ lệ chuyên cần</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">95.2%</div>
+                                    <div class="mt-2">
+                                            <span class="trend-indicator up">
+                                                <i class="bi bi-arrow-up"></i> 1.2%
+                                            </span>
+                                        <small class="text-muted ms-1">so với tháng trước</small>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="metric-icon success">
+                                        <i class="bi bi-calendar-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employee Turnover -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card metric-card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Tỷ lệ nghỉ việc</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">2.8%</div>
+                                    <div class="mt-2">
+                                            <span class="trend-indicator down">
+                                                <i class="bi bi-arrow-down"></i> 0.5%
+                                            </span>
+                                        <small class="text-muted ms-1">so với tháng trước</small>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="metric-icon warning">
+                                        <i class="bi bi-person-dash"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Completion -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card metric-card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        Hoàn thành đào tạo</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">88.5%</div>
+                                    <div class="mt-2">
+                                            <span class="trend-indicator up">
+                                                <i class="bi bi-arrow-up"></i> 3.7%
+                                            </span>
+                                        <small class="text-muted ms-1">so với tháng trước</small>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="metric-icon info">
+                                        <i class="bi bi-mortarboard"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row">
+                <!-- Employee Distribution Chart -->
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Phân bố nhân viên theo phòng ban</h6>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-link" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Xuất dữ liệu</a></li>
+                                    <li><a class="dropdown-item" href="#">Tùy chỉnh biểu đồ</a></li>
+                                    <li><a class="dropdown-item" href="#">Làm mới dữ liệu</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="employeeDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Department Metrics -->
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Thống kê theo phòng ban</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="departmentMetricsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Performance -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Đánh giá hiệu suất nhân viên</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="performanceTable">
+                            <thead>
+                            <tr>
+                                <th>Phòng ban</th>
+                                <th>Số nhân viên</th>
+                                <th>Hiệu suất trung bình</th>
+                                <th>Tỷ lệ đạt KPI</th>
+                                <th>Tỷ lệ tham gia đào tạo</th>
+                                <th>Chuyên cần</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Phòng Kỹ thuật</td>
+                                <td>45</td>
+                                <td>92.5%</td>
+                                <td>88.7%</td>
+                                <td>95.2%</td>
+                                <td>97.3%</td>
+                            </tr>
+                            <tr>
+                                <td>Phòng Kinh doanh</td>
+                                <td>38</td>
+                                <td>89.3%</td>
+                                <td>85.4%</td>
+                                <td>92.8%</td>
+                                <td>94.6%</td>
+                            </tr>
+                            <tr>
+                                <td>Phòng Marketing</td>
+                                <td>25</td>
+                                <td>90.8%</td>
+                                <td>87.2%</td>
+                                <td>94.5%</td>
+                                <td>96.1%</td>
+                            </tr>
+                            <tr>
+                                <td>Phòng Nhân sự</td>
+                                <td>15</td>
+                                <td>93.2%</td>
+                                <td>90.1%</td>
+                                <td>98.4%</td>
+                                <td>98.7%</td>
+                            </tr>
+                            <tr>
+                                <td>Phòng Tài chính</td>
+                                <td>12</td>
+                                <td>91.7%</td>
+                                <td>89.3%</td>
+                                <td>96.8%</td>
+                                <td>97.9%</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Hoạt động gần đây</h6>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <p class="mb-1"><strong>Tuyển dụng mới</strong></p>
+                            <p class="mb-0">5 nhân viên mới đã gia nhập phòng Kỹ thuật</p>
+                            <small class="text-muted">2 ngày trước</small>
+                        </div>
+                        <div class="timeline-item">
+                            <p class="mb-1"><strong>Đào tạo nội bộ</strong></p>
+                            <p class="mb-0">Hoàn thành khóa đào tạo "Kỹ năng lãnh đạo" cho 15 quản lý</p>
+                            <small class="text-muted">4 ngày trước</small>
+                        </div>
+                        <div class="timeline-item">
+                            <p class="mb-1"><strong>Đánh giá hiệu suất</strong></p>
+                            <p class="mb-0">Hoàn thành đánh giá Q1/2025 cho toàn bộ nhân viên</p>
+                            <small class="text-muted">1 tuần trước</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scroll to Top Button -->
+<a class="scroll-to-top rounded" href="#">
+    <i class="bi bi-chevron-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+<!-- Custom scripts -->
+<script>
+    // Employee Distribution Chart
+    const employeeDistribution = new Chart(
+        document.getElementById('employeeDistributionChart'),
+        {
+            type: 'bar',
+            data: {
+                labels: ['Kỹ thuật', 'Kinh doanh', 'Marketing', 'Nhân sự', 'Tài chính'],
+                datasets: [{
+                    label: 'Số lượng nhân viên',
+                    data: [45, 38, 25, 15, 12],
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.8)',
+                        'rgba(28, 200, 138, 0.8)',
+                        'rgba(246, 194, 62, 0.8)',
+                        'rgba(54, 185, 204, 0.8)',
+                        'rgba(231, 74, 59, 0.8)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    );
+
+    // Department Metrics Chart
+    const departmentMetrics = new Chart(
+        document.getElementById('departmentMetricsChart'),
+        {
+            type: 'doughnut',
+            data: {
+                labels: ['Kỹ thuật', 'Kinh doanh', 'Marketing', 'Nhân sự', 'Tài chính'],
+                datasets: [{
+                    data: [45, 38, 25, 15, 12],
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.8)',
+                        'rgba(28, 200, 138, 0.8)',
+                        'rgba(246, 194, 62, 0.8)',
+                        'rgba(54, 185, 204, 0.8)',
+                        'rgba(231, 74, 59, 0.8)'
+                    ],
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        }
+    );
+</script>
+</body>
+
+</html>

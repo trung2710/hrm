@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý lương - Hệ Thống Quản Lý Nhân Sự</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý lương</h1>
+        <div>
+          <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm me-2"
+                  data-bs-toggle="modal" data-bs-target="#addSalaryModal">
+            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm bảng lương
+          </button>
+          <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+            <i class="bi bi-calculator text-white-50 me-1"></i> Tính lương tháng
+          </button>
+        </div>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc</h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Phòng ban</option>
+                <option value="1">Kỹ thuật</option>
+                <option value="2">Kinh doanh</option>
+                <option value="3">Nhân sự</option>
+                <option value="4">Kế toán</option>
+                <option value="5">Marketing</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Tháng</option>
+                <option value="1">Tháng 1</option>
+                <option value="2">Tháng 2</option>
+                <option value="3">Tháng 3</option>
+                <option value="4">Tháng 4</option>
+                <option value="5">Tháng 5</option>
+                <option value="6">Tháng 6</option>
+                <option value="7">Tháng 7</option>
+                <option value="8">Tháng 8</option>
+                <option value="9">Tháng 9</option>
+                <option value="10">Tháng 10</option>
+                <option value="11">Tháng 11</option>
+                <option value="12">Tháng 12</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Năm</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary w-100">
+                <i class="bi bi-search me-1"></i> Tìm kiếm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Salary List -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Danh sách bảng lương</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+              <div class="dropdown-header">Tùy chọn:</div>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-printer me-2"></i>In danh sách
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Mã NV</th>
+                <th>Họ tên</th>
+                <th>Phòng ban</th>
+                <th>Tháng/Năm</th>
+                <th>Lương cơ bản</th>
+                <th>Phụ cấp</th>
+                <th>Thưởng</th>
+                <th>Tăng ca</th>
+                <th>Thuế</th>
+                <th>Tổng nhận</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>NV001</td>
+                <td>Nguyễn Văn A</td>
+                <td>Kỹ thuật</td>
+                <td>12/2023</td>
+                <td>15,000,000</td>
+                <td>2,000,000</td>
+                <td>1,500,000</td>
+                <td>1,200,000</td>
+                <td>-1,970,000</td>
+                <td>17,730,000</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewSalaryModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editSalaryModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteSalaryModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>NV002</td>
+                <td>Trần Thị B</td>
+                <td>Kinh doanh</td>
+                <td>12/2023</td>
+                <td>12,000,000</td>
+                <td>1,500,000</td>
+                <td>3,000,000</td>
+                <td>0</td>
+                <td>-1,650,000</td>
+                <td>14,850,000</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewSalaryModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editSalaryModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteSalaryModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>NV003</td>
+                <td>Lê Văn C</td>
+                <td>Nhân sự</td>
+                <td>12/2023</td>
+                <td>10,000,000</td>
+                <td>1,000,000</td>
+                <td>500,000</td>
+                <td>800,000</td>
+                <td>-1,230,000</td>
+                <td>11,070,000</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewSalaryModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editSalaryModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteSalaryModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>NV004</td>
+                <td>Phạm Thị D</td>
+                <td>Kế toán</td>
+                <td>12/2023</td>
+                <td>11,000,000</td>
+                <td>1,200,000</td>
+                <td>800,000</td>
+                <td>0</td>
+                <td>-1,300,000</td>
+                <td>11,700,000</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewSalaryModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editSalaryModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteSalaryModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>NV005</td>
+                <td>Hoàng Văn E</td>
+                <td>Marketing</td>
+                <td>12/2023</td>
+                <td>9,000,000</td>
+                <td>1,000,000</td>
+                <td>1,200,000</td>
+                <td>500,000</td>
+                <td>-1,170,000</td>
+                <td>10,530,000</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewSalaryModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editSalaryModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteSalaryModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>Hiển thị 1 đến 5 của 215 bản ghi</div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="bi bi-arrow-up"></i>
+</a>
+
+<!-- Add Salary Modal -->
+<div class="modal fade" id="addSalaryModal" tabindex="-1" aria-labelledby="addSalaryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSalaryModalLabel">Thêm bảng lương</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="employee" class="form-label">Nhân viên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="employee" required>
+                <option value="">Chọn nhân viên</option>
+                <option value="1">NV001 - Nguyễn Văn A</option>
+                <option value="2">NV002 - Trần Thị B</option>
+                <option value="3">NV003 - Lê Văn C</option>
+                <option value="4">NV004 - Phạm Thị D</option>
+                <option value="5">NV005 - Hoàng Văn E</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="month" class="form-label">Tháng <span class="text-danger">*</span></label>
+              <select class="form-select" id="month" required>
+                <option value="1">Tháng 1</option>
+                <option value="2">Tháng 2</option>
+                <option value="3">Tháng 3</option>
+                <option value="4">Tháng 4</option>
+                <option value="5">Tháng 5</option>
+                <option value="6">Tháng 6</option>
+                <option value="7">Tháng 7</option>
+                <option value="8">Tháng 8</option>
+                <option value="9">Tháng 9</option>
+                <option value="10">Tháng 10</option>
+                <option value="11">Tháng 11</option>
+                <option value="12" selected>Tháng 12</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="year" class="form-label">Năm <span class="text-danger">*</span></label>
+              <select class="form-select" id="year" required>
+                <option value="2023" selected>2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="baseSalary" class="form-label">Lương cơ bản <span
+                      class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="baseSalary" required>
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="allowance" class="form-label">Phụ cấp</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="allowance">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="bonus" class="form-label">Thưởng</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="bonus">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="overtime" class="form-label">Tăng ca</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="overtime">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="tax" class="form-label">Thuế</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="tax">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="insurance" class="form-label">Bảo hiểm</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="insurance">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="note" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="note" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Salary Modal -->
+<div class="modal fade" id="viewSalaryModal" tabindex="-1" aria-labelledby="viewSalaryModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewSalaryModalLabel">Chi tiết bảng lương</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin nhân viên</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Mã nhân viên</th>
+                <td>NV001</td>
+              </tr>
+              <tr>
+                <th>Họ tên</th>
+                <td>Nguyễn Văn A</td>
+              </tr>
+              <tr>
+                <th>Phòng ban</th>
+                <td>Kỹ thuật</td>
+              </tr>
+              <tr>
+                <th>Chức vụ</th>
+                <td>Trưởng phòng</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin lương</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Kỳ lương</th>
+                <td>12/2023</td>
+              </tr>
+              <tr>
+                <th>Ngày tính lương</th>
+                <td>25/12/2023</td>
+              </tr>
+              <tr>
+                <th>Ngày chuyển lương</th>
+                <td>10/01/2024</td>
+              </tr>
+              <tr>
+                <th>Trạng thái</th>
+                <td><span class="badge bg-success">Đã thanh toán</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h6 class="font-weight-bold border-bottom pb-2">Chi tiết lương</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Khoản mục</th>
+              <th>Số tiền (VND)</th>
+              <th>Ghi chú</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Lương cơ bản</td>
+              <td>15,000,000</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Phụ cấp</td>
+              <td>2,000,000</td>
+              <td>Phụ cấp chức vụ, xăng xe</td>
+            </tr>
+            <tr>
+              <td>Thưởng</td>
+              <td>1,500,000</td>
+              <td>Thưởng dự án</td>
+            </tr>
+            <tr>
+              <td>Tăng ca</td>
+              <td>1,200,000</td>
+              <td>15 giờ tăng ca</td>
+            </tr>
+            <tr class="table-danger">
+              <td>Thuế TNCN</td>
+              <td>-1,200,000</td>
+              <td></td>
+            </tr>
+            <tr class="table-danger">
+              <td>Bảo hiểm</td>
+              <td>-770,000</td>
+              <td>BHXH, BHYT, BHTN</td>
+            </tr>
+            <tr class="table-success">
+              <td><strong>Tổng nhận</strong></td>
+              <td><strong>17,730,000</strong></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary">In phiếu lương</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Salary Modal -->
+<div class="modal fade" id="editSalaryModal" tabindex="-1" aria-labelledby="editSalaryModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editSalaryModalLabel">Chỉnh sửa bảng lương</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editEmployee" class="form-label">Nhân viên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editEmployee" required disabled>
+                <option value="1" selected>NV001 - Nguyễn Văn A</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="editMonth" class="form-label">Tháng <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editMonth" required disabled>
+                <option value="12" selected>Tháng 12</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="editYear" class="form-label">Năm <span class="text-danger">*</span></label>
+              <select class="form-select" id="editYear" required disabled>
+                <option value="2023" selected>2023</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editBaseSalary" class="form-label">Lương cơ bản <span
+                      class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editBaseSalary" value="15000000"
+                       required>
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="editAllowance" class="form-label">Phụ cấp</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editAllowance" value="2000000">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editBonus" class="form-label">Thưởng</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editBonus" value="1500000">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="editOvertime" class="form-label">Tăng ca</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editOvertime" value="1200000">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editTax" class="form-label">Thuế</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editTax" value="-1200000">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="editInsurance" class="form-label">Bảo hiểm</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="editInsurance" value="-770000">
+                <span class="input-group-text">VND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="editNote" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="editNote"
+                      rows="3">Thưởng dự án, 15 giờ tăng ca</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Salary Modal -->
+<div class="modal fade" id="deleteSalaryModal" tabindex="-1" aria-labelledby="deleteSalaryModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteSalaryModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa bảng lương này không? Hành động này không thể hoàn tác.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+</body>
+
+</html>

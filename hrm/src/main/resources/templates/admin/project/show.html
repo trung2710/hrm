@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Dự án - Hệ Thống Quản Lý Nhân Sự</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý Dự án</h1>
+        <div>
+          <button class="btn btn-primary shadow-sm" data-bs-toggle="modal"
+                  data-bs-target="#addProjectModal">
+            <i class="bi bi-plus-lg me-1"></i>
+            Thêm dự án mới
+          </button>
+        </div>
+      </div>
+
+      <!-- Project Statistics -->
+      <div class="row mb-4">
+        <!-- Total Projects -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card border-left-primary h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Tổng số dự án</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-folder icon text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Projects -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card border-left-success h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                    Dự án đang thực hiện</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-play-circle icon text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completed Projects -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card border-left-info h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                    Dự án hoàn thành</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-check-circle icon text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delayed Projects -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card border-left-warning h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                    Dự án chậm tiến độ</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-exclamation-circle icon text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Filters and Search -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc dự án</h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Tìm kiếm dự án...">
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Trạng thái</option>
+                <option value="not-started">Chưa bắt đầu</option>
+                <option value="in-progress">Đang thực hiện</option>
+                <option value="completed">Hoàn thành</option>
+                <option value="delayed">Chậm tiến độ</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Mức độ ưu tiên</option>
+                <option value="high">Cao</option>
+                <option value="medium">Trung bình</option>
+                <option value="low">Thấp</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option value="">Người quản lý</option>
+                <option value="1">Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+                <option value="3">Lê Văn C</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary w-100">
+                <i class="bi bi-search me-1"></i> Tìm kiếm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects List -->
+      <div class="row">
+        <!-- Project Card Example -->
+        <div class="col-lg-6 mb-4">
+          <div class="card project-card in-progress shadow">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">
+                  <i class="bi bi-star-fill text-warning me-2"></i>
+                  Phát triển Website HRMS
+                </h5>
+                <span class="badge bg-in-progress">Đang thực hiện</span>
+              </div>
+              <p class="card-text text-gray-600">Xây dựng hệ thống quản lý nhân sự toàn diện với các
+                tính năng hiện đại.</p>
+              <div class="mb-3">
+                <small class="text-gray-500">
+                  <i class="bi bi-calendar me-1"></i>
+                  Bắt đầu: 01/01/2025 - Kết thúc: 30/06/2025
+                </small>
+              </div>
+              <div class="progress mb-3">
+                <div class="progress-bar bg-info progress-bar-striped progress-bar-animated"
+                     role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0"
+                     aria-valuemax="100">45%</div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="team-members">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Team lead">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Developer">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Designer">
+                  <span class="badge bg-secondary">+3</span>
+                </div>
+                <div class="project-actions">
+                  <button class="btn btn-sm btn-info me-1" title="Chi tiết" data-bs-toggle="modal"
+                          data-bs-target="#viewProjectModal">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
+                          data-bs-toggle="modal" data-bs-target="#editProjectModal">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                          data-bs-target="#deleteProjectModal">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Card Example - Delayed -->
+        <div class="col-lg-6 mb-4">
+          <div class="card project-card delayed shadow">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">
+                  <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                  Nâng cấp hệ thống CRM
+                </h5>
+                <span class="badge bg-delayed">Chậm tiến độ</span>
+              </div>
+              <p class="card-text text-gray-600">Cập nhật và tối ưu hóa hệ thống quản lý khách hàng.
+              </p>
+              <div class="mb-3">
+                <small class="text-gray-500">
+                  <i class="bi bi-calendar me-1"></i>
+                  Bắt đầu: 01/03/2025 - Kết thúc: 31/05/2025
+                </small>
+              </div>
+              <div class="progress mb-3">
+                <div class="progress-bar bg-warning progress-bar-striped" role="progressbar"
+                     style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="team-members">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Team lead">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Developer">
+                  <span class="badge bg-secondary">+2</span>
+                </div>
+                <div class="project-actions">
+                  <button class="btn btn-sm btn-info me-1" title="Chi tiết" data-bs-toggle="modal"
+                          data-bs-target="#viewProjectModal">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
+                          data-bs-toggle="modal" data-bs-target="#editProjectModal">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                          data-bs-target="#deleteProjectModal">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Card Example - Completed -->
+        <div class="col-lg-6 mb-4">
+          <div class="card project-card completed shadow">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">
+                  <i class="bi bi-check-circle-fill text-success me-2"></i>
+                  Triển khai Mobile App
+                </h5>
+                <span class="badge bg-completed">Hoàn thành</span>
+              </div>
+              <p class="card-text text-gray-600">Phát triển ứng dụng di động cho nhân viên.</p>
+              <div class="mb-3">
+                <small class="text-gray-500">
+                  <i class="bi bi-calendar me-1"></i>
+                  Bắt đầu: 01/01/2025 - Kết thúc: 31/03/2025
+                </small>
+              </div>
+              <div class="progress mb-3">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"
+                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="team-members">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Team lead">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Developer">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Designer">
+                </div>
+                <div class="project-actions">
+                  <button class="btn btn-sm btn-info me-1" title="Chi tiết" data-bs-toggle="modal"
+                          data-bs-target="#viewProjectModal">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
+                          data-bs-toggle="modal" data-bs-target="#editProjectModal">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                          data-bs-target="#deleteProjectModal">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Card Example - Not Started -->
+        <div class="col-lg-6 mb-4">
+          <div class="card project-card not-started shadow">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">
+                  <i class="bi bi-clock-fill text-purple me-2"></i>
+                  Tích hợp AI Assistant
+                </h5>
+                <span class="badge bg-not-started">Chưa bắt đầu</span>
+              </div>
+              <p class="card-text text-gray-600">Tích hợp trợ lý ảo AI vào hệ thống hỗ trợ.</p>
+              <div class="mb-3">
+                <small class="text-gray-500">
+                  <i class="bi bi-calendar me-1"></i>
+                  Bắt đầu: 01/07/2025 - Kết thúc: 31/12/2025
+                </small>
+              </div>
+              <div class="progress mb-3">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                     aria-valuemin="0" aria-valuemax="100">0%</div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="team-members">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Team lead">
+                  <img src="https://via.placeholder.com/32" class="member-avatar" alt="Developer">
+                  <span class="badge bg-secondary">+4</span>
+                </div>
+                <div class="project-actions">
+                  <button class="btn btn-sm btn-info me-1" title="Chi tiết" data-bs-toggle="modal"
+                          data-bs-target="#viewProjectModal">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
+                          data-bs-toggle="modal" data-bs-target="#editProjectModal">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                          data-bs-target="#deleteProjectModal">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <div>Hiển thị 1 đến 4 của 25 dự án</div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Project Modal -->
+<div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProjectModalLabel">Thêm dự án mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="projectName" class="form-label">Tên dự án <span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="projectName" required>
+            </div>
+            <div class="col-md-6">
+              <label for="projectManager" class="form-label">Người quản lý <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="projectManager" required>
+                <option value="">Chọn người quản lý</option>
+                <option value="1">Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+                <option value="3">Lê Văn C</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="startDate" class="form-label">Ngày bắt đầu <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="startDate" required>
+            </div>
+            <div class="col-md-6">
+              <label for="endDate" class="form-label">Ngày kết thúc <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="endDate" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="projectDescription" class="form-label">Mô tả dự án</label>
+            <textarea class="form-control" id="projectDescription" rows="3"></textarea>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="priority" class="form-label">Mức độ ưu tiên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="priority" required>
+                <option value="">Chọn mức độ ưu tiên</option>
+                <option value="high">Cao</option>
+                <option value="medium">Trung bình</option>
+                <option value="low">Thấp</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="status" class="form-label">Trạng thái <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="status" required>
+                <option value="">Chọn trạng thái</option>
+                <option value="not-started">Chưa bắt đầu</option>
+                <option value="in-progress">Đang thực hiện</option>
+                <option value="completed">Hoàn thành</option>
+                <option value="delayed">Chậm tiến độ</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Thành viên dự án</label>
+            <div class="row">
+              <div class="col-md-12">
+                <select class="form-select" multiple size="4">
+                  <option value="1">Nguyễn Văn A - Developer</option>
+                  <option value="2">Trần Thị B - Designer</option>
+                  <option value="3">Lê Văn C - Tester</option>
+                  <option value="4">Phạm Thị D - Business Analyst</option>
+                  <option value="5">Hoàng Văn E - Developer</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="budget" class="form-label">Ngân sách dự án</label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="budget">
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="documents" class="form-label">Tài liệu đính kèm</label>
+            <input type="file" class="form-control" id="documents" multiple>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Tạo dự án</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Project Modal -->
+<div class="modal fade" id="viewProjectModal" tabindex="-1" aria-labelledby="viewProjectModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewProjectModalLabel">Chi tiết dự án</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8">
+            <!-- Project Info -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Phát triển Website HRMS</h5>
+                <p class="text-muted mb-4">Xây dựng hệ thống quản lý nhân sự toàn diện với các tính
+                  năng hiện đại.</p>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <p><strong>Người quản lý:</strong> Nguyễn Văn A</p>
+                    <p><strong>Ngày bắt đầu:</strong> 01/01/2025</p>
+                    <p><strong>Ngày kết thúc:</strong> 30/06/2025</p>
+                    <p><strong>Trạng thái:</strong> <span class="badge bg-in-progress">Đang thực
+                                                    hiện</span></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Mức độ ưu tiên:</strong> <span class="priority-high">Cao</span>
+                    </p>
+                    <p><strong>Tiến độ:</strong> 45%</p>
+                    <p><strong>Ngân sách:</strong> 500,000,000 VND</p>
+                    <p><strong>Số thành viên:</strong> 6</p>
+                  </div>
+                </div>
+
+                <!-- Task List -->
+                <h6 class="font-weight-bold mb-3">Danh sách công việc</h6>
+                <div class="task-list mb-4">
+                  <div class="task-item p-2 completed">
+                    <label class="custom-checkbox">
+                      <input type="checkbox" checked>
+                      <span class="checkmark"></span>
+                      Phân tích yêu cầu
+                    </label>
+                  </div>
+                  <div class="task-item p-2">
+                    <label class="custom-checkbox">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      Thiết kế giao diện
+                    </label>
+                  </div>
+                  <div class="task-item p-2">
+                    <label class="custom-checkbox">
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                      Phát triển backend
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Timeline -->
+                <h6 class="font-weight-bold mb-3">Dòng thời gian</h6>
+                <div class="timeline mb-4">
+                  <div class="timeline-item">
+                    <p class="mb-0"><strong>15/04/2025</strong></p>
+                    <p class="mb-0">Hoàn thành giai đoạn 1</p>
+                  </div>
+                  <div class="timeline-item">
+                    <p class="mb-0"><strong>01/04/2025</strong></p>
+                    <p class="mb-0">Bắt đầu phát triển frontend</p>
+                  </div>
+                  <div class="timeline-item">
+                    <p class="mb-0"><strong>15/03/2025</strong></p>
+                    <p class="mb-0">Hoàn thành thiết kế database</p>
+                  </div>
+                </div>
+
+                <!-- Comments -->
+                <h6 class="font-weight-bold mb-3">Bình luận</h6>
+                <div class="comments mb-3">
+                  <div class="comment">
+                    <div class="comment-header">
+                      <span class="comment-author">Nguyễn Văn A</span>
+                      <span class="comment-time">15/04/2025 10:30</span>
+                    </div>
+                    <p class="mb-0">Giai đoạn 1 đã hoàn thành đúng tiến độ.</p>
+                  </div>
+                  <div class="comment">
+                    <div class="comment-header">
+                      <span class="comment-author">Trần Thị B</span>
+                      <span class="comment-time">14/04/2025 15:45</span>
+                    </div>
+                    <p class="mb-0">Cần review lại phần giao diện người dùng.</p>
+                  </div>
+                </div>
+
+                <!-- Add Comment -->
+                <div class="mb-3">
+                                        <textarea class="form-control" rows="2"
+                                                  placeholder="Thêm bình luận..."></textarea>
+                  <button class="btn btn-primary btn-sm mt-2">Gửi bình luận</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <!-- Team Members -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <h6 class="font-weight-bold mb-3">Thành viên dự án</h6>
+                <div class="team-member d-flex align-items-center mb-3">
+                  <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="">
+                  <div>
+                    <p class="mb-0"><strong>Nguyễn Văn A</strong></p>
+                    <small class="text-muted">Quản lý dự án</small>
+                  </div>
+                </div>
+                <div class="team-member d-flex align-items-center mb-3">
+                  <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="">
+                  <div>
+                    <p class="mb-0"><strong>Trần Thị B</strong></p>
+                    <small class="text-muted">Designer</small>
+                  </div>
+                </div>
+                <div class="team-member d-flex align-items-center">
+                  <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="">
+                  <div>
+                    <p class="mb-0"><strong>Lê Văn C</strong></p>
+                    <small class="text-muted">Developer</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Documents -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <h6 class="font-weight-bold mb-3">Tài liệu đính kèm</h6>
+                <div class="file-attachment d-flex align-items-center">
+                  <i class="bi bi-file-pdf text-danger"></i>
+                  <div>
+                    <p class="mb-0">Tài liệu phân tích.pdf</p>
+                    <small class="text-muted">2.5 MB</small>
+                  </div>
+                </div>
+                <div class="file-attachment d-flex align-items-center">
+                  <i class="bi bi-file-word text-primary"></i>
+                  <div>
+                    <p class="mb-0">Báo cáo tiến độ.docx</p>
+                    <small class="text-muted">1.8 MB</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="card">
+              <div class="card-body">
+                <h6 class="font-weight-bold mb-3">Nhật ký hoạt động</h6>
+                <div class="activity-log">
+                  <div class="mb-2">
+                    <small class="text-muted">15/04/2025 10:30</small>
+                    <p class="mb-0">Nguyễn Văn A đã cập nhật trạng thái dự án</p>
+                  </div>
+                  <div class="mb-2">
+                    <small class="text-muted">14/04/2025 15:45</small>
+                    <p class="mb-0">Trần Thị B đã thêm tài liệu mới</p>
+                  </div>
+                  <div>
+                    <small class="text-muted">13/04/2025 09:15</small>
+                    <p class="mb-0">Lê Văn C đã hoàn thành công việc</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                data-bs-target="#editProjectModal">Chỉnh sửa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Project Modal -->
+<div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteProjectModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn xóa dự án này không? Hành động này không thể hoàn tác.</p>
+        <p class="text-danger">Lưu ý: Tất cả dữ liệu liên quan đến dự án sẽ bị xóa vĩnh viễn.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
+</body>
+
+</html>

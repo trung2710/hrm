@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Bảo hiểm - Hệ Thống Quản Lý Nhân Sự</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý bảo hiểm</h1>
+        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                data-bs-target="#addInsuranceModal">
+          <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm bảo hiểm
+        </button>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc</h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option value="">Loại bảo hiểm</option>
+                <option value="1">Bảo hiểm xã hội</option>
+                <option value="2">Bảo hiểm y tế</option>
+                <option value="3">Bảo hiểm thất nghiệp</option>
+                <option value="4">Bảo hiểm tai nạn</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option value="">Trạng thái</option>
+                <option value="1">Đang hiệu lực</option>
+                <option value="2">Sắp hết hạn</option>
+                <option value="3">Đã hết hạn</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary w-100">
+                <i class="bi bi-search me-1"></i> Tìm kiếm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insurance List -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Danh sách bảo hiểm</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+              <div class="dropdown-header">Tùy chọn:</div>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-printer me-2"></i>In danh sách
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Mã BH</th>
+                <th>Nhân viên</th>
+                <th>Loại bảo hiểm</th>
+                <th>Số thẻ/Sổ</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Mức đóng</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>BH001</td>
+                <td>Nguyễn Văn A</td>
+                <td>Bảo hiểm xã hội</td>
+                <td>BHXH123456789</td>
+                <td>01/01/2020</td>
+                <td>-</td>
+                <td>8%</td>
+                <td><span class="badge bg-success">Đang hiệu lực</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>BH002</td>
+                <td>Nguyễn Văn A</td>
+                <td>Bảo hiểm y tế</td>
+                <td>BHYT123456789</td>
+                <td>01/01/2020</td>
+                <td>31/12/2023</td>
+                <td>1.5%</td>
+                <td><span class="badge bg-warning text-dark">Sắp hết hạn</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>BH003</td>
+                <td>Trần Thị B</td>
+                <td>Bảo hiểm xã hội</td>
+                <td>BHXH987654321</td>
+                <td>01/03/2021</td>
+                <td>-</td>
+                <td>8%</td>
+                <td><span class="badge bg-success">Đang hiệu lực</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>BH004</td>
+                <td>Trần Thị B</td>
+                <td>Bảo hiểm y tế</td>
+                <td>BHYT987654321</td>
+                <td>01/03/2021</td>
+                <td>31/12/2023</td>
+                <td>1.5%</td>
+                <td><span class="badge bg-warning text-dark">Sắp hết hạn</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>BH005</td>
+                <td>Lê Văn C</td>
+                <td>Bảo hiểm thất nghiệp</td>
+                <td>BHTN123456</td>
+                <td>15/05/2022</td>
+                <td>-</td>
+                <td>1%</td>
+                <td><span class="badge bg-success">Đang hiệu lực</span></td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>Hiển thị 1 đến 5 của 50 bản ghi</div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#">
+  <i class="bi bi-chevron-up"></i>
+</a>
+
+<!-- Modals -->
+<!-- Add Insurance Modal -->
+<div class="modal fade" id="addInsuranceModal" tabindex="-1" aria-labelledby="addInsuranceModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addInsuranceModalLabel">Thêm bảo hiểm mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="insuranceId" class="form-label">Mã bảo hiểm <span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="insuranceId" placeholder="Mã bảo hiểm"
+                     required>
+            </div>
+            <div class="col-md-6">
+              <label for="employee" class="form-label">Nhân viên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="employee" required>
+                <option value="">Chọn nhân viên</option>
+                <option value="1">Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+                <option value="3">Lê Văn C</option>
+                <option value="4">Phạm Thị D</option>
+                <option value="5">Hoàng Văn E</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="insuranceType" class="form-label">Loại bảo hiểm <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="insuranceType" required>
+                <option value="">Chọn loại bảo hiểm</option>
+                <option value="1">Bảo hiểm xã hội</option>
+                <option value="2">Bảo hiểm y tế</option>
+                <option value="3">Bảo hiểm thất nghiệp</option>
+                <option value="4">Bảo hiểm tai nạn</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="insuranceNumber" class="form-label">Số thẻ/Sổ <span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="insuranceNumber"
+                     placeholder="Số thẻ/Sổ bảo hiểm" required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="startDate" class="form-label">Ngày bắt đầu <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="startDate" required>
+            </div>
+            <div class="col-md-6">
+              <label for="endDate" class="form-label">Ngày kết thúc</label>
+              <input type="date" class="form-control" id="endDate">
+              <div class="form-text">Để trống nếu không có ngày kết thúc</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="contributionRate" class="form-label">Mức đóng (%) <span
+                      class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="contributionRate" placeholder="Mức đóng"
+                     step="0.1" required>
+            </div>
+            <div class="col-md-6">
+              <label for="status" class="form-label">Trạng thái <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="status" required>
+                <option value="1">Đang hiệu lực</option>
+                <option value="2">Sắp hết hạn</option>
+                <option value="3">Đã hết hạn</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="notes" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="notes" rows="3" placeholder="Ghi chú"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Insurance Modal -->
+<div class="modal fade" id="editInsuranceModal" tabindex="-1" aria-labelledby="editInsuranceModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editInsuranceModalLabel">Chỉnh sửa bảo hiểm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editInsuranceId" class="form-label">Mã bảo hiểm <span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="editInsuranceId" value="BH001" readonly>
+            </div>
+            <div class="col-md-6">
+              <label for="editEmployee" class="form-label">Nhân viên <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editEmployee" required>
+                <option value="">Chọn nhân viên</option>
+                <option value="1" selected>Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+                <option value="3">Lê Văn C</option>
+                <option value="4">Phạm Thị D</option>
+                <option value="5">Hoàng Văn E</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editInsuranceType" class="form-label">Loại bảo hiểm <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editInsuranceType" required>
+                <option value="">Chọn loại bảo hiểm</option>
+                <option value="1" selected>Bảo hiểm xã hội</option>
+                <option value="2">Bảo hiểm y tế</option>
+                <option value="3">Bảo hiểm thất nghiệp</option>
+                <option value="4">Bảo hiểm tai nạn</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="editInsuranceNumber" class="form-label">Số thẻ/Sổ <span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="editInsuranceNumber" value="BHXH123456789"
+                     required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editStartDate" class="form-label">Ngày bắt đầu <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="editStartDate" value="2020-01-01" required>
+            </div>
+            <div class="col-md-6">
+              <label for="editEndDate" class="form-label">Ngày kết thúc</label>
+              <input type="date" class="form-control" id="editEndDate">
+              <div class="form-text">Để trống nếu không có ngày kết thúc</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editContributionRate" class="form-label">Mức đóng (%) <span
+                      class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="editContributionRate" value="8" step="0.1"
+                     required>
+            </div>
+            <div class="col-md-6">
+              <label for="editStatus" class="form-label">Trạng thái <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editStatus" required>
+                <option value="1" selected>Đang hiệu lực</option>
+                <option value="2">Sắp hết hạn</option>
+                <option value="3">Đã hết hạn</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="editNotes" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="editNotes"
+                      rows="3">Bảo hiểm bắt buộc theo quy định của nhà nước</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Insurance Modal -->
+<div class="modal fade" id="viewInsuranceModal" tabindex="-1" aria-labelledby="viewInsuranceModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewInsuranceModalLabel">Chi tiết bảo hiểm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin cơ bản</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Mã bảo hiểm</th>
+                <td>BH001</td>
+              </tr>
+              <tr>
+                <th>Loại bảo hiểm</th>
+                <td>Bảo hiểm xã hội</td>
+              </tr>
+              <tr>
+                <th>Số thẻ/Sổ</th>
+                <td>BHXH123456789</td>
+              </tr>
+              <tr>
+                <th>Mức đóng</th>
+                <td>8%</td>
+              </tr>
+              <tr>
+                <th>Trạng thái</th>
+                <td><span class="badge bg-success">Đang hiệu lực</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h6 class="font-weight-bold">Thông tin thời gian</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="40%">Ngày bắt đầu</th>
+                <td>01/01/2020</td>
+              </tr>
+              <tr>
+                <th>Ngày kết thúc</th>
+                <td>-</td>
+              </tr>
+              <tr>
+                <th>Thời gian hiệu lực</th>
+                <td>3 năm 11 tháng</td>
+              </tr>
+              <tr>
+                <th>Ngày cập nhật</th>
+                <td>15/10/2023</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-12">
+            <h6 class="font-weight-bold">Thông tin nhân viên</h6>
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th width="20%">Mã nhân viên</th>
+                <td>NV001</td>
+              </tr>
+              <tr>
+                <th>Họ tên</th>
+                <td>Nguyễn Văn A</td>
+              </tr>
+              <tr>
+                <th>Phòng ban</th>
+                <td>Kỹ thuật</td>
+              </tr>
+              <tr>
+                <th>Chức vụ</th>
+                <td>Trưởng phòng</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h6 class="font-weight-bold">Ghi chú</h6>
+            <p>Bảo hiểm bắt buộc theo quy định của nhà nước. Nhân viên đã đóng đầy đủ các khoản bảo hiểm
+              theo quy định.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                data-bs-target="#editInsuranceModal">Chỉnh sửa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Insurance Modal -->
+<div class="modal fade" id="deleteInsuranceModal" tabindex="-1" aria-labelledby="deleteInsuranceModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteInsuranceModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa bảo hiểm này không? Hành động này không thể hoàn tác.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bạn muốn đăng xuất?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Chọn "Đăng xuất" bên dưới nếu bạn đã sẵn sàng kết thúc phiên làm việc hiện tại.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/script.js"></script>
+</body>
+
+</html>
