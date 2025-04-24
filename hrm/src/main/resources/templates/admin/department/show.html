@@ -22,7 +22,7 @@
   <div class="content-wrapper">
     <!-- Topbar -->
     <div th:replace="~{layout/header :: header}"></div>
-
+    <div th:if="${mess}" th:text="${mess}" class="alert alert-info"></div>
     <!-- Begin Page Content -->
     <div class="container-fluid">
       <!-- Page Heading -->
@@ -71,111 +71,26 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>PB001</td>
-                <td>Phòng Kỹ thuật</td>
-                <td>Nguyễn Văn A</td>
-                <td>25</td>
+              <tr th:each="Pb : ${pb}">
+                <td th:text="${Pb.id}"></td>
+                <td th:text="${Pb.tenPhongBan}"></td>
+                <td th:text="${Pb.tenTruongPhong} ?: 'Chưa có'"></td>
+                <td th:text="${Pb.soNhanVien} ?: 0"></td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewDepartmentModal">
+                            data-bs-toggle="modal" data-bs-target="#viewDepartmentModal"
+                            th:attr="data-id=${Pb.id},data-ten=${Pb.tenPhongBan},data-truongphong=${Pb.tenTruongPhong},data-sonhanvien=${Pb.soNhanVien}">
                       <i class="bi bi-eye"></i>
                     </button>
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
+                            data-bs-toggle="modal" data-bs-target="#editDepartmentModal"
+                            th:attr="data-id=${Pb.id},data-ten=${Pb.tenPhongBan},data-truongphong=${Pb.tenTruongPhong}">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PB002</td>
-                <td>Phòng Kinh doanh</td>
-                <td>Trần Thị B</td>
-                <td>30</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewDepartmentModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PB003</td>
-                <td>Phòng Nhân sự</td>
-                <td>Lê Văn C</td>
-                <td>15</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewDepartmentModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PB004</td>
-                <td>Phòng Kế toán</td>
-                <td>Phạm Thị D</td>
-                <td>10</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewDepartmentModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PB005</td>
-                <td>Phòng Marketing</td>
-                <td>Hoàng Văn E</td>
-                <td>8</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewDepartmentModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">
+                            data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal"
+                            th:attr="data-id=${Pb.id},data-ten=${Pb.tenPhongBan}">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -208,40 +123,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="departmentId" class="form-label">Mã phòng ban <span
-                    class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="departmentId" placeholder="Mã phòng ban"
-                   required>
-          </div>
+        <form method="post" th:action="@{/department/create}">
           <div class="mb-3">
             <label for="departmentName" class="form-label">Tên phòng ban <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="departmentName" placeholder="Tên phòng ban"
+            <input type="text" class="form-control" name="ten" id="departmentName" placeholder="Tên phòng ban"
                    required>
           </div>
-          <div class="mb-3">
-            <label for="manager" class="form-label">Trưởng phòng</label>
-            <select class="form-select" id="manager">
-              <option value="">Chọn trưởng phòng</option>
-              <option value="1">Nguyễn Văn A</option>
-              <option value="2">Trần Thị B</option>
-              <option value="3">Lê Văn C</option>
-              <option value="4">Phạm Thị D</option>
-              <option value="5">Hoàng Văn E</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Mô tả</label>
-            <textarea class="form-control" id="description" rows="3"
-                      placeholder="Mô tả phòng ban"></textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
       </div>
     </div>
   </div>
@@ -257,39 +150,22 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/department/update}">
           <div class="mb-3">
             <label for="editDepartmentId" class="form-label">Mã phòng ban <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editDepartmentId" value="PB001" readOnly>
+            <input type="text" class="form-control" name="id" id="editDepartmentId" readonly="true">
           </div>
           <div class="mb-3">
             <label for="editDepartmentName" class="form-label">Tên phòng ban <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editDepartmentName" value="Phòng Kỹ thuật"
-                   required>
+            <input type="text" class="form-control" name="tenPB" id="editDepartmentName" required>
           </div>
-          <div class="mb-3">
-            <label for="editManager" class="form-label">Trưởng phòng</label>
-            <select class="form-select" id="editManager">
-              <option value="">Chọn trưởng phòng</option>
-              <option value="1" selected>Nguyễn Văn A</option>
-              <option value="2">Trần Thị B</option>
-              <option value="3">Lê Văn C</option>
-              <option value="4">Phạm Thị D</option>
-              <option value="5">Hoàng Văn E</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="editDescription" class="form-label">Mô tả</label>
-            <textarea class="form-control" id="editDescription"
-                      rows="3">Phòng ban chịu trách nhiệm về các vấn đề kỹ thuật và công nghệ của công ty.</textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
       </div>
     </div>
   </div>
@@ -312,32 +188,26 @@
               <tbody>
               <tr>
                 <th width="40%">Mã phòng ban</th>
-                <td>PB001</td>
+                <td id="viewDepartmentId"></td>
               </tr>
               <tr>
                 <th>Tên phòng ban</th>
-                <td>Phòng Kỹ thuật</td>
+                <td id="viewDepartmentName"></td>
               </tr>
               <tr>
                 <th>Trưởng phòng</th>
-                <td>Nguyễn Văn A</td>
+                <td id="viewManager"></td>
               </tr>
               <tr>
                 <th>Số nhân viên</th>
-                <td>25</td>
+                <td id="viewEmployeeCount"></td>
               </tr>
               </tbody>
             </table>
           </div>
           <div class="col-md-6">
-            <h6 class="font-weight-bold">Mô tả</h6>
-            <p>
-              Phòng ban chịu trách nhiệm về các vấn đề kỹ thuật và công nghệ của công ty. Phát triển
-              và duy trì
-              các hệ thống phần mềm, phần cứng và cơ sở hạ tầng CNTT.
-            </p>
             <h6 class="font-weight-bold mt-3">Dự án đang thực hiện</h6>
-            <ul>
+            <ul id="viewProjects">
               <li>Phát triển phần mềm XYZ</li>
               <li>Nâng cấp hệ thống ABC</li>
               <li>Triển khai hệ thống DEF</li>
@@ -357,7 +227,8 @@
               <th>Số điện thoại</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="viewEmployeeList">
+            <!-- Dữ liệu nhân viên sẽ được thêm động nếu có -->
             <tr>
               <td>NV001</td>
               <td>Nguyễn Văn A</td>
@@ -371,27 +242,6 @@
               <td>Phó phòng</td>
               <td>nguyenvanf@example.com</td>
               <td>0901234568</td>
-            </tr>
-            <tr>
-              <td>NV010</td>
-              <td>Nguyễn Văn G</td>
-              <td>Nhân viên</td>
-              <td>nguyenvang@example.com</td>
-              <td>0901234569</td>
-            </tr>
-            <tr>
-              <td>NV015</td>
-              <td>Nguyễn Văn H</td>
-              <td>Nhân viên</td>
-              <td>nguyenvanh@example.com</td>
-              <td>0901234570</td>
-            </tr>
-            <tr>
-              <td>NV020</td>
-              <td>Nguyễn Văn I</td>
-              <td>Nhân viên</td>
-              <td>nguyenvani@example.com</td>
-              <td>0901234571</td>
             </tr>
             </tbody>
           </table>
@@ -416,10 +266,22 @@
       <div class="modal-body">
         Bạn có chắc chắn muốn xóa phòng ban này không? Hành động này không thể hoàn tác.
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/department/delete}">
+        <div class="mb-3">
+          <label for="editDepartmentId" class="form-label">Mã phòng ban <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="id" id="deleteDepartmentId" readonly="true">
+        </div>
+        <div class="mb-3">
+          <label for="editDepartmentName" class="form-label">Tên phòng ban <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteDepartmentName" readonly="true">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -427,7 +289,54 @@
 <!-- Bootstrap core JavaScript-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Custom scripts -->
-<script src="/js/script.js"></script>
-</body>
+<script>
+  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
+  const viewModal = document.getElementById('viewDepartmentModal');
+  viewModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const truongPhong = button.getAttribute('data-truongphong') || 'Chưa có';
+    const soNhanVien = button.getAttribute('data-sonhanvien') || '0';
 
+    // Cập nhật nội dung modal
+    document.getElementById('viewDepartmentId').textContent = id;
+    document.getElementById('viewDepartmentName').textContent = ten;
+    document.getElementById('viewManager').textContent = truongPhong;
+    document.getElementById('viewEmployeeCount').textContent = soNhanVien;
+
+    // Nếu có dữ liệu nhân viên hoặc dự án động, có thể cập nhật tại đây
+    // Ví dụ: document.getElementById('viewEmployeeList').innerHTML = ...;
+  });
+</script>
+<script>
+  const editModal = document.getElementById('editDepartmentModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+  const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+  // Lấy dữ liệu từ thuộc tính data-*
+  const id = button.getAttribute('data-id');
+  const ten = button.getAttribute('data-ten');
+  const truongPhong = button.getAttribute('data-truongphong') || '';
+
+  // Điền dữ liệu vào form
+  document.getElementById('editDepartmentId').value = id;
+  document.getElementById('editDepartmentName').value = ten;
+  document.getElementById('editManager').value = truongPhong;
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deleteDepartmentModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+
+    // Điền dữ liệu vào form
+    document.getElementById('deleteDepartmentId').value = id;
+    document.getElementById('deleteDepartmentName').value = ten;
+  });
+</script>
+</body>
 </html>

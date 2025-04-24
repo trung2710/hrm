@@ -46,10 +46,6 @@
       box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.15);
     }
 
-    .contract-item:hover {
-      box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.25);
-    }
-
     .contract-status {
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
@@ -78,13 +74,20 @@
   <!-- Sidebar -->
   <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-  <!-- Content Wrapper -->
-  <div class="content-wrapper">
-    <!--Top Bar    -->
-    <div th:replace="~{layout/header :: header}"></div>
 
-    <!-- Begin Page Content -->
+  <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
     <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý Hợp đồng</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
+          <i class="bi bi-plus-lg me-1"></i>
+          Tạo hợp đồng mới
+        </button>
+      </div>
+
       <!-- Thống kê -->
       <div class="row mb-4">
         <div class="col-xl-3 col-md-6">
@@ -297,6 +300,85 @@
   </div>
 </div>
 
+<!-- Modal Tạo hợp đồng mới -->
+<div class="modal fade" id="addContractModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tạo hợp đồng mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Loại hợp đồng <span class="text-danger">*</span></label>
+              <select class="form-select" required>
+                <option value="">Chọn loại hợp đồng</option>
+                <option value="fulltime">Toàn thời gian</option>
+                <option value="parttime">Bán thời gian</option>
+                <option value="probation">Thử việc</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nhân viên <span class="text-danger">*</span></label>
+              <select class="form-select" required>
+                <option value="">Chọn nhân viên</option>
+                <option value="1">Nguyễn Văn A - P.Kỹ thuật</option>
+                <option value="2">Trần Thị B - P.Marketing</option>
+                <option value="3">Lê Văn C - P.Kinh doanh</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Lương cơ bản <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="number" class="form-control" required>
+                <span class="input-group-text">VNĐ</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phụ cấp</label>
+              <div class="input-group">
+                <input type="number" class="form-control">
+                <span class="input-group-text">VNĐ</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nội dung hợp đồng <span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="5" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Tài liệu đính kèm</label>
+            <input type="file" class="form-control">
+            <small class="text-muted">Chấp nhận file PDF, Word (tối đa 5MB)</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary">Tạo hợp đồng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Xem chi tiết hợp đồng -->
 <div class="modal fade" id="viewContractModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
@@ -391,7 +473,6 @@
             <p>Công việc phải làm: Theo đúng vị trí tuyển dụng và mô tả công việc đã thỏa thuận.</p>
             <p>Địa điểm làm việc: Văn phòng công ty tại TP.HCM</p>
             <p>Thời giờ làm việc: 8 giờ/ngày, 5 ngày/tuần</p>
-            <!-- Thêm nội dung hợp đồng khác -->
           </div>
         </div>
 
@@ -444,7 +525,6 @@
 
 <!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Custom scripts -->
 <script src="/js/script.js"></script>
 </body>
 

@@ -8,11 +8,19 @@ import jakarta.persistence.*;
 @Table(name = "ChucVu")
 
 public class ChucVu {
+    public ChucVu() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaChucVu")
     private Integer id;
+    @Column(name = "TenChucVu", nullable = false)
+    private String tenChucVu;
+
+    @OneToOne
+    @JoinColumn(name = "MaQuyen", referencedColumnName = "MaQuyen")
+    private Quyen quyen;
 
     public Integer getId() {
         return id;
@@ -38,10 +46,4 @@ public class ChucVu {
         this.quyen = quyen;
     }
 
-    @Column(name = "TenChucVu", nullable = false)
-    private String tenChucVu;
-
-    @OneToOne
-    @JoinColumn(name = "MaQuyen", referencedColumnName = "MaQuyen")
-    private Quyen quyen;
 }

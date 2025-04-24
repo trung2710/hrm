@@ -5,8 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import com.example.hrm.domain.PhongBan;
 
+import java.util.List;
+
 
 @Repository
-public interface  DepartmentRepository extends JpaRepository<PhongBan, Long>{
-    PhongBan findById(long id);
+public interface  DepartmentRepository extends JpaRepository<PhongBan, Integer>{
+    PhongBan findById(int id);
+    List<PhongBan>findAll();
+    void deleteById(Integer id);
 }
