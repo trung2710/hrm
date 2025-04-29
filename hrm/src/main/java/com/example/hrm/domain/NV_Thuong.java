@@ -2,6 +2,7 @@ package com.example.hrm.domain;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +20,17 @@ public class NV_Thuong {
 
     @Column(name = "NgayThuong")
     private LocalDate ngayThuong;
+
+    @Column(name = "MucTien", nullable = false)
+    private BigDecimal mucTien;
+
+    public BigDecimal getMucTien() {
+        return mucTien;
+    }
+
+    public void setMucTien(BigDecimal mucTien) {
+        this.mucTien = mucTien;
+    }
 
     public NhanVien getNhanVien() {
         return nhanVien;

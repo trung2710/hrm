@@ -22,6 +22,18 @@ public class ChucVu {
     @JoinColumn(name = "MaQuyen", referencedColumnName = "MaQuyen")
     private Quyen quyen;
 
+    @ManyToOne
+    @JoinColumn(name = "MaPhongBan", referencedColumnName = "MaPhongBan")
+    private PhongBan phongBan;
+
+    public PhongBan getPhongBan() {
+        return phongBan;
+    }
+
+    public void setPhongBan(PhongBan phongBan) {
+        this.phongBan = phongBan;
+    }
+
     public Integer getId() {
         return id;
     }

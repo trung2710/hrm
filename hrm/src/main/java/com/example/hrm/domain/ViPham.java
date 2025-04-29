@@ -11,6 +11,7 @@ public class ViPham {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaViPham")
     private long id;
+    //phat tien, den bu, canh cao, nhac nho, sa thai
     @Column(name = "LoaiViPham", nullable = false)
     private String loaiViPham;
 

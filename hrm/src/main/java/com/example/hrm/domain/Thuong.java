@@ -13,8 +13,8 @@ public class Thuong {
     private long id;
     @Column(name = "TenThuong", nullable = false)
     private String tenThuong;
-    @Column(name = "SoTienThuong", nullable = false)
-    private BigDecimal soTienThuong;
+    @Column(name = "MucThuong", nullable = false)
+    private BigDecimal mucThuong;
     @OneToOne
     @JoinColumn(name="NguoiRaQuyetDinh")
     private NhanVien nguoiRaQuyetDinh;
@@ -35,12 +35,12 @@ public class Thuong {
         this.tenThuong = tenThuong;
     }
 
-    public BigDecimal getSoTienThuong() {
-        return soTienThuong;
+    public BigDecimal getMucThuong() {
+        return mucThuong;
     }
 
-    public void setSoTienThuong(BigDecimal soTienThuong) {
-        this.soTienThuong = soTienThuong;
+    public void setMucThuong(BigDecimal mucThuong) {
+        this.mucThuong = mucThuong;
     }
 
     public NhanVien getNguoiRaQuyetDinh() {

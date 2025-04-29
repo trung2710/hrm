@@ -1,10 +1,9 @@
 package com.example.hrm.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="NV_Phucap")
@@ -18,6 +17,37 @@ public class NV_PhuCap {
     @ManyToOne
     @JoinColumn(name = "MaPhuCap", referencedColumnName = "MaPhuCap")
     private PhuCap phuCap;
+
+    @Column(name = "NgayBatDau")
+    private LocalDate ngayBatDau;
+    @Column(name = "NgayKetThuc")
+    private LocalDate ngayKetThuc;
+    @Column(name = "MucTien", nullable = false)
+    private BigDecimal mucTien;
+
+    public LocalDate getNgayBatDau() {
+        return ngayBatDau;
+    }
+
+    public void setNgayBatDau(LocalDate ngayBatDau) {
+        this.ngayBatDau = ngayBatDau;
+    }
+
+    public LocalDate getNgayKetThuc() {
+        return ngayKetThuc;
+    }
+
+    public void setNgayKetThuc(LocalDate ngayKetThuc) {
+        this.ngayKetThuc = ngayKetThuc;
+    }
+
+    public BigDecimal getMucTien() {
+        return mucTien;
+    }
+
+    public void setMucTien(BigDecimal mucTien) {
+        this.mucTien = mucTien;
+    }
 
     public NhanVien getNhanVien() {
         return nhanVien;

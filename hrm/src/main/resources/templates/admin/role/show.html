@@ -79,137 +79,31 @@
             </div>
 
             <!-- Danh sách quyền -->
-            <div class="row">
-                <!-- Admin Role -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card role-card shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="role-icon role-admin">
-                                    <i class="bi bi-shield-lock"></i>
+            <div class="row d-flex justify-content-center " style="margin:auto">
+                <div th:each="quyen : ${quyenList}">
+                    <!-- Admin Role -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card role-card shadow h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div>
+                                        <h5 class="mb-1" th:text="${quyen.id}"></h5>
+                                        <h5 class="mb-1" th:text="${quyen.tenQuyen}"></h5>
+                                        <p class="text-muted mb-0" th:text="${quyen.moTa}"></p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h5 class="mb-1">Admin</h5>
-                                    <p class="text-muted mb-0">Quyền quản trị hệ thống</p>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-info me-2" title="Sửa" data-bs-toggle="modal"
+                                            data-bs-target="#editRoleModal"
+                                            th:attr="data-id=${quyen.id}, data-ten=${quyen.tenQuyen}, data-mota=${quyen.moTa}">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                                            data-bs-target="#deleteRoleModal"
+                                            th:attr="data-id=${quyen.id}, data-ten=${quyen.tenQuyen}, data-mota=${quyen.moTa}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-info me-2" title="Sửa" data-bs-toggle="modal"
-                                        data-bs-target="#editRoleModal">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRoleModal">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Manager Role -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card role-card shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="role-icon role-manager">
-                                    <i class="bi bi-person-workspace"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">Manager</h5>
-                                    <p class="text-muted mb-0">Quyền quản lý</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-info me-2" title="Sửa" data-bs-toggle="modal"
-                                        data-bs-target="#editRoleModal">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRoleModal">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- HR Role -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card role-card shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="role-icon role-hr">
-                                    <i class="bi bi-people"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">HR</h5>
-                                    <p class="text-muted mb-0">Quyền nhân sự</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-info me-2" title="Sửa" data-bs-toggle="modal"
-                                        data-bs-target="#editRoleModal">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRoleModal">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Finance Role -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card role-card shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="role-icon role-finance">
-                                    <i class="bi bi-cash-stack"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">Finance</h5>
-                                    <p class="text-muted mb-0">Quyền tài chính</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-info me-2" title="Sửa" data-bs-toggle="modal"
-                                        data-bs-target="#editRoleModal">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRoleModal">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Role -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card role-card shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="role-icon role-project">
-                                    <i class="bi bi-kanban"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">Project</h5>
-                                    <p class="text-muted mb-0">Quyền quản lý dự án</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-info me-2" title="Sửa" data-bs-toggle="modal"
-                                        data-bs-target="#editRoleModal">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRoleModal">
-                                    <i class="bi bi-trash"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -228,41 +122,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form th:action="@{/role/create}" method="post">
                     <div class="mb-3">
                         <label class="form-label">Tên quyền <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" required>
+                        <input type="text" name="ten" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mô tả</label>
-                        <textarea class="form-control" rows="3"></textarea>
+                        <textarea name="mota" class="form-control" rows="3"></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Icon</label>
-                        <select class="form-select">
-                            <option value="bi-shield-lock">Shield Lock</option>
-                            <option value="bi-person-workspace">Person Workspace</option>
-                            <option value="bi-people">People</option>
-                            <option value="bi-cash-stack">Cash Stack</option>
-                            <option value="bi-kanban">Kanban</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Màu sắc</label>
-                        <select class="form-select">
-                            <option value="role-admin">Xanh dương</option>
-                            <option value="role-manager">Xanh ngọc</option>
-                            <option value="role-hr">Vàng</option>
-                            <option value="role-finance">Đỏ</option>
-                            <option value="role-project">Hồng</option>
-                        </select>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Thêm quyền</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Thêm quyền</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -276,97 +151,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" th:action="@{/role/update}">
+                    <div class="mb-3">
+                        <label class="form-label">Mã quyền<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="id" id="editRoleId" readonly="true">
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Tên quyền <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" value="Admin" required>
+                        <input type="text" class="form-control" name="ten" id="editRoleName" value="Admin" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mô tả</label>
-                        <textarea class="form-control" rows="3">Quyền quản trị hệ thống</textarea>
+                        <textarea class="form-control" name="mota" id="editRoleDesc" rows="3">Quyền quản trị hệ thống</textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Icon</label>
-                        <select class="form-select">
-                            <option value="bi-shield-lock" selected>Shield Lock</option>
-                            <option value="bi-person-workspace">Person Workspace</option>
-                            <option value="bi-people">People</option>
-                            <option value="bi-cash-stack">Cash Stack</option>
-                            <option value="bi-kanban">Kanban</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Màu sắc</label>
-                        <select class="form-select">
-                            <option value="role-admin" selected>Xanh dương</option>
-                            <option value="role-manager">Xanh ngọc</option>
-                            <option value="role-hr">Vàng</option>
-                            <option value="role-finance">Đỏ</option>
-                            <option value="role-project">Hồng</option>
-                        </select>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal Xóa quyền --> <i class="bi bi-exclamation-triangle me-1"></i>
-Thao tác này không thể hoàn tác sau khi thực hiện. Tất cả người dùng có quyền này sẽ bị thu hồi quyền.
-</p>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-    <button type="button" class="btn btn-danger">Xóa</button>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Bootstrap JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom JavaScript -->
-<script>
-    // Xử lý khi thêm quyền mới
-    document.querySelector('#addRoleModal .btn-primary').addEventListener('click', function () {
-        // TODO: Thêm code xử lý thêm quyền mới
-        alert('Thêm quyền mới thành công!');
-        bootstrap.Modal.getInstance(document.getElementById('addRoleModal')).hide();
-    });
-
-    // Xử lý khi sửa quyền
-    document.querySelector('#editRoleModal .btn-primary').addEventListener('click', function () {
-        // TODO: Thêm code xử lý sửa quyền
-        alert('Cập nhật quyền thành công!');
-        bootstrap.Modal.getInstance(document.getElementById('editRoleModal')).hide();
-    });
-
-    // Xử lý khi xóa quyền
-    document.querySelector('#deleteRoleModal .btn-danger').addEventListener('click', function () {
-        // TODO: Thêm code xử lý xóa quyền
-        alert('Xóa quyền thành công!');
-        bootstrap.Modal.getInstance(document.getElementById('deleteRoleModal')).hide();
-    });
-
-    // Hiệu ứng hover cho role cards
-    document.querySelectorAll('.role-card').forEach(card => {
-        card.addEventListener('mouseenter', function () {
-            this.style.transform = 'translateY(-5px)';
-        });
-
-        card.addEventListener('mouseleave', function () {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-</script>
-</body>
-
-</html>
+<!--Modal delete quyen-->
 <div class="modal fade" id="deleteRoleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -382,51 +189,94 @@ Thao tác này không thể hoàn tác sau khi thực hiện. Tất cả ngườ
                     quyền.
                 </p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger">Xóa</button>
-            </div>
+            <form method="post" th:action="@{/role/delete}">
+                <div class="mb-3">
+                    <label class="form-label">Mã quyền<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="id" id="deleteRoleId" readonly="true">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tên quyền <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control"  id="deleteRoleName" readonly="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+</body>
+
+</html>
 
 <!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Custom JavaScript -->
+<!--<script>-->
+<!--    // Xử lý khi thêm quyền mới-->
+<!--    document.querySelector('#addRoleModal .btn-primary').addEventListener('click', function () {-->
+<!--        // TODO: Thêm code xử lý thêm quyền mới-->
+<!--        alert('Thêm quyền mới thành công!');-->
+<!--        bootstrap.Modal.getInstance(document.getElementById('addRoleModal')).hide();-->
+<!--    });-->
+
+<!--    // Xử lý khi sửa quyền-->
+<!--    document.querySelector('#editRoleModal .btn-primary').addEventListener('click', function () {-->
+<!--        // TODO: Thêm code xử lý sửa quyền-->
+<!--        alert('Cập nhật quyền thành công!');-->
+<!--        bootstrap.Modal.getInstance(document.getElementById('editRoleModal')).hide();-->
+<!--    });-->
+
+<!--    // Xử lý khi xóa quyền-->
+<!--    document.querySelector('#deleteRoleModal .btn-danger').addEventListener('click', function () {-->
+<!--        // TODO: Thêm code xử lý xóa quyền-->
+<!--        alert('Xóa quyền thành công!');-->
+<!--        bootstrap.Modal.getInstance(document.getElementById('deleteRoleModal')).hide();-->
+<!--    });-->
+
+<!--    // Hiệu ứng hover cho role cards-->
+<!--    document.querySelectorAll('.role-card').forEach(card => {-->
+<!--        card.addEventListener('mouseenter', function () {-->
+<!--            this.style.transform = 'translateY(-5px)';-->
+<!--        });-->
+
+<!--        card.addEventListener('mouseleave', function () {-->
+<!--            this.style.transform = 'translateY(0)';-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Xử lý khi thêm quyền mới
-    document.querySelector('#addRoleModal .btn-primary').addEventListener('click', function () {
-        // TODO: Thêm code xử lý thêm quyền mới
-        alert('Thêm quyền mới thành công!');
-        bootstrap.Modal.getInstance(document.getElementById('addRoleModal')).hide();
+    const editModal = document.getElementById('editRoleModal');
+    editModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+        // Lấy dữ liệu từ thuộc tính data-*
+        const id = button.getAttribute('data-id');
+        const ten = button.getAttribute('data-ten');
+        const mota = button.getAttribute('data-mota') || '';
+
+        // Điền dữ liệu vào form
+        document.getElementById('editRoleId').value = id;
+        document.getElementById('editRoleName').value = ten;
+        document.getElementById('editRoleDesc').value = mota;
     });
+</script>
+<script>
+    const deleteModal = document.getElementById('deleteRoleModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+        // Lấy dữ liệu từ thuộc tính data-*
+        const id = button.getAttribute('data-id');
+        const ten = button.getAttribute('data-ten');
 
-    // Xử lý khi sửa quyền
-    document.querySelector('#editRoleModal .btn-primary').addEventListener('click', function () {
-        // TODO: Thêm code xử lý sửa quyền
-        alert('Cập nhật quyền thành công!');
-        bootstrap.Modal.getInstance(document.getElementById('editRoleModal')).hide();
-    });
-
-    // Xử lý khi xóa quyền
-    document.querySelector('#deleteRoleModal .btn-danger').addEventListener('click', function () {
-        // TODO: Thêm code xử lý xóa quyền
-        alert('Xóa quyền thành công!');
-        bootstrap.Modal.getInstance(document.getElementById('deleteRoleModal')).hide();
-    });
-
-    // Hiệu ứng hover cho role cards
-    document.querySelectorAll('.role-card').forEach(card => {
-        card.addEventListener('mouseenter', function () {
-            this.style.transform = 'translateY(-5px)';
-        });
-
-        card.addEventListener('mouseleave', function () {
-            this.style.transform = 'translateY(0)';
-        });
+        // Điền dữ liệu vào form
+        document.getElementById('deleteRoleId').value = id;
+        document.getElementById('deleteRoleName').value = ten;
     });
 </script>
 </body>
-
 </html>

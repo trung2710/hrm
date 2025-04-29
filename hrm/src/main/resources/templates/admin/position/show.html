@@ -62,132 +62,36 @@
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
-              <tr th:each="chuVu: ${chucVus}">
+              <tr>
                 <th>Mã chức vụ</th>
                 <th>Tên chức vụ</th>
                 <th>Phòng ban</th>
-                <th>Mức lương cơ bản</th>
-                <th>Phụ cấp</th>
-                <th>Số nhân viên</th>
-                <th>Thao tác</th>
+                <th>Tên quyền</th>
+                <th>Mô tả quyền</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>CV001</td>
-                <td>Giám đốc</td>
-                <td>Ban giám đốc</td>
-                <td>50,000,000 VND</td>
-                <td>10,000,000 VND</td>
-                <td>1</td>
+              <tr th:each="chucVu : ${chucVus}">
+                <td th:text="${chucVu.id}"></td>
+                <td th:text="${chucVu.tenChucVu}"></td>
+                <td th:text="${chucVu.phongBan.tenPhongBan}"></td>
+                <td th:text="${chucVu.quyen.tenQuyen}"></td>
+                <td th:text="${chucVu.quyen.moTa}"></td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
+                            data-bs-toggle="modal" data-bs-target="#viewPositionModal"
+                            th:attr="data-id=${chucVu.id}, data-ten=${chucVu.tenChucVu}, data-quyen=${chucVu.quyen.tenQuyen}, data-phongban=${chucVu.phongBan.tenPhongBan}">
                       <i class="bi bi-eye"></i>
                     </button>
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
+                            data-bs-toggle="modal" data-bs-target="#editPositionModal"
+                            th:attr="data-id=${chucVu.id}, data-ten=${chucVu.tenChucVu}, data-quyen=${chucVu.quyen.tenQuyen}, data-phongban=${chucVu.phongBan.tenPhongBan}">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>CV002</td>
-                <td>Trưởng phòng</td>
-                <td>Kỹ thuật</td>
-                <td>25,000,000 VND</td>
-                <td>5,000,000 VND</td>
-                <td>3</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>CV003</td>
-                <td>Nhân viên</td>
-                <td>Kỹ thuật</td>
-                <td>15,000,000 VND</td>
-                <td>2,000,000 VND</td>
-                <td>15</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>CV004</td>
-                <td>Trưởng phòng</td>
-                <td>Kinh doanh</td>
-                <td>25,000,000 VND</td>
-                <td>5,000,000 VND</td>
-                <td>2</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>CV005</td>
-                <td>Nhân viên</td>
-                <td>Kinh doanh</td>
-                <td>15,000,000 VND</td>
-                <td>2,000,000 VND</td>
-                <td>12</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewPositionModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editPositionModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deletePositionModal">
+                            data-bs-toggle="modal" data-bs-target="#deletePositionModal"
+                            th:attr="data-id=${chucVu.id}, data-ten=${chucVu.tenChucVu}, data-quyen=${chucVu.quyen.tenQuyen}, data-phongban=${chucVu.phongBan.tenPhongBan}">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -215,57 +119,47 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/position/create}">
           <div class="mb-3">
             <label for="positionId" class="form-label">Mã chức vụ <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="positionId" placeholder="Mã chức vụ" required>
+            <input type="text" class="form-control" name="id" id="positionId" placeholder="Mã chức vụ" required="true">
           </div>
           <div class="mb-3">
             <label for="positionName" class="form-label">Tên chức vụ <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="positionName" placeholder="Tên chức vụ"
+            <input type="text" class="form-control" name="tenchucVu" id="positionName" placeholder="Tên chức vụ"
                    required>
           </div>
           <div class="mb-3">
-            <label for="department" class="form-label">Phòng ban <span
+            <label for="postDepartmentName" class="form-label">Phòng ban <span
                     class="text-danger">*</span></label>
-            <select class="form-select" id="department" required>
+            <select class="form-select" name="tenPhongBan" id="postDepartmentName" required>
               <option value="">Chọn phòng ban</option>
-              <option value="1">Ban giám đốc</option>
-              <option value="2">Kỹ thuật</option>
-              <option value="3">Kinh doanh</option>
-              <option value="4">Nhân sự</option>
-              <option value="5">Kế toán</option>
-              <option value="6">Marketing</option>
+              <option value="Ban giám đốc">Ban giám đốc</option>
+              <option value="Kỹ thuật">Kỹ thuật</option>
+              <option value="Kinh doanh">Kinh doanh</option>
+              <option value="Nhân sự">Nhân sự</option>
+              <option value="Kế toán">Kế toán</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+              <option value="Bảo vệ">Bảo vệ</option>
+              <option value="Hành chính">Hành chính</option>
+              <option value="Nghiên cứu và Phát triển">Nghiên cứu và Phát triển</option>
+              <option value="Chăm sóc khách hàng">Chăm sóc khách hàng</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="baseSalary" class="form-label">Mức lương cơ bản <span
+            <label for="QuyenName" class="form-label">Quyền<span
                     class="text-danger">*</span></label>
-            <div class="input-group">
-              <input type="number" class="form-control" id="baseSalary" placeholder="Mức lương cơ bản"
+            <input type="text" class="form-control" name="tenQuyen" id="QuyenName" placeholder="Tên Quyền"
                      required>
-              <span class="input-group-text">VND</span>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="allowance" class="form-label">Phụ cấp</label>
-            <div class="input-group">
-              <input type="number" class="form-control" id="allowance" placeholder="Phụ cấp">
-              <span class="input-group-text">VND</span>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Mô tả công việc</label>
-            <textarea class="form-control" id="description" rows="3"
-                      placeholder="Mô tả công việc"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
       </div>
     </div>
   </div>
@@ -281,54 +175,46 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/position/update}">
           <div class="mb-3">
             <label for="editPositionId" class="form-label">Mã chức vụ <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editPositionId" value="CV001" readonly>
+            <input type="text" class="form-control" name="id" id="editPositionId" readonly="true">
           </div>
           <div class="mb-3">
             <label for="editPositionName" class="form-label">Tên chức vụ <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editPositionName" value="Giám đốc" required>
+            <input type="text" class="form-control" name="tenChucVu" id="editPositionName"  required>
           </div>
           <div class="mb-3">
-            <label for="editDepartment" class="form-label">Phòng ban <span
+            <label for="editDepartmentName" class="form-label">Phòng ban <span
                     class="text-danger">*</span></label>
-            <select class="form-select" id="editDepartment" required>
-              <option value="1" selected>Ban giám đốc</option>
-              <option value="2">Kỹ thuật</option>
-              <option value="3">Kinh doanh</option>
-              <option value="4">Nhân sự</option>
-              <option value="5">Kế toán</option>
-              <option value="6">Marketing</option>
+            <select class="form-select" name="tenPhongBan" id="editDepartmentName" required>
+              <option value="">Chọn phòng ban</option>
+              <option value="Ban giám đốc">Ban giám đốc</option>
+              <option value="Kỹ thuật">Kỹ thuật</option>
+              <option value="Kinh doanh">Kinh doanh</option>
+              <option value="Nhân sự">Nhân sự</option>
+              <option value="Kế toán">Kế toán</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+              <option value="Bảo vệ">Bảo vệ</option>
+              <option value="Hành chính">Hành chính</option>
+              <option value="Nghiên cứu và Phát triển">Nghiên cứu và Phát triển</option>
+              <option value="Chăm sóc khách hàng">Chăm sóc khách hàng</option>
             </select>
           </div>
+
           <div class="mb-3">
-            <label for="editBaseSalary" class="form-label">Mức lương cơ bản <span
+            <label for="editQuyenName" class="form-label">Quyen<span
                     class="text-danger">*</span></label>
-            <div class="input-group">
-              <input type="number" class="form-control" id="editBaseSalary" value="50000000" required>
-              <span class="input-group-text">VND</span>
-            </div>
+            <input type="text" class="form-control" name="tenQuyen" id="editQuyenName" required>
           </div>
-          <div class="mb-3">
-            <label for="editAllowance" class="form-label">Phụ cấp</label>
-            <div class="input-group">
-              <input type="number" class="form-control" id="editAllowance" value="10000000">
-              <span class="input-group-text">VND</span>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="editDescription" class="form-label">Mô tả công việc</label>
-            <textarea class="form-control" id="editDescription"
-                      rows="3">Điều hành và quản lý toàn bộ hoạt động của công ty. Xây dựng chiến lược phát triển và đưa ra các quyết định quan trọng.</textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
       </div>
     </div>
   </div>
@@ -351,19 +237,18 @@
               <tbody>
               <tr>
                 <th width="40%">Mã chức vụ</th>
-                <td>CV001</td>
+                <td id="viewPositionId"></td>
               </tr>
               <tr>
                 <th>Tên chức vụ</th>
-                <td>Giám đốc</td>
+                <td id="viewPositionName"></td>
               </tr>
               <tr>
                 <th>Phòng ban</th>
-                <td>Ban giám đốc</td>
+                <td id="viewPhongBan"></td>
               </tr>
-              <tr>
-                <th>Số nhân viên</th>
-                <td>1</td>
+                <th>Tên quyền</th>
+                <td id="viewQuyen"></td>
               </tr>
               </tbody>
             </table>
@@ -440,10 +325,22 @@
           Lưu ý: Chức vụ này đang có nhân viên. Việc xóa có thể ảnh hưởng đến dữ liệu liên quan.
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form th:action="@{/position/delete}" method="post">
+        <div class="mb-3">
+          <label for="deletePositionId" class="form-label">Mã phòng ban <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="id" id="deletePositionId" readonly="true">
+        </div>
+        <div class="mb-3">
+          <label for="deletePositionName" class="form-label">Tên phòng ban <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deletePositionName" readonly="true">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -452,6 +349,57 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Custom scripts -->
 <script src="/js/script.js"></script>
+<script>
+  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
+  const viewModal = document.getElementById('viewPositionModal');
+  viewModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const quyen = button.getAttribute('data-quyen') || 'Chưa có';
+    const phongban = button.getAttribute('data-phongban') || 'Chua co';
+
+    // Cập nhật nội dung modal
+    document.getElementById('viewPositionId').textContent = id;
+    document.getElementById('viewPositionName').textContent = ten;
+    document.getElementById('viewQuyen').textContent = quyen;
+    document.getElementById('viewPhongBan').textContent = phongban;
+
+    // Nếu có dữ liệu nhân viên hoặc dự án động, có thể cập nhật tại đây
+    // Ví dụ: document.getElementById('viewEmployeeList').innerHTML = ...;
+  });
+</script>
+<script>
+  const editModal = document.getElementById('editPositionModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const quyen = button.getAttribute('data-quyen') || 'Chưa có';
+    const phongban = button.getAttribute('data-phongban') || 'Chua co';
+
+    // Điền dữ liệu vào form
+    document.getElementById('editPositionId').value = id;
+    document.getElementById('editPositionName').value = ten;
+    document.getElementById('editQuyenName').value = quyen;
+    document.getElementById('editDepartmentName').value = phongban;
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deletePositionModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+
+    // Điền dữ liệu vào form
+    document.getElementById('deletePositionId').value = id;
+    document.getElementById('deletePositionName').value = ten;
+  });
+</script>
 </body>
 
 </html>

@@ -78,58 +78,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>VP001</td>
-                                <td>Vi phạm nội quy</td>
-                                <td>Đi muộn, về sớm, không đeo thẻ</td>
-                                <td>200,000 VND</td>
-                                <td>Phạt tiền</td>
+                            <tr th:each="viPham : ${viPhams}">
+                                <td th:text="${viPham.id}"></td>
+                                <td th:text="${viPham.loaiViPham}"></td>
+                                <td th:text="${viPham.hinhThucPhat}"></td>
+                                <td th:text="${#numbers.formatDecimal(viPham.soTienPhat, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
                                 <td>
                                     <div class="d-flex">
                                         <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                                                data-bs-toggle="modal" data-bs-target="#editViolationTypeModal">
+                                                data-bs-toggle="modal" data-bs-target="#editViolationTypeModal"
+                                                th:attr="data-id=${viPham.id}, data-loai=${viPham.loaiViPham}, data-mucphat=${viPham.soTienPhat}, data-hinhthuc=${viPham.hinhThucPhat}">
                                             <i class="bi bi-pencil"></i>
                                         </button>
                                         <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                                                data-bs-toggle="modal" data-bs-target="#deleteViolationTypeModal">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>VP002</td>
-                                <td>Vi phạm quy trình</td>
-                                <td>Không tuân thủ quy trình làm việc</td>
-                                <td>500,000 VND</td>
-                                <td>Phạt tiền, cảnh cáo</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                                                data-bs-toggle="modal" data-bs-target="#editViolationTypeModal">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                                                data-bs-toggle="modal" data-bs-target="#deleteViolationTypeModal">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>VP003</td>
-                                <td>Vi phạm kỷ luật nghiêm trọng</td>
-                                <td>Vi phạm nghiêm trọng nội quy công ty</td>
-                                <td>1,000,000 VND</td>
-                                <td>Phạt tiền, kỷ luật</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                                                data-bs-toggle="modal" data-bs-target="#editViolationTypeModal">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                                                data-bs-toggle="modal" data-bs-target="#deleteViolationTypeModal">
+                                                data-bs-toggle="modal" data-bs-target="#deleteViolationTypeModal"
+                                                th:attr="data-id=${viPham.id}, data-loai=${viPham.loaiViPham}, data-mucphat=${viPham.soTienPhat}, data-hinhthuc=${viPham.hinhThucPhat}">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
@@ -321,44 +284,36 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="violationTypeId" class="form-label">Mã loại vi phạm <span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="violationTypeId" required>
-                    </div>
+                <form method="post" th:action="@{/violation-type/create}">
                     <div class="mb-3">
                         <label for="violationTypeName" class="form-label">Tên loại vi phạm <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="violationTypeName" required>
+                        <input type="text" class="form-control" name="ten" id="violationTypeName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="violationTypeDescription" class="form-label">Mô tả</label>
-                        <textarea class="form-control" id="violationTypeDescription" rows="3"></textarea>
+                        <label for="violationTypeMuc" class="form-label">Hình thức xử lý <span
+                                class="text-danger">*</span></label>
+                        <!--                        <select class="form-select" id="punishment" required>-->
+                        <!--                            <option value="">Chọn hình thức xử lý</option>-->
+                        <!--                            <option value="1">Phạt tiền</option>-->
+                        <!--                            <option value="2">Cảnh cáo</option>-->
+                        <!--                            <option value="3">Kỷ luật</option>-->
+                        <!--                            <option value="4">Sa thải</option>-->
+                        <!--                        </select>-->
+                        <input type="text" class="form-control" name="hinhThuc" id="violationTypeMuc" required>
                     </div>
                     <div class="mb-3">
                         <label for="penalty" class="form-label">Mức phạt <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="penalty" required>
+                            <input type="number" class="form-control" name="soTien" id="penalty" required>
                             <span class="input-group-text">VND</span>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="punishment" class="form-label">Hình thức xử lý <span
-                                class="text-danger">*</span></label>
-                        <select class="form-select" id="punishment" required>
-                            <option value="">Chọn hình thức xử lý</option>
-                            <option value="1">Phạt tiền</option>
-                            <option value="2">Cảnh cáo</option>
-                            <option value="3">Kỷ luật</option>
-                            <option value="4">Sa thải</option>
-                        </select>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
             </div>
         </div>
     </div>
@@ -374,45 +329,34 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" th:action="@{/violation-type/update}">
                     <div class="mb-3">
                         <label for="editViolationTypeId" class="form-label">Mã loại vi phạm</label>
-                        <input type="text" class="form-control" id="editViolationTypeId" value="VP001" readonly>
+                        <input type="text" class="form-control" name="id" id="editViolationTypeId" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="editViolationTypeName" class="form-label">Tên loại vi phạm <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="editViolationTypeName" value="Vi phạm nội quy"
+                        <input type="text" class="form-control" name="ten" id="editViolationTypeName"
                                required>
                     </div>
                     <div class="mb-3">
-                        <label for="editViolationTypeDescription" class="form-label">Mô tả</label>
-                        <textarea class="form-control" id="editViolationTypeDescription"
-                                  rows="3">Đi muộn, về sớm, không đeo thẻ</textarea>
+                        <label for="editViolationTypeDescription" class="form-label">Hình thức phạt</label>
+                        <input class="form-control" name="hinhThuc" id="editViolationTypeDescription"></input>
                     </div>
                     <div class="mb-3">
                         <label for="editPenalty" class="form-label">Mức phạt <span
                                 class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="editPenalty" value="200000" required>
+                            <input type="number" class="form-control" name="soTien" id="editPenalty" value="200000" required>
                             <span class="input-group-text">VND</span>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="editPunishment" class="form-label">Hình thức xử lý <span
-                                class="text-danger">*</span></label>
-                        <select class="form-select" id="editPunishment" required>
-                            <option value="1" selected>Phạt tiền</option>
-                            <option value="2">Cảnh cáo</option>
-                            <option value="3">Kỷ luật</option>
-                            <option value="4">Sa thải</option>
-                        </select>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
             </div>
         </div>
     </div>
@@ -432,10 +376,22 @@
                 <p class="text-danger">Lưu ý: Việc xóa loại vi phạm sẽ ảnh hưởng đến tất cả các vi phạm thuộc loại
                     này.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger">Xóa</button>
-            </div>
+            <form method="post" th:action="@{/violation-type/delete}">
+                <div class="mb-3">
+                    <label for="deleteViolationTypeId" class="form-label">Mã loại vi phạm</label>
+                    <input type="text" class="form-control" name="id" id="deleteViolationTypeId" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="deleteViolationTypeName" class="form-label">Tên loại vi phạm <span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="deleteViolationTypeName"
+                           readonly="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -768,6 +724,36 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Custom scripts -->
 <script src="/js/script.js"></script>
+<script>
+    const editModal = document.getElementById('editViolationTypeModal');
+    editModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+        // Lấy dữ liệu từ thuộc tính data-*
+        const id = button.getAttribute('data-id');
+        const ten = button.getAttribute('data-loai');
+        const hinhThuc = button.getAttribute('data-hinhthuc') || '';
+        const soTien=button.getAttribute('data-mucphat');
+
+        // Điền dữ liệu vào form
+        document.getElementById('editViolationTypeId').value = id;
+        document.getElementById('editViolationTypeName').value = ten;
+        document.getElementById('editViolationTypeDescription').value = hinhThuc;
+        document.getElementById('editPenalty').value = soTien;
+    });
+</script>
+<script>
+    const deleteModal = document.getElementById('deleteViolationTypeModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+        // Lấy dữ liệu từ thuộc tính data-*
+        const id = button.getAttribute('data-id');
+        const ten = button.getAttribute('data-loai');
+
+        // Điền dữ liệu vào form
+        document.getElementById('deleteViolationTypeId').value = id;
+        document.getElementById('deleteViolationTypeName').value = ten;
+    });
+</script>
 </body>
 
 </html>

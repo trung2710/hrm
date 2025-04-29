@@ -13,8 +13,12 @@ public class PhuCap {
     private long id;
     @Column(name = "TenPhuCap", nullable = false, unique = true)
     private String tenPhuCap;
-    @Column(name = "MucTien", nullable = false)
-    private Double mucTien;
+
+    @Column(name = "LoaiPhuCap", nullable = false)
+    private String loaiPhuCap;
+
+    @Column(name = "MucPhuCap", nullable = false)
+    private Double mucPhuCap;
 
     @Column(name = "MoTa")
     private String moTa;
@@ -43,12 +47,12 @@ public class PhuCap {
         this.tenPhuCap = tenPhuCap;
     }
 
-    public Double getMucTien() {
-        return mucTien;
+    public Double getMucPhuCap() {
+        return mucPhuCap;
     }
 
-    public void setMucTien(Double mucTien) {
-        this.mucTien = mucTien;
+    public void setMucPhuCap(Double mucPhuCap) {
+        this.mucPhuCap = mucPhuCap;
     }
 
     public String getMoTa() {
@@ -58,29 +62,4 @@ public class PhuCap {
     public void setMoTa(String moTa) {
         this.moTa = moTa;
     }
-
-    public LocalDate getNgayBatDau() {
-        return ngayBatDau;
-    }
-
-    public void setNgayBatDau(LocalDate ngayBatDau) {
-        this.ngayBatDau = ngayBatDau;
-    }
-
-    public LocalDate getNgayKetThuc() {
-        return ngayKetThuc;
-    }
-
-    public void setNgayKetThuc(LocalDate ngayKetThuc) {
-        this.ngayKetThuc = ngayKetThuc;
-    }
-
-    @Column(name = "LoaiPhuCap", nullable = false)
-    private String loaiPhuCap;
-
-    @Column(name = "NgayBatDau")
-    private LocalDate ngayBatDau;
-
-    @Column(name = "NgayKetThuc")
-    private LocalDate ngayKetThuc;
 }

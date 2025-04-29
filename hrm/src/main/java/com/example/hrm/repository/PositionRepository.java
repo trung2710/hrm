@@ -17,10 +17,13 @@ public interface PositionRepository extends JpaRepository<ChucVu, Integer> {
     List<ChucVu> findAllPositions();
 
     @Query(value = "SELECT * FROM ChucVu WHERE id = :id", nativeQuery = true)
-    ChucVu findPositionById(@Param("id") int id);
+    ChucVu findById(@Param("id") int id);
+
+    @Query(value = "SELECT c FROM ChucVu c WHERE c.tenChucVu = :name ")
+    ChucVu findByName(@Param("name") String name);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM ChucVu WHERE id = :id", nativeQuery = true)
-    void deletePositionById(@Param("id") int id);
+    void deleteById(@Param("id") int id);
 }

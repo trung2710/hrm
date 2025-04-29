@@ -25,14 +25,25 @@ public class PhongBan {
     private Integer soNhanVien;
 
     @OneToMany(mappedBy = "phongBan")
-    private List<NhanVien> nhanViens;
+    private List<ChucVu> chucVus;
 
-    public List<NhanVien> getNhanViens() {
-        return nhanViens;
+    @OneToMany(mappedBy = "phongBan")
+    private List<DuAn>duAns;
+
+    public List<DuAn> getDuAns() {
+        return duAns;
     }
 
-    public void setNhanViens(List<NhanVien> nhanViens) {
-        this.nhanViens = nhanViens;
+    public void setDuAns(List<DuAn> duAns) {
+        this.duAns = duAns;
+    }
+
+    public List<ChucVu> getChucVus() {
+        return chucVus;
+    }
+
+    public void setChucVus(List<ChucVu> chucVus) {
+        this.chucVus = chucVus;
     }
 
     public String getTenTruongPhong() {

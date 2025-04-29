@@ -20,38 +20,38 @@ public class NhanVien {
     @NotNull
     @Size(min=3, message="ho ten phai co toi thieu 3 ki tu")
     @Column(name = "HoTen", nullable = false)
-    private String HoTen;
+    private String hoTen;
     @Column(name = "GioiTinh")
-    private String GioiTinh;
+    private String gioiTinh;
     @Column(name = "NgaySinh")
-    private LocalDate NgaySinh;
+    private LocalDate ngaySinh;
     @Column(name = "CCCD", unique = true)
-    private String CCCD;
+    private String cccd;
     @Column(name = "TrinhDoHocVan")
-    private String HocVan;
+    private String hocVan;
     @Column(name = "DiaChi")
-    private String DiaChi;
+    private String diaChi;
     @Column(name = "SoNgayPhep")
-    private Integer SoNgayPhep=12;
+    private Integer soNgayPhep=12;
     @Column(name = "ThamNien")
-    private Integer ThamNien;
+    private Integer thamNien;
     @Column(name = "TrangThaiLamViec")
-    private String TrangThai;
+    private String trangThai;
     
     @NotNull
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @Column(name = "Email", unique = true)
-    private String Email;
+    private String email;
     
     @NotNull
     @Size(min=7,message="Vui long nhap day du so dien thoai")
     @Column(name = "SDT")
-    private String SoDienThoai;
+    private String soDienThoai;
 
     @NotNull
     @Size(min=3, message="Password phai co toi thieu 3 ki tu")
     @Column(name = "MatKhau")
-    private String Password;
+    private String password;
     @Column(name = "LuongHienTai", nullable = false)
     private BigDecimal luongHienTai;
 
@@ -63,9 +63,6 @@ public class NhanVien {
     @JoinColumn(name = "MaChucVu", referencedColumnName = "MaChucVu")
     private ChucVu chucVu;
 
-    @ManyToOne
-    @JoinColumn(name = "MaPhongBan", referencedColumnName = "MaPhongBan")
-    private PhongBan phongBan;
     
      @OneToMany(mappedBy = "nhanVien")
      List<HopDong> hopDongs;
@@ -103,99 +100,99 @@ public class NhanVien {
     }
 
     public String getHoTen() {
-        return HoTen;
+        return hoTen;
     }
 
     public void setHoTen(String hoTen) {
-        HoTen = hoTen;
+        this.hoTen = hoTen;
     }
 
     public String getGioiTinh() {
-        return GioiTinh;
+        return gioiTinh;
     }
 
     public void setGioiTinh(String gioiTinh) {
-        GioiTinh = gioiTinh;
+        this.gioiTinh = gioiTinh;
     }
 
     public LocalDate getNgaySinh() {
-        return NgaySinh;
+        return ngaySinh;
     }
 
     public void setNgaySinh(LocalDate ngaySinh) {
-        NgaySinh = ngaySinh;
+        this.ngaySinh = ngaySinh;
     }
 
-    public String getCCCD() {
-        return CCCD;
+    public String getCccd() {
+        return cccd;
     }
 
-    public void setCCCD(String CCCD) {
-        this.CCCD = CCCD;
+    public void setCccd(String cccd) {
+        this.cccd = cccd;
     }
 
     public String getHocVan() {
-        return HocVan;
+        return hocVan;
     }
 
     public void setHocVan(String hocVan) {
-        HocVan = hocVan;
+        this.hocVan = hocVan;
     }
 
     public String getDiaChi() {
-        return DiaChi;
+        return diaChi;
     }
 
     public void setDiaChi(String diaChi) {
-        DiaChi = diaChi;
+        this.diaChi = diaChi;
     }
 
     public Integer getSoNgayPhep() {
-        return SoNgayPhep;
+        return soNgayPhep;
     }
 
     public void setSoNgayPhep(Integer soNgayPhep) {
-        SoNgayPhep = soNgayPhep;
+        this.soNgayPhep = soNgayPhep;
     }
 
     public Integer getThamNien() {
-        return ThamNien;
+        return thamNien;
     }
 
     public void setThamNien(Integer thamNien) {
-        ThamNien = thamNien;
+        this.thamNien = thamNien;
     }
 
     public String getTrangThai() {
-        return TrangThai;
+        return trangThai;
     }
 
     public void setTrangThai(String trangThai) {
-        TrangThai = trangThai;
+        this.trangThai = trangThai;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getSoDienThoai() {
-        return SoDienThoai;
+        return soDienThoai;
     }
 
     public void setSoDienThoai(String soDienThoai) {
-        SoDienThoai = soDienThoai;
+        this.soDienThoai = soDienThoai;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public BigDecimal getLuongHienTai() {
@@ -222,13 +219,6 @@ public class NhanVien {
         this.chucVu = chucVu;
     }
 
-    public PhongBan getPhongBan() {
-        return phongBan;
-    }
-
-    public void setPhongBan(PhongBan phongBan) {
-        this.phongBan = phongBan;
-    }
 
     public List<HopDong> getHopDongs() {
         return hopDongs;

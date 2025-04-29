@@ -13,4 +13,5 @@ public interface  DepartmentRepository extends JpaRepository<PhongBan, Integer>{
     PhongBan findById(int id);
     List<PhongBan>findAll();
     void deleteById(Integer id);
+    PhongBan findByTenPhongBan(String name);
 }

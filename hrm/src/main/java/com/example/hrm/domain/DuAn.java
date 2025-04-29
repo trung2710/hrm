@@ -38,6 +38,28 @@ public class DuAn {
     @Column(name = "TrangThai", nullable = false)
     private String trangThai = "Đang triển khai";
 
+    public List<NV_DuAn> getListNhanVien() {
+        return listNhanVien;
+    }
+
+    public void setListNhanVien(List<NV_DuAn> listNhanVien) {
+        this.listNhanVien = listNhanVien;
+    }
+
+    @OneToMany(mappedBy = "duAn")
+    private List<NV_DuAn> listNhanVien;
+
+    @Transient
+    private String nhanViens;
+
+    public String getNhanViens() {
+        return nhanViens;
+    }
+
+    public void setNhanViens(String nhanViens) {
+        this.nhanViens = nhanViens;
+    }
+
     public long getId() {
         return id;
     }
