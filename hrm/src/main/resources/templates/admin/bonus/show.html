@@ -70,72 +70,35 @@
             <table class="table table-bordered" id="bonusTypeTable" width="100%" cellspacing="0">
               <thead>
               <tr>
-                <th>Mã loại</th>
+                <th>Mã thưởng</th>
                 <th>Tên loại thưởng</th>
-                <th>Mô tả</th>
                 <th>Mức thưởng mặc định</th>
-                <th>Loại tính toán</th>
+                <th>Người ra quyết định</th>
                 <th>Thao tác</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>TH001</td>
-                <td>Thưởng thành tích</td>
-                <td>Thưởng cho nhân viên có thành tích xuất sắc</td>
-                <td>2,000,000 VND</td>
-                <td>Cố định</td>
+              <tr th:each="thuong:${thuongs}">
+                <td th:text="${thuong.id}"></td>
+                <td th:text="${thuong.tenThuong}"></td>
+                <td th:text="${#numbers.formatDecimal(thuong.mucThuong, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${thuong.nguoiRaQuyetDinh.ChucVu.tenChucVu}"></td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal">
+                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal"
+                            th:attr="data-id=${thuong.id}, data-ten=${thuong.tenThuong}, data-muc=${thuong.mucThuong}, data-nguoi=${thuong.nguoiRaQuyetDinh.id}">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal">
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal"
+                            th:attr="data-id=${thuong.id}, data-ten=${thuong.tenThuong}, data-muc=${thuong.mucThuong}, data-nguoi=${thuong.nguoiRaQuyetDinh.id}">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td>TH002</td>
-                <td>Thưởng dự án</td>
-                <td>Thưởng hoàn thành dự án đúng tiến độ</td>
-                <td>10%</td>
-                <td>Phần trăm lương</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>TH003</td>
-                <td>Thưởng lễ tết</td>
-                <td>Thưởng nhân dịp lễ tết</td>
-                <td>1,500,000 VND</td>
-                <td>Cố định</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editBonusTypeModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteBonusTypeModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+
               </tbody>
             </table>
           </div>
@@ -211,62 +174,35 @@
                 <th>Mã NV</th>
                 <th>Họ tên</th>
                 <th>Phòng ban</th>
-                <th>Loại thưởng</th>
+                <th>Chức vụ</th>
+                <th>Mã thưởng</th>
+                <th>Tên thưởng</th>
                 <th>Mức thưởng</th>
                 <th>Ngày thưởng</th>
-                <th>Lý do</th>
-                <th>Trạng thái</th>
                 <th>Thao tác</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>NV001</td>
-                <td>Nguyễn Văn A</td>
-                <td>Kỹ thuật</td>
-                <td>Thưởng thành tích</td>
-                <td>2,000,000 VND</td>
-                <td>15/12/2023</td>
-                <td>Hoàn thành xuất sắc công việc</td>
-                <td><span class="badge bg-success">Đã duyệt</span></td>
+              <tr th:each="nv:${nvThuongList}">
+                <td th:text="${nv.nhanVien.id}"></td>
+                <td th:text="${nv.nhanVien.hoTen}"></td>
+                <td th:text="${nv.nhanVien.chucVu.phongBan.tenPhongBan}"></td>
+                <td th:text="${nv.nhanVien.chucVu.tenChucVu}"></td>
+                <td th:text="${nv.thuong.id}"></td>
+                <td th:text="${nv.thuong.tenThuong}"></td>
+                <td th:text="${#numbers.formatDecimal(nv.mucTien, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${nv.ngayThuong}"></td>
                 <td>
                   <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewBonusModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
+
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editBonusModal">
+                            data-bs-toggle="modal" data-bs-target="#editBonusModal"
+                    th:attr="data-id=${nv.thuong.id},data-type=${nv.thuong.tenThuong},data-amount=${nv.mucTien},data-mnv=${nv.nhanVien.id},data-ten=${nv.nhanVien.hoTen}">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteBonusModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV002</td>
-                <td>Trần Thị B</td>
-                <td>Kinh doanh</td>
-                <td>Thưởng dự án</td>
-                <td>3,000,000 VND</td>
-                <td>20/12/2023</td>
-                <td>Hoàn thành dự án trước thời hạn</td>
-                <td><span class="badge bg-warning">Chờ duyệt</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewBonusModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editBonusModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteBonusModal">
+                            data-bs-toggle="modal" data-bs-target="#deleteBonusModal"
+                            th:attr="data-id=${nv.thuong.id},data-type=${nv.thuong.tenThuong},data-amount=${nv.mucTien},data-mnv=${nv.nhanVien.id},data-ten=${nv.nhanVien.hoTen}">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -324,55 +260,44 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="bonusTypeId" class="form-label">Mã loại thưởng <span
-                    class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="bonusTypeId" placeholder="Mã loại thưởng"
-                   required>
-          </div>
+        <form method="post" th:action="@{/bonus/create}">
           <div class="mb-3">
             <label for="bonusTypeName" class="form-label">Tên loại thưởng <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="bonusTypeName" placeholder="Tên loại thưởng"
+            <input type="text" class="form-control" id="bonusTypeName" placeholder="Tên loại thưởng" name="ten"
                    required>
           </div>
           <div class="mb-3">
-            <label for="bonusTypeDescription" class="form-label">Mô tả</label>
-            <textarea class="form-control" id="bonusTypeDescription" rows="3"
-                      placeholder="Mô tả loại thưởng"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="calculationType" class="form-label">Loại tính toán <span
+            <label for="calculationType" class="form-label">Người ra quyết định<span
                     class="text-danger">*</span></label>
-            <select class="form-select" id="calculationType" required>
-              <option value="">Chọn loại tính toán</option>
-              <option value="1">Cố định</option>
-              <option value="2">Phần trăm lương</option>
+            <select class="form-select" id="calculationType" name="id" required>
+              <option value="">Chọn người ra quyết định</option>
+              <option th:each="nhanVien : ${qds}"
+                      th:value="${nhanVien.id}"
+                      th:text="${nhanVien.hoTen + ' - ' + nhanVien.chucVu.tenChucVu}">
+              </option>
             </select>
           </div>
           <div class="mb-3">
             <label for="defaultAmount" class="form-label">Mức thưởng mặc định <span
                     class="text-danger">*</span></label>
             <div class="input-group">
-              <input type="number" class="form-control" id="defaultAmount"
+              <input type="number" class="form-control" id="defaultAmount" name="tien"
                      placeholder="Mức thưởng mặc định" required>
-              <select class="form-select" style="max-width: 100px;">
-                <option value="VND">VND</option>
-                <option value="%">%</option>
-              </select>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
-      </div>
+
     </div>
   </div>
 </div>
 
+<!-- Edit Bonus Type Modal -->
 <!-- Edit Bonus Type Modal -->
 <div class="modal fade" id="editBonusTypeModal" tabindex="-1" aria-labelledby="editBonusTypeModalLabel"
      aria-hidden="true">
@@ -383,49 +308,43 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/bonus/update}">
           <div class="mb-3">
             <label for="editBonusTypeId" class="form-label">Mã loại thưởng <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editBonusTypeId" value="TH001" readonly>
+            <input type="text" class="form-control" id="editBonusTypeId" name="ma" readonly>
           </div>
           <div class="mb-3">
             <label for="editBonusTypeName" class="form-label">Tên loại thưởng <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editBonusTypeName" value="Thưởng thành tích"
+            <input type="text" class="form-control" id="editBonusTypeName" name="ten"
                    required>
           </div>
+
           <div class="mb-3">
-            <label for="editBonusTypeDescription" class="form-label">Mô tả</label>
-            <textarea class="form-control" id="editBonusTypeDescription"
-                      rows="3">Thưởng cho nhân viên có thành tích xuất sắc</textarea>
-          </div>
-          <div class="mb-3">
-            <label for="editCalculationType" class="form-label">Loại tính toán <span
+            <label for="editBonusTypeAmount" class="form-label">Người ra quyết định<span
                     class="text-danger">*</span></label>
-            <select class="form-select" id="editCalculationType" required>
-              <option value="">Chọn loại tính toán</option>
-              <option value="1" selected>Cố định</option>
-              <option value="2">Phần trăm lương</option>
+            <select class="form-select" id="editBonusTypeAmount" name="id" required>
+              <option value="">Chọn người ra quyết định</option>
+              <option th:each="nhanVien : ${nhanVienList}"
+                      th:value="${nhanVien.id}"
+                      th:text="${nhanVien.hoTen + ' - ' + nhanVien.chucVu.tenChucVu}">
+              </option>
             </select>
           </div>
           <div class="mb-3">
             <label for="editDefaultAmount" class="form-label">Mức thưởng mặc định <span
                     class="text-danger">*</span></label>
             <div class="input-group">
-              <input type="number" class="form-control" id="editDefaultAmount" value="2000000"
+              <input type="number" class="form-control" id="editDefaultAmount" name="tien"
                      required>
-              <select class="form-select" style="max-width: 100px;">
-                <option value="VND" selected>VND</option>
-                <option value="%">%</option>
-              </select>
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
       </div>
     </div>
   </div>
@@ -445,13 +364,22 @@
         <p class="text-danger">Lưu ý: Việc xóa loại thưởng sẽ ảnh hưởng đến tất cả các khoản thưởng của nhân
           viên thuộc loại này.</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/bonus/delete}">
+        <input type="hidden" id="deleteBonusTypeId" name="id">
+        <label for="deleteBonusTypeName" class="form-label">Tên loại thưởng <span
+                class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="deleteBonusTypeName" placeholder="Tên loại thưởng"
+               readonly>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+
 
 <!-- Add Employee Bonus Modal -->
 <div class="modal fade" id="addBonusModal" tabindex="-1" aria-labelledby="addBonusModalLabel" aria-hidden="true">
@@ -462,72 +390,38 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/bonus/create/employee}">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="employee" class="form-label">Nhân viên <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="employee" required>
+              <select class="form-select" id="employee" name="id" required>
                 <option value="">Chọn nhân viên</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
+                <option th:each="nhanVien : ${nhanVienList}"
+                        th:value="${nhanVien.id}"
+                        th:text="${nhanVien.hoTen + ' - ' + nhanVien.cccd}">
+                </option>
               </select>
             </div>
             <div class="col-md-6">
               <label for="bonusType" class="form-label">Loại thưởng <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="bonusType" required>
+              <select class="form-select" id="bonusType" name="ma" required>
                 <option value="">Chọn loại thưởng</option>
-                <option value="1">Thưởng thành tích</option>
-                <option value="2">Thưởng dự án</option>
-                <option value="3">Thưởng lễ tết</option>
+                <option th:each="thuong : ${thuongs}"
+                        th:value="${thuong.id}"
+                        th:text="${thuong.tenThuong}">
+                </option>
               </select>
             </div>
           </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="bonusAmount" class="form-label">Mức thưởng <span
-                      class="text-danger">*</span></label>
-              <div class="input-group">
-                <input type="number" class="form-control" id="bonusAmount" placeholder="Mức thưởng"
-                       required>
-                <select class="form-select" style="max-width: 100px;">
-                  <option value="VND">VND</option>
-                  <option value="%">%</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="bonusDate" class="form-label">Ngày thưởng <span
-                      class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="bonusDate" required>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="reason" class="form-label">Lý do thưởng <span
-                    class="text-danger">*</span></label>
-            <textarea class="form-control" id="reason" rows="3" placeholder="Nhập lý do thưởng"
-                      required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="approver" class="form-label">Người phê duyệt</label>
-            <select class="form-select" id="approver">
-              <option value="">Chọn người phê duyệt</option>
-              <option value="1">Giám đốc</option>
-              <option value="2">Trưởng phòng nhân sự</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="notes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="notes" rows="2" placeholder="Ghi chú thêm"></textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
-      </div>
+
     </div>
   </div>
 </div>
@@ -541,173 +435,41 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/bonus/update/employee}">
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="editEmployee" class="form-label">Nhân viên <span
+              <label for="editEmployeeMa" class="form-label">Mã nhân viên <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="editEmployee" required>
-                <option value="">Chọn nhân viên</option>
-                <option value="1" selected>Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-              </select>
+              <input type="text" class="form-control" id="editEmployeeMa" name="id" readonly>
             </div>
             <div class="col-md-6">
-              <label for="editBonusType" class="form-label">Loại thưởng <span
+              <label for="editEmployeeTen" class="form-label">Tên nhân viên <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="editBonusType" required>
-                <option value="">Chọn loại thưởng</option>
-                <option value="1" selected>Thưởng thành tích</option>
-                <option value="2">Thưởng dự án</option>
-                <option value="3">Thưởng lễ tết</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="editBonusAmount" class="form-label">Mức thưởng <span
-                      class="text-danger">*</span></label>
-              <div class="input-group">
-                <input type="number" class="form-control" id="editBonusAmount" value="2000000"
-                       required>
-                <select class="form-select" style="max-width: 100px;">
-                  <option value="VND" selected>VND</option>
-                  <option value="%">%</option>
-                </select>
-              </div>
+              <input type="text" class="form-control" id="editEmployeeTen" readonly>
             </div>
             <div class="col-md-6">
-              <label for="editBonusDate" class="form-label">Ngày thưởng <span
+              <label for="editBonusId" class="form-label">Loại thưởng <span
                       class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="editBonusDate" value="2023-12-15" required>
+              <input type="text" class="form-control" id="editBonusId" name="ma" readonly>
+            </div>
+            <div class="col-md-6">
+              <label for="editBonusName" class="form-label">Tên thưởng <span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="editBonusName" readonly>
+            </div>
+            <div class="col-md-6">
+              <label for="editBonusAmount" class="form-label">Mức thưởng<span
+                      class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="editBonusAmount" name="tien" required>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="editReason" class="form-label">Lý do thưởng <span
-                    class="text-danger">*</span></label>
-            <textarea class="form-control" id="editReason" rows="3"
-                      required>Hoàn thành xuất sắc công việc</textarea>
-          </div>
-          <div class="mb-3">
-            <label for="editApprover" class="form-label">Người phê duyệt</label>
-            <select class="form-select" id="editApprover">
-              <option value="">Chọn người phê duyệt</option>
-              <option value="1" selected>Giám đốc</option>
-              <option value="2">Trưởng phòng nhân sự</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="editNotes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="editNotes" rows="2">Đã duyệt và thanh toán</textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- View Employee Bonus Modal -->
-<div class="modal fade" id="viewBonusModal" tabindex="-1" aria-labelledby="viewBonusModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="viewBonusModalLabel">Chi tiết thưởng nhân viên</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row mb-4">
-          <div class="col-md-6">
-            <h6 class="font-weight-bold">Thông tin nhân viên</h6>
-            <table class="table table-bordered">
-              <tbody>
-              <tr>
-                <th width="40%">Mã nhân viên</th>
-                <td>NV001</td>
-              </tr>
-              <tr>
-                <th>Họ tên</th>
-                <td>Nguyễn Văn A</td>
-              </tr>
-              <tr>
-                <th>Phòng ban</th>
-                <td>Kỹ thuật</td>
-              </tr>
-              <tr>
-                <th>Chức vụ</th>
-                <td>Trưởng phòng</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-6">
-            <h6 class="font-weight-bold">Thông tin thưởng</h6>
-            <table class="table table-bordered">
-              <tbody>
-              <tr>
-                <th width="40%">Loại thưởng</th>
-                <td>Thưởng thành tích</td>
-              </tr>
-              <tr>
-                <th>Mức thưởng</th>
-                <td>2,000,000 VND</td>
-              </tr>
-              <tr>
-                <th>Ngày thưởng</th>
-                <td>15/12/2023</td>
-              </tr>
-              <tr>
-                <th>Trạng thái</th>
-                <td><span class="badge bg-success">Đã duyệt</span></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <h6 class="font-weight-bold">Lý do thưởng</h6>
-            <p>Hoàn thành xuất sắc công việc được giao. Đạt các chỉ tiêu đề ra.</p>
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-12">
-            <h6 class="font-weight-bold">Lịch sử thay đổi</h6>
-            <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th>Ngày thay đổi</th>
-                <th>Người thay đổi</th>
-                <th>Nội dung thay đổi</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>15/12/2023</td>
-                <td>Admin</td>
-                <td>Tạo mới khoản thưởng</td>
-              </tr>
-              <tr>
-                <td>16/12/2023</td>
-                <td>Giám đốc</td>
-                <td>Phê duyệt khoản thưởng</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                data-bs-target="#editBonusModal">Chỉnh sửa</button>
-      </div>
     </div>
   </div>
 </div>
@@ -724,10 +486,32 @@
       <div class="modal-body">
         Bạn có chắc chắn muốn xóa khoản thưởng này không? Hành động này không thể hoàn tác.
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/bonus/delete/employee}">
+        <div class="col-md-6">
+          <label for="deleteEmployeeMa" class="form-label">Mã nhân viên <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteEmployeeMa" name="id" readonly>
+        </div>
+        <div class="col-md-6">
+          <label for="deleteEmployeeTen" class="form-label">Tên nhân viên <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteEmployeeTen" readonly>
+        </div>
+        <div class="col-md-6">
+          <label for="deleteBonusId" class="form-label">Loại thưởng <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteBonusId" name="ma" readonly>
+        </div>
+        <div class="col-md-6">
+          <label for="deleteBonusName" class="form-label">Tên thưởng <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteBonusName" readonly>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -757,6 +541,96 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Custom scripts -->
 <script src="/js/script.js"></script>
+<script>
+  // Script xử lý modal chỉnh sửa loại thưởng
+  const editModal = document.getElementById('editBonusTypeModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const muc = button.getAttribute('data-muc');
+    const nguoi = button.getAttribute('data-nguoi') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('editBonusTypeId').value = id;
+    document.getElementById('editBonusTypeName').value = ten;
+    document.getElementById('editDefaultAmount').value = muc;
+
+    // Thiết lập người ra quyết định trong dropdown
+    const personDropdown = document.getElementById('editBonusTypeAmount');
+
+    // Đặt giá trị được chọn dựa vào ID người ra quyết định
+    if (nguoi) {
+      // Tìm và chọn option có value trùng với ID người ra quyết định
+      for (let i = 0; i < personDropdown.options.length; i++) {
+        if (personDropdown.options[i].value === nguoi) {
+          personDropdown.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deleteBonusTypeModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const muc = button.getAttribute('data-muc');
+    const nguoi = button.getAttribute('data-nguoi') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('deleteBonusTypeId').value = id;
+    document.getElementById('deleteBonusTypeName').value = ten;
+    document.getElementById('deleteBonusTypeMa').value =nguoi;
+    document.getElementById('deleteBonusTypeAmount').value = muc;
+  });
+</script>
+
+
+<!--Xu li script cho phan nhanVien_Thuong-->
+
+
+<script>
+  const editEmployeeModal = document.getElementById('editBonusModal');
+  editEmployeeModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const type = button.getAttribute('data-type');
+    const mnv = button.getAttribute('data-mnv');
+    const ten = button.getAttribute('data-ten') || '';
+    const muc = button.getAttribute('data-amount') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('editBonusId').value = id;
+    document.getElementById('editBonusName').value = type;
+    document.getElementById('editEmployeeMa').value = mnv;
+    document.getElementById('editEmployeeTen').value = ten;
+    document.getElementById('editBonusAmount').value = muc;
+  });
+</script>
+<script>
+  const deleteEmployeeModal = document.getElementById('deleteBonusModal');
+  deleteEmployeeModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const type = button.getAttribute('data-type');
+    const mnv = button.getAttribute('data-mnv');
+    const ten = button.getAttribute('data-ten') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('deleteBonusId').value = id;
+    document.getElementById('deleteBonusName').value = type;
+    document.getElementById('deleteEmployeeMa').value = mnv;
+    document.getElementById('deleteEmployeeTen').value = ten;
+  });
+</script>
 </body>
 
 </html>

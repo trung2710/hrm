@@ -2,6 +2,7 @@ package com.example.hrm.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -31,6 +32,17 @@ public class ThongBao {
 
     @Column(name = "DoiTuong")
     private String doiTuong;
+
+    @Transient
+    private List<String> listDoiTuong;
+
+    public List<String> getListDoiTuong() {
+        return listDoiTuong;
+    }
+
+    public void setListDoiTuong(List<String> listDoiTuong) {
+        this.listDoiTuong = listDoiTuong;
+    }
 
     public long getId() {
         return id;

@@ -29,7 +29,7 @@
         <h1 class="h3 mb-0 text-gray-800">Quản lý Đơn từ</h1>
         <div>
           <button class="btn btn-primary shadow-sm" data-bs-toggle="modal"
-                  data-bs-target="#chooseFormModal">
+                  data-bs-target="#addFormModal">
             <i class="bi bi-plus-lg me-1"></i>
             Tạo đơn mới
           </button>
@@ -154,39 +154,44 @@
       <!-- Forms List -->
       <div class="row">
         <!-- Form Card Example - Pending -->
-        <div class="col-lg-6 mb-4">
-          <div class="card form-card pending shadow">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <div class="form-type-icon leave">
-                    <i class="bi bi-calendar-x"></i>
+        <div th:each="form:${forms}">
+          <div class="col-12 mb-4">
+            <div class="card form-card pending shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <div class="form-type-icon leave">
+                      <i class="bi bi-calendar-x"></i>
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="card-title mb-0">Đơn xin nghỉ phép</h5>
-                    <span class="badge bg-warning">Chờ duyệt</span>
-                  </div>
-                  <p class="card-text text-gray-600 mb-2">Nghỉ phép năm - 3 ngày</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                      <i class="bi bi-clock me-1"></i>
-                      Gửi: 23/04/2025 06:43
-                    </small>
-                    <div>
-                      <button class="btn btn-sm btn-info me-1" title="Xem chi tiết"
-                              data-bs-toggle="modal" data-bs-target="#viewFormModal">
-                        <i class="bi bi-eye"></i>
-                      </button>
-                      <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
-                              data-bs-toggle="modal" data-bs-target="#editFormModal">
-                        <i class="bi bi-pencil"></i>
-                      </button>
-                      <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                              data-bs-target="#deleteFormModal">
-                        <i class="bi bi-trash"></i>
-                      </button>
+                  <div class="col">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h5 class="card-title mb-0">[[${form.loaiDon}]]</h5>
+                      <span th:if="${form.trangThai.equals('Chờ duyệt')}" class="badge bg-warning">[[${form.trangThai}]]</span>
+                      <span th:if="${form.trangThai.equals('Đã duyệt')}" class="badge bg-success">[[${form.trangThai}]]</span>
+                      <span th:if="${form.trangThai.equals('Từ chối')}" class="badge bg-danger">[[${form.trangThai}]]</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-muted">
+                        <i class="bi bi-clock me-1"></i>
+                        Gửi: [[${form.ngayGuiDon}]]
+                      </small>
+                      <div>
+                        <button class="btn btn-sm btn-info me-1" title="Xem chi tiết"
+                                data-bs-toggle="modal" data-bs-target="#viewFormModal"
+                        th:attr="data-id=${form.id},data-loai=${form.loaiDon},data-date=${form.ngayGuiDon},data-qd=${form.nguoiPheDuyet.hoTen},data-status=${form.trangThai},data-mnv=${form.nhanVien.id},data-ten=${form.nhanVien.hoTen},data-pb=${form.nhanVien.chucVu.phongBan.tenPhongBan},data-cv=${form.nhanVien.chucVu.tenChucVu},data-email=${form.nhanVien.email}">
+                          <i class="bi bi-eye"></i>
+                        </button>
+<!--                        <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"-->
+<!--                                data-bs-toggle="modal" data-bs-target="#editFormModal">-->
+<!--                          <i class="bi bi-pencil"></i>-->
+<!--                        </button>-->
+                        <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                                data-bs-target="#deleteFormModal"
+                                th:attr="data-id=${form.id},data-loai=${form.loaiDon},data-date=${form.ngayGuiDon},data-qd=${form.nguoiPheDuyet.hoTen},data-mnv=${form.nhanVien.id},data-ten=${form.nhanVien.hoTen},data-pb=${form.nhanVien.chucVu.phongBan.tenPhongBan},data-cv=${form.nhanVien.chucVu.tenChucVu},data-email=${form.nhanVien.email}">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -195,115 +200,6 @@
           </div>
         </div>
 
-        <!-- Form Card Example - Approved -->
-        <div class="col-lg-6 mb-4">
-          <div class="card form-card approved shadow">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <div class="form-type-icon overtime">
-                    <i class="bi bi-alarm"></i>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="card-title mb-0">Đơn làm thêm giờ</h5>
-                    <span class="badge bg-success">Đã duyệt</span>
-                  </div>
-                  <p class="card-text text-gray-600 mb-2">Làm thêm 4 giờ - Dự án HRMS</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                      <i class="bi bi-clock me-1"></i>
-                      Gửi: 22/04/2025 15:30
-                    </small>
-                    <div>
-                      <button class="btn btn-sm btn-info" title="Xem chi tiết"
-                              data-bs-toggle="modal" data-bs-target="#viewFormModal">
-                        <i class="bi bi-eye"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Form Card Example - Rejected -->
-        <div class="col-lg-6 mb-4">
-          <div class="card form-card rejected shadow">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <div class="form-type-icon expense">
-                    <i class="bi bi-currency-dollar"></i>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="card-title mb-0">Đơn thanh toán</h5>
-                    <span class="badge bg-danger">Từ chối</span>
-                  </div>
-                  <p class="card-text text-gray-600 mb-2">Thanh toán chi phí đi lại</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                      <i class="bi bi-clock me-1"></i>
-                      Gửi: 21/04/2025 09:15
-                    </small>
-                    <div>
-                      <button class="btn btn-sm btn-info me-1" title="Xem chi tiết"
-                              data-bs-toggle="modal" data-bs-target="#viewFormModal">
-                        <i class="bi bi-eye"></i>
-                      </button>
-                      <button class="btn btn-sm btn-warning" title="Tạo đơn mới"
-                              data-bs-toggle="modal" data-bs-target="#addFormModal">
-                        <i class="bi bi-plus-lg"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Form Card Example - Draft -->
-        <div class="col-lg-6 mb-4">
-          <div class="card form-card draft shadow">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <div class="form-type-icon complaint">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="card-title mb-0">Đơn khiếu nại</h5>
-                    <span class="badge bg-secondary">Nháp</span>
-                  </div>
-                  <p class="card-text text-gray-600 mb-2">Khiếu nại về điều kiện làm việc</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                      <i class="bi bi-clock me-1"></i>
-                      Cập nhật: 20/04/2025 14:20
-                    </small>
-                    <div>
-                      <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
-                              data-bs-toggle="modal" data-bs-target="#editFormModal">
-                        <i class="bi bi-pencil"></i>
-                      </button>
-                      <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                              data-bs-target="#deleteFormModal">
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Pagination -->
@@ -337,80 +233,6 @@
   </div>
 </div>
 
-<!-- Choose Form Type Modal -->
-<div class="modal fade" id="chooseFormModal" tabindex="-1" aria-labelledby="chooseFormModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="chooseFormModalLabel">Chọn loại đơn</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="form-templates">
-          <div class="row g-4">
-            <div class="col-md-4">
-              <div class="card h-100" data-bs-toggle="modal" data-bs-target="#addFormModal">
-                <div class="card-body text-center">
-                  <div class="form-type-icon leave mx-auto mb-3">
-                    <i class="bi bi-calendar-x"></i>
-                  </div>
-                  <h5 class="card-title">Đơn xin nghỉ phép</h5>
-                  <p class="card-text small text-muted">Đơn xin nghỉ phép, nghỉ ốm, nghỉ không
-                    lương</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100" data-bs-toggle="modal" data-bs-target="#addFormModal">
-                <div class="card-body text-center">
-                  <div class="form-type-icon overtime mx-auto mb-3">
-                    <i class="bi bi-alarm"></i>
-                  </div>
-                  <h5 class="card-title">Đơn làm thêm giờ</h5>
-                  <p class="card-text small text-muted">Đăng ký làm thêm giờ, làm ngày nghỉ</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100" data-bs-toggle="modal" data-bs-target="#addFormModal">
-                <div class="card-body text-center">
-                  <div class="form-type-icon expense mx-auto mb-3">
-                    <i class="bi bi-currency-dollar"></i>
-                  </div>
-                  <h5 class="card-title">Đơn thanh toán</h5>
-                  <p class="card-text small text-muted">Thanh toán chi phí, hoàn tiền</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100" data-bs-toggle="modal" data-bs-target="#addFormModal">
-                <div class="card-body text-center">
-                  <div class="form-type-icon complaint mx-auto mb-3">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </div>
-                  <h5 class="card-title">Đơn khiếu nại</h5>
-                  <p class="card-text small text-muted">Khiếu nại, góp ý, phản hồi</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100" data-bs-toggle="modal" data-bs-target="#addFormModal">
-                <div class="card-body text-center">
-                  <div class="form-type-icon other mx-auto mb-3">
-                    <i class="bi bi-file-text"></i>
-                  </div>
-                  <h5 class="card-title">Đơn khác</h5>
-                  <p class="card-text small text-muted">Các loại đơn từ khác</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Add Form Modal -->
 <div class="modal fade" id="addFormModal" tabindex="-1" aria-labelledby="addFormModalLabel" aria-hidden="true">
@@ -421,65 +243,30 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/form/create}">
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="leaveType" class="form-label">Loại nghỉ phép <span
+              <label for="leaveEmployeeId" class="form-label">Mã nhân viên<span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="leaveType" required>
-                <option value="">Chọn loại nghỉ phép</option>
-                <option value="annual">Nghỉ phép năm</option>
-                <option value="sick">Nghỉ ốm</option>
-                <option value="unpaid">Nghỉ không lương</option>
-                <option value="other">Khác</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="department" class="form-label">Phòng ban</label>
-              <input type="text" class="form-control" id="department" value="Phòng Kỹ thuật" readonly>
+              <input type="text" class="form-control" id="leaveEmployeeId" name="id" readonly>
+              <label for="leaveEmployee" class="form-label">Người gửi đơn<span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="leaveEmployee" readonly>
+              <label for="leaveType" class="form-label">Nội dung của đơn<span
+                      class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="leaveType" name="type" required>
             </div>
           </div>
           <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="startDate" class="form-label">Ngày bắt đầu <span
-                      class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="startDate" required>
-            </div>
-            <div class="col-md-6">
-              <label for="endDate" class="form-label">Ngày kết thúc <span
-                      class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="endDate" required>
-            </div>
           </div>
-          <div class="mb-3">
-            <label for="reason" class="form-label">Lý do <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="reason" rows="3" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="substitute" class="form-label">Người thay thế</label>
-            <select class="form-select" id="substitute">
-              <option value="">Chọn người thay thế</option>
-              <option value="1">Nguyễn Văn A</option>
-              <option value="2">Trần Thị B</option>
-              <option value="3">Lê Văn C</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="attachments" class="form-label">Tài liệu đính kèm</label>
-            <input type="file" class="form-control" id="attachments" multiple>
-            <small class="text-muted">Có thể đính kèm nhiều file (PDF, Word, Excel, hình ảnh)</small>
-          </div>
-          <div class="mb-3">
-            <label for="notes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="notes" rows="2"></textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary">Gửi đơn</button>
+            <button type="submit" class="btn btn-outline-primary">Lưu nháp</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Gửi đơn</button>
-        <button type="button" class="btn btn-outline-primary">Lưu nháp</button>
-      </div>
+
     </div>
   </div>
 </div>
@@ -496,30 +283,19 @@
         <!-- Approval Flow -->
         <div class="approval-flow mb-4">
           <div class="approval-step completed">
-            <div class="step-icon completed">
-              <i class="bi bi-check"></i>
-            </div>
-            <div class="step-label">
-              <small>Nhân viên</small><br>
-              <span>namnamka</span>
-            </div>
           </div>
           <div class="approval-step current">
             <div class="step-icon current">
               <i class="bi bi-person"></i>
             </div>
             <div class="step-label">
-              <small>Trưởng phòng</small><br>
-              <span>Nguyễn Văn A</span>
+              <small>Người ra quyết định</small><br>
+              <span id="viewFormQd"></span>
             </div>
           </div>
           <div class="approval-step">
             <div class="step-icon">
               <i class="bi bi-person"></i>
-            </div>
-            <div class="step-label">
-              <small>Phòng NS</small><br>
-              <span>Trần Thị B</span>
             </div>
           </div>
         </div>
@@ -532,19 +308,19 @@
               <tbody>
               <tr>
                 <th width="35%">Mã đơn</th>
-                <td>NP2025042301</td>
+                <td id="viewFormId"></td>
               </tr>
               <tr>
                 <th>Loại đơn</th>
-                <td>Đơn xin nghỉ phép</td>
+                <td id="viewFormName"></td>
               </tr>
               <tr>
                 <th>Trạng thái</th>
-                <td><span class="badge bg-warning">Chờ duyệt</span></td>
+                <td><span class="badge bg-warning" id="form-status"></span></td>
               </tr>
               <tr>
                 <th>Ngày tạo</th>
-                <td>2025-04-23 06:43:00</td>
+                <td id="viewFormDate"></td>
               </tr>
               </tbody>
             </table>
@@ -555,103 +331,35 @@
               <tbody>
               <tr>
                 <th width="35%">Họ tên</th>
-                <td>Nam Nam Ka</td>
+                <td id="viewFormTen"></td>
               </tr>
               <tr>
                 <th>Phòng ban</th>
-                <td>Phòng Kỹ thuật</td>
+                <td id="viewFormPb"></td>
               </tr>
               <tr>
                 <th>Chức vụ</th>
-                <td>Nhân viên</td>
+                <td id="viewFormCv"></td>
               </tr>
               <tr>
                 <th>Email</th>
-                <td>namnamka@company.com</td>
+                <td id="viewFormEmail"></td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Form Content -->
-        <div class="mb-4">
-          <h6 class="font-weight-bold mb-3">Nội dung đơn</h6>
-          <table class="table table-bordered">
-            <tbody>
-            <tr>
-              <th width="25%">Loại nghỉ phép</th>
-              <td>Nghỉ phép năm</td>
-            </tr>
-            <tr>
-              <th>Thời gian nghỉ</th>
-              <td>Từ 24/04/2025 đến 26/04/2025 (3 ngày)</td>
-            </tr>
-            <tr>
-              <th>Lý do</th>
-              <td>Về quê giải quyết việc gia đình</td>
-            </tr>
-            <tr>
-              <th>Người thay thế</th>
-              <td>Trần Văn D</td>
-            </tr>
-            <tr>
-              <th>Ghi chú</th>
-              <td>Các công việc đã bàn giao cho người thay thế</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <!-- Attachments -->
-        <div class="mb-4">
-          <h6 class="font-weight-bold mb-3">Tài liệu đính kèm</h6>
-          <div class="row">
-            <div class="col-md-4 mb-2">
-              <div class="file-attachment">
-                <i class="bi bi-file-pdf text-danger"></i>
-                <span>bàn_giao_công_việc.pdf</span>
-              </div>
-            </div>
-            <div class="col-md-4 mb-2">
-              <div class="file-attachment">
-                <i class="bi bi-image text-success"></i>
-                <span>giấy_xác_nhận.jpg</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Comments -->
-        <div class="mb-4">
-          <h6 class="font-weight-bold mb-3">Bình luận và phản hồi</h6>
-          <div class="comment-section">
-            <div class="comment">
-              <div class="d-flex justify-content-between">
-                <strong>Trần Văn D (Người thay thế)</strong>
-                <small class="text-muted">2025-04-23 06:45:00</small>
-              </div>
-              <p class="mb-0">Đã nhận bàn giao công việc đầy đủ.</p>
-            </div>
-            <div class="comment">
-              <div class="d-flex justify-content-between">
-                <strong>Nguyễn Văn A (Trưởng phòng)</strong>
-                <small class="text-muted">2025-04-23 06:47:00</small>
-              </div>
-              <p class="mb-0">Đơn đã được xem xét, đang chờ phê duyệt.</p>
-            </div>
-          </div>
-          <div class="mt-3">
-            <textarea class="form-control mb-2" rows="2" placeholder="Thêm bình luận..."></textarea>
-            <button class="btn btn-primary btn-sm">Gửi bình luận</button>
-          </div>
-        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-success">Phê duyệt</button>
-        <button type="button" class="btn btn-danger">Từ chối</button>
-      </div>
+      <form method="post" th:action="@{/form/update}">
+        <input type="hidden" class="form-control" id="viewFormMa" name="id" readonly>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-danger" name="action" value="reject">Từ chối</button>
+            <button type="submit" class="btn btn-success" name="action" value="approve">Phê duyệt</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -668,10 +376,13 @@
       <div class="modal-body">
         <p>Bạn có chắc chắn muốn xóa đơn từ này không? Hành động này không thể hoàn tác.</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/form/delete}">
+        <input type="hidden" class="form-control" id="deleteFormId" name="id" readonly>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -681,5 +392,54 @@
 <!-- Custom scripts -->
 <script src="/js/script.js"></script>
 </body>
+<script>
+  const viewModal = document.getElementById('viewFormModal');
+  viewModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const loai = button.getAttribute('data-loai');
+    const date = button.getAttribute('data-date');
+    const qd = button.getAttribute('data-qd');
+    const mnv = button.getAttribute('data-mnv');
+    const ten = button.getAttribute('data-ten');
+    const pb = button.getAttribute('data-pb');
+    const cv = button.getAttribute('data-cv');
+    const email = button.getAttribute('data-email');
+    const status = button.getAttribute('data-status');
+    // Cập nhật nội dung modal
+    document.getElementById('viewFormId').textContent = id;
+    document.getElementById('viewFormMa').textContent = id;
+    document.getElementById('viewFormName').textContent = loai;
+    document.getElementById('viewFormDate').textContent = date;
+    document.getElementById('viewFormQd').textContent = qd;
+    document.getElementById('viewFormMnv').textContent = mnv;
+    document.getElementById('viewFormTen').textContent = ten;
+    document.getElementById('viewFormPb').textContent = pb;
+    document.getElementById('viewFormCv').textContent = cv;
+    document.getElementById('viewFormEmail').textContent = email;
+    document.getElementById('form-status').textContent = status;
+
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deleteFormModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const loai = button.getAttribute('data-loai');
+    const date = button.getAttribute('data-date');
+    const qd = button.getAttribute('data-qd');
+    const mnv = button.getAttribute('data-mnv');
+    const ten = button.getAttribute('data-ten');
+    const pb = button.getAttribute('data-pb');
+    const cv = button.getAttribute('data-cv');
+    const email = button.getAttribute('data-email');
+    // Cập nhật nội dung modal
+    document.getElementById('deleteFormId').value = id;
+
+  });
+</script>
 
 </html>

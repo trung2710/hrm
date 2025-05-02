@@ -18,7 +18,7 @@
      private NhanVien nhanVien;
 
      @Column(name = "LoaiHopDong", nullable = false)
-     private String LoaiHopDong;
+     private String loaiHopDong;
 
 
      @Column(name = "NgayBatDau", nullable = false)
@@ -44,11 +44,11 @@
      }
 
      public String getLoaiHopDong() {
-         return LoaiHopDong;
+         return loaiHopDong;
      }
 
      public void setLoaiHopDong(String loaiHopDong) {
-         LoaiHopDong = loaiHopDong;
+         this.loaiHopDong = loaiHopDong;
      }
 
      public LocalDate getNgayBatDau() {

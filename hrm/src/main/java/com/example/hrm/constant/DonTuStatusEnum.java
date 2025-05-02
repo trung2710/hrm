@@ -16,4 +16,12 @@ public enum DonTuStatusEnum {
     public String toString() {
         return value;
     }
+    public String getBadgeClass() {
+        switch(this) {
+            case WAITING: return "bg-warning";
+            case APPROVED: return "bg-success";
+            case REFUSE: return "bg-danger";
+            default: return "bg-secondary";
+        }
+    }
 }

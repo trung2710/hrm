@@ -20,11 +20,22 @@ public class NghiPhep {
     private LocalDate ngayBatDau;
     @Column(name = "NgayKetThuc", nullable = false)
     private LocalDate ngayKetThuc;
-    @Column(name = "LiDo", nullable = false)
+    @Column(name = "LyDo", nullable = false)
     @NotNull(message="Vui long dien li do xin nghi")
     private String liDo;
     @Column(name = "TrangThaiPheDuyet")
     private String trangThaiPheDuyet = "Chờ duyệt";
+
+    @Transient
+    private Long soNgay;
+
+    public Long getSoNgay() {
+        return soNgay;
+    }
+
+    public void setSoNgay(Long soNgay) {
+        this.soNgay = soNgay;
+    }
 
     public long getId() {
         return id;

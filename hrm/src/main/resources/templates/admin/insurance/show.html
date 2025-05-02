@@ -20,7 +20,7 @@
   <div class="content-wrapper">
     <!-- Topbar -->
     <div th:replace="~{layout/header :: header}"></div>
-
+    <div th:if="${mess}">[[${mess}]]</div>
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -99,147 +99,43 @@
               <thead>
               <tr>
                 <th>Mã BH</th>
-                <th>Nhân viên</th>
                 <th>Loại bảo hiểm</th>
-                <th>Số thẻ/Sổ</th>
+                <th>Nhân viên</th>
                 <th>Ngày bắt đầu</th>
                 <th>Ngày kết thúc</th>
-                <th>Mức đóng</th>
-                <th>Trạng thái</th>
                 <th>Thao tác</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>BH001</td>
-                <td>Nguyễn Văn A</td>
-                <td>Bảo hiểm xã hội</td>
-                <td>BHXH123456789</td>
-                <td>01/01/2020</td>
-                <td>-</td>
-                <td>8%</td>
-                <td><span class="badge bg-success">Đang hiệu lực</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>BH002</td>
-                <td>Nguyễn Văn A</td>
-                <td>Bảo hiểm y tế</td>
-                <td>BHYT123456789</td>
-                <td>01/01/2020</td>
-                <td>31/12/2023</td>
-                <td>1.5%</td>
-                <td><span class="badge bg-warning text-dark">Sắp hết hạn</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>BH003</td>
-                <td>Trần Thị B</td>
-                <td>Bảo hiểm xã hội</td>
-                <td>BHXH987654321</td>
-                <td>01/03/2021</td>
-                <td>-</td>
-                <td>8%</td>
-                <td><span class="badge bg-success">Đang hiệu lực</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>BH004</td>
-                <td>Trần Thị B</td>
-                <td>Bảo hiểm y tế</td>
-                <td>BHYT987654321</td>
-                <td>01/03/2021</td>
-                <td>31/12/2023</td>
-                <td>1.5%</td>
-                <td><span class="badge bg-warning text-dark">Sắp hết hạn</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>BH005</td>
-                <td>Lê Văn C</td>
-                <td>Bảo hiểm thất nghiệp</td>
-                <td>BHTN123456</td>
-                <td>15/05/2022</td>
-                <td>-</td>
-                <td>1%</td>
-                <td><span class="badge bg-success">Đang hiệu lực</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewInsuranceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editInsuranceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+              <div th:each="baoHiem : ${bhs}">
+                <tr>
+                  <th th:text="${baoHiem.id}"></th>
+                  <td th:text="${baoHiem.tenBaoHiem}"></td>
+                  <td th:text="${baoHiem.nhanVien.hoTen}"></td>
+                  <td th:text="${baoHiem.ngayBatDau}"></td>
+                  <td th:text="${baoHiem.ngayHetHan}"></td>
+                  <td>
+                    <div class="d-flex">
+                      <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
+                              data-bs-toggle="modal" data-bs-target="#viewInsuranceModal"
+                              th:attr="data-id=${baoHiem.id}, data-ten=${baoHiem.tenBaoHiem}, data-sta=${baoHiem.ngayBatDau}, data-end=${baoHiem.ngayHetHan},data-tenNv=${baoHiem.nhanVien.hoTen}, data-idNv=${baoHiem.nhanVien.id}, data-chuvuNv=${baoHiem.nhanVien.chucVu.tenChucVu}, data-pb=${baoHiem.nhanVien.chucVu.phongBan.tenPhongBan}">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                              data-bs-toggle="modal" data-bs-target="#editInsuranceModal"
+                              th:attr="data-id=${baoHiem.id}, data-ten=${baoHiem.tenBaoHiem}, data-nv=${baoHiem.nhanVien.hoTen}, data-sta=${baoHiem.ngayBatDau}, data-end=${baoHiem.ngayHetHan}">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                              data-bs-toggle="modal" data-bs-target="#deleteInsuranceModal"
+                              th:attr="data-id=${baoHiem.id}, data-ten=${baoHiem.tenBaoHiem}, data-nv=${baoHiem.nhanVien.hoTen}, data-sta=${baoHiem.ngayBatDau}, data-end=${baoHiem.ngayHetHan}">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </div>
+
               </tbody>
             </table>
           </div>
@@ -294,24 +190,17 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/insurance/create}">
           <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="insuranceId" class="form-label">Mã bảo hiểm <span
-                      class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="insuranceId" placeholder="Mã bảo hiểm"
-                     required>
-            </div>
             <div class="col-md-6">
               <label for="employee" class="form-label">Nhân viên <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="employee" required>
+              <select class="form-select" name="id" id="employee" required>
                 <option value="">Chọn nhân viên</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-                <option value="4">Phạm Thị D</option>
-                <option value="5">Hoàng Văn E</option>
+                <option th:each="nhanVien : ${nhanViens}"
+                        th:value="${nhanVien.id}"
+                        th:text="${nhanVien.hoTen + ' - ' + nhanVien.cccd}">
+                </option>
               </select>
             </div>
           </div>
@@ -319,59 +208,27 @@
             <div class="col-md-6">
               <label for="insuranceType" class="form-label">Loại bảo hiểm <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="insuranceType" required>
-                <option value="">Chọn loại bảo hiểm</option>
-                <option value="1">Bảo hiểm xã hội</option>
-                <option value="2">Bảo hiểm y tế</option>
-                <option value="3">Bảo hiểm thất nghiệp</option>
-                <option value="4">Bảo hiểm tai nạn</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="insuranceNumber" class="form-label">Số thẻ/Sổ <span
-                      class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="insuranceNumber"
-                     placeholder="Số thẻ/Sổ bảo hiểm" required>
+              <input type="text" class="form-control" name="ten" id="insuranceType"
+                     placeholder="Loai bao hiem" required>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="startDate" class="form-label">Ngày bắt đầu <span
                       class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="startDate" required>
+              <input type="date" class="form-control" name="sta" id="startDate" required>
             </div>
             <div class="col-md-6">
               <label for="endDate" class="form-label">Ngày kết thúc</label>
-              <input type="date" class="form-control" id="endDate">
+              <input type="date" class="form-control" name="end" id="endDate">
               <div class="form-text">Để trống nếu không có ngày kết thúc</div>
             </div>
           </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="contributionRate" class="form-label">Mức đóng (%) <span
-                      class="text-danger">*</span></label>
-              <input type="number" class="form-control" id="contributionRate" placeholder="Mức đóng"
-                     step="0.1" required>
-            </div>
-            <div class="col-md-6">
-              <label for="status" class="form-label">Trạng thái <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="status" required>
-                <option value="1">Đang hiệu lực</option>
-                <option value="2">Sắp hết hạn</option>
-                <option value="3">Đã hết hạn</option>
-              </select>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="notes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="notes" rows="3" placeholder="Ghi chú"></textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
       </div>
     </div>
   </div>
@@ -387,85 +244,45 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/insurance/update}">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="editInsuranceId" class="form-label">Mã bảo hiểm <span
                       class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="editInsuranceId" value="BH001" readonly>
+              <input type="text" class="form-control" name="id" id="editInsuranceId" readonly>
             </div>
             <div class="col-md-6">
               <label for="editEmployee" class="form-label">Nhân viên <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="editEmployee" required>
-                <option value="">Chọn nhân viên</option>
-                <option value="1" selected>Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-                <option value="4">Phạm Thị D</option>
-                <option value="5">Hoàng Văn E</option>
-              </select>
+              <input type="text" class="form-control" id="editEmployee" readonly>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="editInsuranceType" class="form-label">Loại bảo hiểm <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="editInsuranceType" required>
-                <option value="">Chọn loại bảo hiểm</option>
-                <option value="1" selected>Bảo hiểm xã hội</option>
-                <option value="2">Bảo hiểm y tế</option>
-                <option value="3">Bảo hiểm thất nghiệp</option>
-                <option value="4">Bảo hiểm tai nạn</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="editInsuranceNumber" class="form-label">Số thẻ/Sổ <span
-                      class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="editInsuranceNumber" value="BHXH123456789"
-                     required>
+              <input type="text" class="form-control" name="ten" id="editInsuranceType" required>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="editStartDate" class="form-label">Ngày bắt đầu <span
                       class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="editStartDate" value="2020-01-01" required>
+              <input type="date" class="form-control" name="sta" id="editStartDate" value="2020-01-01" required>
             </div>
             <div class="col-md-6">
               <label for="editEndDate" class="form-label">Ngày kết thúc</label>
-              <input type="date" class="form-control" id="editEndDate">
+              <input type="date" class="form-control" name="end" id="editEndDate">
               <div class="form-text">Để trống nếu không có ngày kết thúc</div>
             </div>
           </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="editContributionRate" class="form-label">Mức đóng (%) <span
-                      class="text-danger">*</span></label>
-              <input type="number" class="form-control" id="editContributionRate" value="8" step="0.1"
-                     required>
-            </div>
-            <div class="col-md-6">
-              <label for="editStatus" class="form-label">Trạng thái <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="editStatus" required>
-                <option value="1" selected>Đang hiệu lực</option>
-                <option value="2">Sắp hết hạn</option>
-                <option value="3">Đã hết hạn</option>
-              </select>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="editNotes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="editNotes"
-                      rows="3">Bảo hiểm bắt buộc theo quy định của nhà nước</textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-      </div>
+
     </div>
   </div>
 </div>
@@ -487,23 +304,11 @@
               <tbody>
               <tr>
                 <th width="40%">Mã bảo hiểm</th>
-                <td>BH001</td>
+                <td id="viewInsuranceId"></td>
               </tr>
               <tr>
                 <th>Loại bảo hiểm</th>
-                <td>Bảo hiểm xã hội</td>
-              </tr>
-              <tr>
-                <th>Số thẻ/Sổ</th>
-                <td>BHXH123456789</td>
-              </tr>
-              <tr>
-                <th>Mức đóng</th>
-                <td>8%</td>
-              </tr>
-              <tr>
-                <th>Trạng thái</th>
-                <td><span class="badge bg-success">Đang hiệu lực</span></td>
+                <td id="viewInsuranceName"></td>
               </tr>
               </tbody>
             </table>
@@ -514,19 +319,15 @@
               <tbody>
               <tr>
                 <th width="40%">Ngày bắt đầu</th>
-                <td>01/01/2020</td>
+                <td id="viewInsuranceSta"></td>
               </tr>
               <tr>
                 <th>Ngày kết thúc</th>
-                <td>-</td>
+                <td id="viewInsuranceEnd"></td>
               </tr>
               <tr>
                 <th>Thời gian hiệu lực</th>
-                <td>3 năm 11 tháng</td>
-              </tr>
-              <tr>
-                <th>Ngày cập nhật</th>
-                <td>15/10/2023</td>
+
               </tr>
               </tbody>
             </table>
@@ -540,32 +341,25 @@
               <tbody>
               <tr>
                 <th width="20%">Mã nhân viên</th>
-                <td>NV001</td>
+                <td id="viewInsuranceMa"></td>
               </tr>
               <tr>
                 <th>Họ tên</th>
-                <td>Nguyễn Văn A</td>
+                <td id="viewInsuranceTen"></td>
               </tr>
               <tr>
                 <th>Phòng ban</th>
-                <td>Kỹ thuật</td>
+                <td id="viewInsurancePb"></td>
               </tr>
               <tr>
                 <th>Chức vụ</th>
-                <td>Trưởng phòng</td>
+                <td id="viewInsuranceChuVu"></td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-12">
-            <h6 class="font-weight-bold">Ghi chú</h6>
-            <p>Bảo hiểm bắt buộc theo quy định của nhà nước. Nhân viên đã đóng đầy đủ các khoản bảo hiểm
-              theo quy định.</p>
-          </div>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -588,10 +382,31 @@
       <div class="modal-body">
         Bạn có chắc chắn muốn xóa bảo hiểm này không? Hành động này không thể hoàn tác.
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/insurance/delete}">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="deleteInsuranceId" class="form-label">Mã bảo hiểm <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="id" id="deleteInsuranceId" readonly>
+          </div>
+          <div class="col-md-6">
+            <label for="deleteEmployee" class="form-label">Nhân viên <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="deleteEmployee" readonly>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="deleteInsuranceType" class="form-label">Loại bảo hiểm <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="deleteInsuranceType" readonly>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -619,6 +434,69 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/js/script.js"></script>
+<script>
+  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
+  const viewModal = document.getElementById('viewInsuranceModal');
+  viewModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const maNv = button.getAttribute('data-idNv');
+    const tenNv = button.getAttribute('data-tenNv');
+    const chucvuNv = button.getAttribute('data-chucvuNv');
+    const pb = button.getAttribute('data-pb');
+    const sta = button.getAttribute('data-sta');
+    const end = button.getAttribute('data-end');
+
+    // Cập nhật nội dung modal
+    document.getElementById('viewInsuranceId').textContent = id;
+    document.getElementById('viewInsuranceName').textContent = ten;
+    document.getElementById('viewInsuranceTen').textContent = tenNv;
+    document.getElementById('viewInsuranceMa').textContent = maNv;
+    document.getElementById('viewInsuranceChucVu').textContent = chucvuNv;
+    document.getElementById('viewInsurancePb').textContent = pb;
+    document.getElementById('viewInsuranceSta').textContent = sta;
+    document.getElementById('viewInsuranceEnd').textContent = end;
+
+    // Nếu có dữ liệu nhân viên hoặc dự án động, có thể cập nhật tại đây
+    // Ví dụ: document.getElementById('viewEmployeeList').innerHTML = ...;
+  });
+</script>
+<script>
+  const editModal = document.getElementById('editInsuranceModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const nhanVien = button.getAttribute('data-nv') || '';
+    const startDate = button.getAttribute('data-sta') || '';
+    const endDate = button.getAttribute('data-end') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('editInsuranceId').value = id;
+    document.getElementById('editInsuranceType').value = ten;
+    document.getElementById('editEmployee').value = nhanVien;
+    document.getElementById('editStartDate').value = startDate;
+    document.getElementById('editEndDate').value = endDate;
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deleteInsuranceModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const nhanVien = button.getAttribute('data-nv') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('deleteInsuranceId').value = id;
+    document.getElementById('deleteInsuranceType').value = ten;
+    document.getElementById('deleteEmployee').value = nhanVien;
+  });
+</script>
 </body>
 
 </html>

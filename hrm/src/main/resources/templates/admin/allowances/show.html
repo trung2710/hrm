@@ -77,96 +77,23 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>PC001</td>
-                <td>Phụ cấp ăn trưa</td>
-                <td>Phụ cấp ăn trưa hàng tháng cho nhân viên</td>
-                <td>800,000 VND</td>
-                <td>Cố định</td>
+              <tr th:each="phuCap : ${phuCaps}">
+                <td th:text="${phuCap.id}"></td>
+                <td th:text="${phuCap.tenPhuCap}"></td>
+                <td th:text="${phuCap.loaiPhuCap}"></td>
+                <td th:text="${phuCap.moTa}"></td>
+                <td th:text="${#numbers.formatDecimal(phuCap.mucPhuCap, 0, 'COMMA', 0, 'POINT')}"></td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceTypeModal">
+                            data-bs-toggle="modal" data-bs-target="#editAllowanceTypeModal"
+                            th:attr="data-id=${phuCap.id},data-ten=${phuCap.tenPhuCap},data-loai=${phuCap.loaiPhuCap},data-mota=${phuCap.moTa},data-muc=${phuCap.mucPhuCap}"
+                    >
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceTypeModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PC002</td>
-                <td>Phụ cấp xăng xe</td>
-                <td>Phụ cấp xăng xe đi lại hàng tháng</td>
-                <td>500,000 VND</td>
-                <td>Cố định</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceTypeModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceTypeModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PC003</td>
-                <td>Phụ cấp chức vụ</td>
-                <td>Phụ cấp dành cho các vị trí quản lý</td>
-                <td>20%</td>
-                <td>Phần trăm lương</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceTypeModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceTypeModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PC004</td>
-                <td>Phụ cấp điện thoại</td>
-                <td>Phụ cấp cước điện thoại hàng tháng</td>
-                <td>300,000 VND</td>
-                <td>Cố định</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceTypeModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceTypeModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>PC005</td>
-                <td>Phụ cấp thâm niên</td>
-                <td>Phụ cấp dựa trên số năm làm việc</td>
-                <td>5% / 5 năm</td>
-                <td>Phần trăm lương</td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceTypeModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceTypeModal">
+                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceTypeModal"
+                            th:attr="data-id=${phuCap.id},data-ten=${phuCap.tenPhuCap},data-loai=${phuCap.loaiPhuCap},data-mota=${phuCap.moTa},data-muc=${phuCap.mucPhuCap}">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -254,136 +181,33 @@
                 <th>Mức phụ cấp</th>
                 <th>Ngày bắt đầu</th>
                 <th>Ngày kết thúc</th>
-                <th>Trạng thái</th>
                 <th>Thao tác</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>NV001</td>
-                <td>Nguyễn Văn A</td>
-                <td>Kỹ thuật</td>
-                <td>Phụ cấp ăn trưa</td>
-                <td>800,000 VND</td>
-                <td>01/01/2023</td>
-                <td>-</td>
-                <td><span class="badge bg-success">Đang áp dụng</span></td>
+              <tr th:each="nv:${nv_phuCaps}">
+                <td th:text="${nv.nhanVien.id}"></td>
+                <td th:text="${nv.nhanVien.hoTen}"></td>
+                <td th:text="${nv.nhanVien.chucVu.phongBan.tenPhongBan}"></td>
+                <td th:text="${nv.phuCap.tenPhuCap}"></td>
+                <td th:text="${#numbers.formatDecimal(nv.mucTien, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${nv.ngayBatDau}"></td>
+                <td th:text="${nv.ngayKetThuc}"></td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewAllowanceModal">
+                            data-bs-toggle="modal" data-bs-target="#viewAllowanceModal"
+                            th:attr="data-id=${nv.nhanVien.id},data-hoten=${nv.nhanVien.hoTen},data-cv=${nv.nhanVien.chucVu.tenChucVu}, data-pb=${nv.nhanVien.chucVu.phongBan.tenPhongBan}, data-loai=${nv.phuCap.tenPhuCap}, data-muc=${#numbers.formatDecimal(nv.mucTien, 0, 'COMMA', 0, 'POINT')}, data-sta=${nv.ngayBatDau}, data-end=${nv.ngayKetThuc}">
                       <i class="bi bi-eye"></i>
                     </button>
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceModal">
+                            data-bs-toggle="modal" data-bs-target="#editAllowanceModal"
+                            th:attr="data-id=${nv.nhanVien.id},data-hoten=${nv.nhanVien.hoTen},data-cv=${nv.nhanVien.chucVu.tenChucVu}, data-pb=${nv.nhanVien.chucVu.phongBan.tenPhongBan}, data-phuCap-id=${nv.phuCap.id},data-loai=${nv.phuCap.tenPhuCap}, data-muc=${nv.mucTien}, data-sta=${nv.ngayBatDau}, data-end=${nv.ngayKetThuc}">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV001</td>
-                <td>Nguyễn Văn A</td>
-                <td>Kỹ thuật</td>
-                <td>Phụ cấp chức vụ</td>
-                <td>3,000,000 VND</td>
-                <td>01/01/2023</td>
-                <td>-</td>
-                <td><span class="badge bg-success">Đang áp dụng</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewAllowanceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV002</td>
-                <td>Trần Thị B</td>
-                <td>Kinh doanh</td>
-                <td>Phụ cấp ăn trưa</td>
-                <td>800,000 VND</td>
-                <td>01/03/2023</td>
-                <td>-</td>
-                <td><span class="badge bg-success">Đang áp dụng</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewAllowanceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV003</td>
-                <td>Lê Văn C</td>
-                <td>Nhân sự</td>
-                <td>Phụ cấp ăn trưa</td>
-                <td>800,000 VND</td>
-                <td>15/05/2023</td>
-                <td>-</td>
-                <td><span class="badge bg-success">Đang áp dụng</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewAllowanceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV004</td>
-                <td>Phạm Thị D</td>
-                <td>Kế toán</td>
-                <td>Phụ cấp ăn trưa</td>
-                <td>800,000 VND</td>
-                <td>01/06/2023</td>
-                <td>-</td>
-                <td><span class="badge bg-success">Đang áp dụng</span></td>
-                <td>
-                  <div class="d-flex">
-                    <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                            data-bs-toggle="modal" data-bs-target="#viewAllowanceModal">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                            data-bs-toggle="modal" data-bs-target="#editAllowanceModal">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceModal">
+                            data-bs-toggle="modal" data-bs-target="#deleteAllowanceModal"
+                            th:attr="data-id=${nv.nhanVien.id},data-hoten=${nv.nhanVien.hoTen},data-cv=${nv.nhanVien.chucVu.tenChucVu}, data-pb=${nv.nhanVien.chucVu.phongBan.tenPhongBan},data-phuCap-id=${nv.phuCap.id}, data-loai=${nv.phuCap.tenPhuCap}, data-muc=${#numbers.formatDecimal(nv.mucTien, 0, 'COMMA', 0, 'POINT')}, data-sta=${nv.ngayBatDau}, data-end=${nv.ngayKetThuc}">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -393,7 +217,6 @@
             </table>
           </div>
           <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>Hiển thị 1 đến 5 của 50 bản ghi</div>
             <nav aria-label="Page navigation">
               <ul class="pagination">
                 <li class="page-item disabled">
@@ -443,50 +266,41 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="allowanceTypeId" class="form-label">Mã loại phụ cấp <span
-                    class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="allowanceTypeId" placeholder="Mã loại phụ cấp"
-                   required>
-          </div>
+        <form method="post" th:action="@{/allowance/create}">
           <div class="mb-3">
             <label for="allowanceTypeName" class="form-label">Tên loại phụ cấp <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="allowanceTypeName"
+            <input type="text" class="form-control" name="ten" id="allowanceTypeName"
                    placeholder="Tên loại phụ cấp" required>
           </div>
           <div class="mb-3">
             <label for="allowanceTypeDescription" class="form-label">Mô tả</label>
-            <textarea class="form-control" id="allowanceTypeDescription" rows="3"
+            <textarea class="form-control" name="mota" id="allowanceTypeDescription" rows="3"
                       placeholder="Mô tả loại phụ cấp"></textarea>
           </div>
           <div class="mb-3">
             <label for="calculationType" class="form-label">Loại tính toán <span
                     class="text-danger">*</span></label>
-            <select class="form-select" id="calculationType" required>
+            <select class="form-select" name="loai" id="calculationType" required>
               <option value="">Chọn loại tính toán</option>
-              <option value="1">Cố định</option>
-              <option value="2">Phần trăm lương</option>
+              <option value="Cố định">Cố định</option>
+              <option value="Có thời hạn">Có thời hạn</option>
+              <option value="Theo phần trăm lương">Theo phần trăm lương</option>
             </select>
           </div>
           <div class="mb-3">
             <label for="defaultAmount" class="form-label">Mức phụ cấp mặc định <span
                     class="text-danger">*</span></label>
             <div class="input-group">
-              <input type="number" class="form-control" id="defaultAmount"
+              <input type="number" class="form-control" name="muc" id="defaultAmount"
                      placeholder="Mức phụ cấp mặc định" required>
-              <select class="form-select" style="max-width: 100px;">
-                <option value="VND">VND</option>
-                <option value="%">%</option>
-              </select>
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
       </div>
     </div>
   </div>
@@ -502,49 +316,46 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/allowance/update}">
           <div class="mb-3">
             <label for="editAllowanceTypeId" class="form-label">Mã loại phụ cấp <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editAllowanceTypeId" value="PC001" readonly>
+            <input type="text" class="form-control" name="id" id="editAllowanceTypeId" readonly>
           </div>
           <div class="mb-3">
             <label for="editAllowanceTypeName" class="form-label">Tên loại phụ cấp <span
                     class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="editAllowanceTypeName" value="Phụ cấp ăn trưa"
+            <input type="text" class="form-control" id="editAllowanceTypeName" name="ten"
                    required>
           </div>
           <div class="mb-3">
-            <label for="editAllowanceTypeDescription" class="form-label">Mô tả</label>
-            <textarea class="form-control" id="editAllowanceTypeDescription"
-                      rows="3">Phụ cấp ăn trưa hàng tháng cho nhân viên</textarea>
+            <label for="editAllowanceTypeNote" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="editAllowanceTypeNote" name="mota"
+                      rows="3"></textarea>
           </div>
           <div class="mb-3">
-            <label for="editCalculationType" class="form-label">Loại tính toán <span
+            <label for="editAllowanceTypeLoai" class="form-label">Loại tính toán <span
                     class="text-danger">*</span></label>
-            <select class="form-select" id="editCalculationType" required>
+            <select class="form-select" id="editAllowanceTypeLoai" name="loai" required>
               <option value="">Chọn loại tính toán</option>
-              <option value="1" selected>Cố định</option>
-              <option value="2">Phần trăm lương</option>
+              <option value="Cố định">Cố định</option>
+              <option value="Có thời hạn">Có thời hạn</option>
+              <option value="Theo phần trăm lương">Theo phần trăm lương</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="editDefaultAmount" class="form-label">Mức phụ cấp mặc định <span
+            <label for="editAllowanceTypeAmount" class="form-label">Mức phụ cấp mặc định <span
                     class="text-danger">*</span></label>
             <div class="input-group">
-              <input type="number" class="form-control" id="editDefaultAmount" value="800000"
+              <input type="number" class="form-control" id="editAllowanceTypeAmount" name="muc"
                      required>
-              <select class="form-select" style="max-width: 100px;">
-                <option value="VND" selected>VND</option>
-                <option value="%">%</option>
-              </select>
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
       </div>
     </div>
   </div>
@@ -564,10 +375,22 @@
         <p class="text-danger">Lưu ý: Việc xóa loại phụ cấp sẽ ảnh hưởng đến tất cả các phụ cấp nhân viên
           thuộc loại này.</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/allowance/delete}">
+        <div class="mb-3">
+          <label for="deleteAllowanceTypeId" class="form-label">Mã loại phụ cấp <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="id" id="deleteAllowanceTypeId" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="deleteAllowanceTypeName" class="form-label">Tên loại phụ cấp <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteAllowanceTypeName" readonly>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -582,77 +405,49 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form  method="post" th:action="@{/allowance/create/employee}">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="employee" class="form-label">Nhân viên <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="employee" required>
+              <select class="form-select" name="id" id="employee" required>
                 <option value="">Chọn nhân viên</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-                <option value="4">Phạm Thị D</option>
-                <option value="5">Hoàng Văn E</option>
+                <option th:each="nhanVien : ${nhanViens}"
+                th:value="${nhanVien.id}"
+                th:text="${nhanVien.hoTen + ' - ' + nhanVien.cccd}">
+                </option>
               </select>
             </div>
             <div class="col-md-6">
               <label for="allowanceType" class="form-label">Loại phụ cấp <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="allowanceType" required>
+              <select class="form-select" id="allowanceType" name="type" required>
                 <option value="">Chọn loại phụ cấp</option>
-                <option value="1">Phụ cấp ăn trưa</option>
-                <option value="2">Phụ cấp xăng xe</option>
-                <option value="3">Phụ cấp chức vụ</option>
-                <option value="4">Phụ cấp điện thoại</option>
-                <option value="5">Phụ cấp thâm niên</option>
+                <option th:each="phuCap : ${phuCaps}"
+                        th:value="${phuCap.id}"
+                        th:text="${phuCap.tenPhuCap}">
+                </option>
               </select>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="allowanceAmount" class="form-label">Mức phụ cấp <span
-                      class="text-danger">*</span></label>
-              <div class="input-group">
-                <input type="number" class="form-control" id="allowanceAmount"
-                       placeholder="Mức phụ cấp" required>
-                <select class="form-select" style="max-width: 100px;">
-                  <option value="VND">VND</option>
-                  <option value="%">%</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="effectiveDate" class="form-label">Ngày bắt đầu <span
-                      class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="effectiveDate" required>
+              <label for="staDate" class="form-label">Ngày bắt đầu</label>
+              <input type="date" class="form-control"  id="staDate" name="sta">
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="endDate" class="form-label">Ngày kết thúc</label>
-              <input type="date" class="form-control" id="endDate">
+              <input type="date" class="form-control" id="endDate" name="end" >
               <div class="form-text">Để trống nếu không có ngày kết thúc</div>
             </div>
-            <div class="col-md-6">
-              <label for="status" class="form-label">Trạng thái <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="status" required>
-                <option value="1">Đang áp dụng</option>
-                <option value="2">Tạm ngưng</option>
-                <option value="3">Đã kết thúc</option>
-              </select>
-            </div>
           </div>
-          <div class="mb-3">
-            <label for="notes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="notes" rows="3" placeholder="Ghi chú"></textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu</button>
       </div>
     </div>
   </div>
@@ -668,78 +463,51 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/allowance/update/employee}">
+          <div class="row mb-3">
+            <label for="editEmployeeId" class="form-label">Mã nhân viên <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editEmployeeId" name="id"
+                   readonly>
+          </div>
+          <div class="col-md-6">
+            <label for="editEmployeeName" class="form-label">Ten nhân viên <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editEmployeeName"
+                   readonly>
+          </div>
+
+          <div class="col-md-6">
+            <label for="editAllowanceTypeMa" class="form-label">Mã phụ cấp <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editAllowanceTypeMa" name="type"
+                   readonly>
+          </div>
+          <div class="col-md-6">
+            <label for="editAllowanceTypeL" class="form-label">Loại phụ cấp <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="editAllowanceTypeL"
+                   readonly>
+          </div>
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="editEmployee" class="form-label">Nhân viên <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="editEmployee" required>
-                <option value="">Chọn nhân viên</option>
-                <option value="1" selected>Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-                <option value="4">Phạm Thị D</option>
-                <option value="5">Hoàng Văn E</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="editAllowanceType" class="form-label">Loại phụ cấp <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="editAllowanceType" required>
-                <option value="">Chọn loại phụ cấp</option>
-                <option value="1" selected>Phụ cấp ăn trưa</option>
-                <option value="2">Phụ cấp xăng xe</option>
-                <option value="3">Phụ cấp chức vụ</option>
-                <option value="4">Phụ cấp điện thoại</option>
-                <option value="5">Phụ cấp thâm niên</option>
-              </select>
+              <label for="editAllowanceStartDate" class="form-label">Ngày bắt đầu</label>
+              <input type="date" class="form-control" id="editAllowanceStartDate" name="sta">
+              <div class="form-text">Để trống nếu không có ngày bắt đầu</div>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="editAllowanceAmount" class="form-label">Mức phụ cấp <span
-                      class="text-danger">*</span></label>
-              <div class="input-group">
-                <input type="number" class="form-control" id="editAllowanceAmount" value="800000"
-                       required>
-                <select class="form-select" style="max-width: 100px;">
-                  <option value="VND" selected>VND</option>
-                  <option value="%">%</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="editEffectiveDate" class="form-label">Ngày bắt đầu <span
-                      class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="editEffectiveDate" value="2023-01-01"
-                     required>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="editEndDate" class="form-label">Ngày kết thúc</label>
-              <input type="date" class="form-control" id="editEndDate">
+              <label for="editAllowanceEndDate" class="form-label">Ngày kết thúc</label>
+              <input type="date" class="form-control" id="editAllowanceEndDate" name="end">
               <div class="form-text">Để trống nếu không có ngày kết thúc</div>
             </div>
-            <div class="col-md-6">
-              <label for="editStatus" class="form-label">Trạng thái <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="editStatus" required>
-                <option value="1" selected>Đang áp dụng</option>
-                <option value="2">Tạm ngưng</option>
-                <option value="3">Đã kết thúc</option>
-              </select>
-            </div>
           </div>
-          <div class="mb-3">
-            <label for="editNotes" class="form-label">Ghi chú</label>
-            <textarea class="form-control" id="editNotes" rows="3">Phụ cấp ăn trưa hàng tháng</textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
       </div>
     </div>
   </div>
@@ -762,19 +530,19 @@
               <tbody>
               <tr>
                 <th width="40%">Mã nhân viên</th>
-                <td>NV001</td>
+                <td id="viewEmployeeId"></td>
               </tr>
               <tr>
                 <th>Họ tên</th>
-                <td>Nguyễn Văn A</td>
+                <td id="viewEmployeeName"></td>
               </tr>
               <tr>
                 <th>Phòng ban</th>
-                <td>Kỹ thuật</td>
+                <td id="viewEmployeePb"></td>
               </tr>
               <tr>
                 <th>Chức vụ</th>
-                <td>Trưởng phòng</td>
+                <td id="viewEmployeeChuVu"></td>
               </tr>
               </tbody>
             </table>
@@ -785,62 +553,28 @@
               <tbody>
               <tr>
                 <th width="40%">Loại phụ cấp</th>
-                <td>Phụ cấp ăn trưa</td>
+                <td id="viewAllowanceType"></td>
               </tr>
               <tr>
                 <th>Mức phụ cấp</th>
-                <td>800,000 VND</td>
+                <td id="viewAllowanceAmount"></td>
               </tr>
               <tr>
                 <th>Ngày bắt đầu</th>
-                <td>01/01/2023</td>
+                <td id="viewAllowanceStartDate"></td>
               </tr>
               <tr>
                 <th>Ngày kết thúc</th>
-                <td>-</td>
-              </tr>
-              <tr>
-                <th>Trạng thái</th>
-                <td><span class="badge bg-success">Đang áp dụng</span></td>
+                <td id="viewAllowanceEndDate"></td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-12">
-            <h6 class="font-weight-bold">Ghi chú</h6>
-            <p>Phụ cấp ăn trưa hàng tháng cho nhân viên. Được thanh toán cùng với lương hàng tháng.</p>
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-12">
-            <h6 class="font-weight-bold">Lịch sử thay đổi</h6>
-            <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th>Ngày thay đổi</th>
-                <th>Người thay đổi</th>
-                <th>Nội dung thay đổi</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>01/01/2023</td>
-                <td>Admin</td>
-                <td>Tạo mới phụ cấp</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                data-bs-target="#editAllowanceModal">Chỉnh sửa</button>
       </div>
     </div>
   </div>
@@ -858,10 +592,37 @@
       <div class="modal-body">
         Bạn có chắc chắn muốn xóa phụ cấp này không? Hành động này không thể hoàn tác.
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
-      </div>
+      <form method="post" th:action="@{/allowance/delete/employee}">
+        <div class="col-md-6">
+        <label for="deleteEmployeeId" class="form-label">Mã nhân viên <span
+                class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="deleteEmployeeId" name="id"
+               readonly>
+        </div>
+        <div class="col-md-6">
+          <label for="deleteEmployeeName" class="form-label">Ten nhân viên <span
+              class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteEmployeeName"
+             readonly>
+        </div>
+
+        <div class="col-md-6">
+          <label for="deleteAllowanceTypeMa" class="form-label">Mã phụ cấp <span
+              class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteAllowanceTypeMa" name="type"
+             readonly>
+        </div>
+        <div class="col-md-6">
+          <label for="deleteAllowanceTypeLoai" class="form-label">Loại phụ cấp <span
+                  class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="deleteAllowanceTypeLoai"
+                 readonly>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -890,6 +651,106 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="/js/script.js"></script>
+<script>
+  const editModal = document.getElementById('editAllowanceTypeModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+    const loai= button.getAttribute('data-loai') || '';
+    const mota=button.getAttribute('data-mota') || '';
+    const muc=button.getAttribute('data-muc') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('editAllowanceTypeId').value = id;
+    document.getElementById('editAllowanceTypeName').value = ten;
+    document.getElementById('editAllowanceTypeLoai').value = loai;
+    document.getElementById('editAllowanceTypeAmount').value = muc;
+    document.getElementById('editAllowanceTypeNote').value = mota;
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deleteAllowanceTypeModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-ten');
+
+    // Điền dữ liệu vào form
+    document.getElementById('deleteAllowanceTypeId').value = id;
+    document.getElementById('deleteAllowanceTypeName').value = ten;
+  });
+</script>
+
+<!--Thao tac voi NhanhVien-PhuCap-->
+<script>
+  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
+  const viewEmployeeModal = document.getElementById('viewAllowanceModal');
+  viewEmployeeModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-hoten');
+    const chucvu = button.getAttribute('data-cv') || 'Chưa có';
+    const pb = button.getAttribute('data-pb') || '0';
+    const loai = button.getAttribute('data-loai');
+    const muc = button.getAttribute('data-muc') || '0';
+    const sta = button.getAttribute('data-sta') || '-';
+    const end = button.getAttribute('data-end') || '-';
+    // Cập nhật nội dung modal
+    document.getElementById('viewEmployeeId').textContent = id;
+    document.getElementById('viewEmployeeName').textContent = ten;
+    document.getElementById('viewEmployeePb').textContent = pb;
+    document.getElementById('viewEmployeeChuVu').textContent = chucvu;
+    document.getElementById('viewAllowanceType').textContent = loai;
+    document.getElementById('viewAllowanceAmount').textContent = muc+" VND";
+    document.getElementById('viewAllowanceStartDate').textContent = sta;
+    document.getElementById('viewAllowanceEndDate').textContent = end;
+
+    // Nếu có dữ liệu nhân viên hoặc dự án động, có thể cập nhật tại đây
+    // Ví dụ: document.getElementById('viewEmployeeList').innerHTML = ...;
+  });
+</script>
+<script>
+  const editEmployeeModal = document.getElementById('editAllowanceModal');
+  editEmployeeModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-hoten');
+    const pc_id = button.getAttribute('data-phuCap-id');
+    const loai = button.getAttribute('data-loai') || '';
+    const sta = button.getAttribute('data-sta') || '-';
+    const end = button.getAttribute('data-end') || '-';
+
+    // Điền dữ liệu vào form
+    document.getElementById('editEmployeeId').value = id;
+    document.getElementById('editEmployeeName').value = ten;
+    document.getElementById('editAllowanceTypeMa').value = pc_id;
+    document.getElementById('editAllowanceTypeL').value = loai;
+    document.getElementById('editAllowanceStartDate').value = sta;
+    document.getElementById('editAllowanceEndDate').value = end;
+  });
+</script>
+<script>
+  const deleteEmployeeModal = document.getElementById('deleteAllowanceModal');
+  deleteEmployeeModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-hoten');
+    const pc_id = button.getAttribute('data-phuCap-id');
+    const loai = button.getAttribute('data-loai') || '';
+
+    // Điền dữ liệu vào form
+    document.getElementById('deleteEmployeeId').value = id;
+    document.getElementById('deleteEmployeeName').value = ten;
+    document.getElementById('deleteAllowanceTypeMa').value = pc_id;
+    document.getElementById('deleteAllowanceTypeLoai').value = loai;
+  });
+</script>
 </body>
 
 </html>

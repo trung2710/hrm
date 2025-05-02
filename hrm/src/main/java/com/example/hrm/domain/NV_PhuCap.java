@@ -1,11 +1,13 @@
 package com.example.hrm.domain;
 
+import com.example.hrm.domain.idClass.NVPhuCapId;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@IdClass(NVPhuCapId.class)
 @Table(name="NV_Phucap")
 public class NV_PhuCap {
     @Id

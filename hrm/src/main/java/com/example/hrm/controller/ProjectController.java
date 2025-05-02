@@ -35,6 +35,8 @@ public class ProjectController {
         }
 
         model.addAttribute("duAns",duAns);
+        DuAn duAn = new DuAn();
+        model.addAttribute("newDuAn",duAn);
         return "admin/project/show";
     }
 

@@ -299,12 +299,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/project/create}" th:object="${newDuAn}">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="projectName" class="form-label">Tên dự án <span
                       class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="projectName" required>
+              <input type="text" class="form-control" id="projectName" th:field="*{tenDuAn}" required>
             </div>
             <div class="col-md-6">
               <label for="projectManager" class="form-label">Người quản lý <span

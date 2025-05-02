@@ -1,11 +1,11 @@
 package com.example.hrm.constant;
 
-public enum ContractStatusEnum {
-    VALID("Còn hiệu lực"),
-    EXPIRED("Hết hạn"),
-    TERMINATE("Chấm dứt");
+public enum ContractTypeEnum {
+    FULLTIME("Fulltime"),
+    PARTTIME("Parttime"),
+    THUVIEC("Probation");
     private String value;
-    ContractStatusEnum(String value) {
+    ContractTypeEnum(String value) {
         this.value = value;
     }
     public String getValue() {
