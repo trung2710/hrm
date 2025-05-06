@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.example.hrm.domain.NhanVien;
 
+import java.util.List;
+
 
 @Repository
 public interface  UserRepository extends JpaRepository<NhanVien, Long>{
@@ -14,4 +16,6 @@ public interface  UserRepository extends JpaRepository<NhanVien, Long>{
     @Query(value="SELECT n FROM NHANVIEN n WHERE n.hoTen= :name", nativeQuery = true)
     NhanVien findByName(@Param("name") String name);
     void deleteById(Long id);
+    NhanVien findByEmail(String email);
+    List<NhanVien> findAll();
 }

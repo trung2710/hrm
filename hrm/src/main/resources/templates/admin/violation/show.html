@@ -1,759 +1,632 @@
-<!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+    <!DOCTYPE html>
+    <html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Vi phạm - Hệ Thống Quản Lý Nhân Sự</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lý Vi phạm - Hệ Thống Quản Lý Nhân Sự</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
 
-<body>
-<div id="wrapper">
-    <!-- Sidebar -->
-    <div th:replace="~{layout/sidebar :: sidebar}"></div>
-
-
-
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Topbar -->
-        <div th:replace="~{layout/header :: header}"></div>
+    <body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Quản lý vi phạm</h1>
-                <div>
-                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm me-2"
-                            data-bs-toggle="modal" data-bs-target="#addViolationTypeModal">
-                        <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm loại vi phạm
-                    </button>
-                    <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
-                            data-bs-target="#addViolationModal">
-                        <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm vi phạm
-                    </button>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Topbar -->
+            <div th:replace="~{layout/header :: header}"></div>
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Quản lý vi phạm</h1>
+                    <div>
+                        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm me-2"
+                                data-bs-toggle="modal" data-bs-target="#addViolationTypeModal">
+                            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm loại vi phạm
+                        </button>
+                        <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
+                                data-bs-target="#addViolationModal">
+                            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm vi phạm
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Violation Types Card -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Danh sách loại vi phạm</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-three-dots-vertical text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Tùy chọn:</div>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+                <!-- Violation Types Card -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Danh sách loại vi phạm</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical text-gray-400"></i>
                             </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-printer me-2"></i>In danh sách
-                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                 aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">Tùy chọn:</div>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-file-excel me-2"></i>Xuất Excel
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-printer me-2"></i>In danh sách
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="violationTypeTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Mã loại</th>
+                                    <th>Tên loại vi phạm</th>
+                                    <th>Hình thức xử lý</th>
+                                    <th>Mức phạt</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="viPham : ${viPhams}">
+                                    <td th:text="${viPham.id}"></td>
+                                    <td th:text="${viPham.loaiViPham}"></td>
+                                    <td th:text="${viPham.hinhThucPhat}"></td>
+                                    <td th:text="${#numbers.formatDecimal(viPham.soTienPhat, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                                                    data-bs-toggle="modal" data-bs-target="#editViolationTypeModal"
+                                                    th:attr="data-id=${viPham.id}, data-loai=${viPham.loaiViPham}, data-mucphat=${viPham.soTienPhat}, data-hinhthuc=${viPham.hinhThucPhat}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteViolationTypeModal"
+                                                    th:attr="data-id=${viPham.id}, data-loai=${viPham.loaiViPham}, data-mucphat=${viPham.soTienPhat}, data-hinhthuc=${viPham.hinhThucPhat}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="violationTypeTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>Mã loại</th>
-                                <th>Tên loại vi phạm</th>
-                                <th>Mô tả</th>
-                                <th>Mức phạt</th>
-                                <th>Hình thức xử lý</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="viPham : ${viPhams}">
-                                <td th:text="${viPham.id}"></td>
-                                <td th:text="${viPham.loaiViPham}"></td>
-                                <td th:text="${viPham.hinhThucPhat}"></td>
-                                <td th:text="${#numbers.formatDecimal(viPham.soTienPhat, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-                                <td>
-                                    <div class="d-flex">
-                                        <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                                                data-bs-toggle="modal" data-bs-target="#editViolationTypeModal"
-                                                th:attr="data-id=${viPham.id}, data-loai=${viPham.loaiViPham}, data-mucphat=${viPham.soTienPhat}, data-hinhthuc=${viPham.hinhThucPhat}">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                                                data-bs-toggle="modal" data-bs-target="#deleteViolationTypeModal"
-                                                th:attr="data-id=${viPham.id}, data-loai=${viPham.loaiViPham}, data-mucphat=${viPham.soTienPhat}, data-hinhthuc=${viPham.hinhThucPhat}">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Search and Filter -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc vi phạm</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select">
-                                <option value="">Loại vi phạm</option>
-                                <option value="1">Vi phạm nội quy</option>
-                                <option value="2">Vi phạm quy trình</option>
-                                <option value="3">Vi phạm kỷ luật nghiêm trọng</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select">
-                                <option value="">Phòng ban</option>
-                                <option value="1">Kỹ thuật</option>
-                                <option value="2">Kinh doanh</option>
-                                <option value="3">Nhân sự</option>
-                                <option value="4">Kế toán</option>
-                                <option value="5">Marketing</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-primary w-100">
-                                <i class="bi bi-search me-1"></i> Tìm kiếm
-                            </button>
+                <!-- Search and Filter -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc vi phạm</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select">
+                                    <option value="">Loại vi phạm</option>
+                                    <option value="1">Vi phạm nội quy</option>
+                                    <option value="2">Vi phạm quy trình</option>
+                                    <option value="3">Vi phạm kỷ luật nghiêm trọng</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select">
+                                    <option value="">Phòng ban</option>
+                                    <option value="1">Kỹ thuật</option>
+                                    <option value="2">Kinh doanh</option>
+                                    <option value="3">Nhân sự</option>
+                                    <option value="4">Kế toán</option>
+                                    <option value="5">Marketing</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary w-100">
+                                    <i class="bi bi-search me-1"></i> Tìm kiếm
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Employee Violations List -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Danh sách vi phạm</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
-                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-three-dots-vertical text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownMenuLink2">
-                            <div class="dropdown-header">Tùy chọn:</div>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+                <!-- Employee Violations List -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Danh sách vi phạm</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical text-gray-400"></i>
                             </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-printer me-2"></i>In danh sách
-                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                 aria-labelledby="dropdownMenuLink2">
+                                <div class="dropdown-header">Tùy chọn:</div>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-file-excel me-2"></i>Xuất Excel
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-printer me-2"></i>In danh sách
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="employeeViolationTable" width="100%"
-                               cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>Mã NV</th>
-                                <th>Họ tên</th>
-                                <th>Phòng ban</th>
-                                <th>Loại vi phạm</th>
-                                <th>Ngày vi phạm</th>
-                                <th>Mức phạt</th>
-                                <th>Trạng thái</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>NV001</td>
-                                <td>Nguyễn Văn A</td>
-                                <td>Kỹ thuật</td>
-                                <td>Vi phạm nội quy</td>
-                                <td>15/12/2023</td>
-                                <td>200,000 VND</td>
-                                <td><span class="badge bg-danger">Chưa xử lý</span></td>
-                                <td>
-                                    <div class="d-flex">
-                                        <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                                                data-bs-toggle="modal" data-bs-target="#viewViolationModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                                                data-bs-toggle="modal" data-bs-target="#editViolationModal">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                                                data-bs-toggle="modal" data-bs-target="#deleteViolationModal">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>NV002</td>
-                                <td>Trần Thị B</td>
-                                <td>Kinh doanh</td>
-                                <td>Vi phạm quy trình</td>
-                                <td>18/12/2023</td>
-                                <td>500,000 VND</td>
-                                <td><span class="badge bg-success">Đã xử lý</span></td>
-                                <td>
-                                    <div class="d-flex">
-                                        <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
-                                                data-bs-toggle="modal" data-bs-target="#viewViolationModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
-                                                data-bs-toggle="modal" data-bs-target="#editViolationModal">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                                                data-bs-toggle="modal" data-bs-target="#deleteViolationModal">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div>Hiển thị 1 đến 2 của 50 bản ghi</div>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="employeeViolationTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Mã NV</th>
+                                    <th>Họ tên</th>
+                                    <th>Phòng ban</th>
+                                    <th>Chức vụ</th>
+                                    <th>Mã vi phạm</th>
+                                    <th>Loại vi phạm</th>
+                                    <th>Ngày vi phạm</th>
+                                    <th>Mô tả</th>
+                                    <th>Hình thức phạt</th>
+                                    <th>Mức phạt</th>
+                                    <th>Ngày ra quyết định</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="nv:${nv_viPhams}">
+                                    <td th:text="${nv.nhanVien.id}"></td>
+                                    <td th:text="${nv.nhanVien.hoTen}"></td>
+                                    <td th:text="${nv.nhanVien.chucVu.phongBan.tenPhongBan}"></td>
+                                    <td th:text="${nv.nhanVien.chucVu.tenChucVu}"></td>
+                                    <th th:text="${nv.viPham.id}"></th>
+                                    <td th:text="${nv.viPham.loaiViPham}"></td>
+                                    <td th:text="${nv.ngayViPham}"></td>
+                                    <td th:text="${nv.moTa}"></td>
+                                    <td th:text="${nv.viPham.hinhThucPhat}"></td>
+                                    <td th:text="${#numbers.formatDecimal(nv.viPham.soTienPhat, 0, 'COMMA', 0, 'POINT')}+ ' VND'"></td>
+                                    <td th:text="${nv.ngayRaQuyetDinh}"></td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                                                    data-bs-toggle="modal" data-bs-target="#editViolationModal"
+                                            th:attr="data-id=${nv.viPham.id},data-type=${nv.viPham.loaiViPham},data-mnv=${nv.nhanVien.id},data-ten=${nv.nhanVien.hoTen},data-date=${nv.ngayViPham}, data-mota=${nv.moTa}, data-tien=${nv.viPham.soTienPhat}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteViolationModal"
+                                                    th:attr="data-id=${nv.viPham.id},data-type=${nv.viPham.loaiViPham},data-mnv=${nv.nhanVien.id},data-ten=${nv.nhanVien.hoTen},data-date=${nv.ngayViPham}, data-mota=${nv.moTa}, data-tien=${nv.viPham.soTienPhat}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>Hiển thị 1 đến 2 của 50 bản ghi</div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Scroll to Top Button -->
-<a class="scroll-to-top rounded" href="#">
-    <i class="bi bi-chevron-up"></i>
-</a>
+    <!-- Scroll to Top Button -->
+    <a class="scroll-to-top rounded" href="#">
+        <i class="bi bi-chevron-up"></i>
+    </a>
 
-<!-- Modals -->
-<!-- Add Violation Type Modal -->
-<div class="modal fade" id="addViolationTypeModal" tabindex="-1" aria-labelledby="addViolationTypeModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addViolationTypeModalLabel">Thêm loại vi phạm mới</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" th:action="@{/violation-type/create}">
-                    <div class="mb-3">
-                        <label for="violationTypeName" class="form-label">Tên loại vi phạm <span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="ten" id="violationTypeName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="violationTypeMuc" class="form-label">Hình thức xử lý <span
-                                class="text-danger">*</span></label>
-                        <!--                        <select class="form-select" id="punishment" required>-->
-                        <!--                            <option value="">Chọn hình thức xử lý</option>-->
-                        <!--                            <option value="1">Phạt tiền</option>-->
-                        <!--                            <option value="2">Cảnh cáo</option>-->
-                        <!--                            <option value="3">Kỷ luật</option>-->
-                        <!--                            <option value="4">Sa thải</option>-->
-                        <!--                        </select>-->
-                        <input type="text" class="form-control" name="hinhThuc" id="violationTypeMuc" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="penalty" class="form-label">Mức phạt <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="soTien" id="penalty" required>
-                            <span class="input-group-text">VND</span>
+    <!-- Modals -->
+    <!-- Add Violation Type Modal -->
+    <div class="modal fade" id="addViolationTypeModal" tabindex="-1" aria-labelledby="addViolationTypeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addViolationTypeModalLabel">Thêm loại vi phạm mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/violation-type/create}">
+                        <div class="mb-3">
+                            <label for="violationTypeName" class="form-label">Tên loại vi phạm <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="ten" id="violationTypeName" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="violationTypeMuc" class="form-label">Hình thức xử lý <span
+                                    class="text-danger">*</span></label>
+                            <!--                        <select class="form-select" id="punishment" required>-->
+                            <!--                            <option value="">Chọn hình thức xử lý</option>-->
+                            <!--                            <option value="1">Phạt tiền</option>-->
+                            <!--                            <option value="2">Cảnh cáo</option>-->
+                            <!--                            <option value="3">Kỷ luật</option>-->
+                            <!--                            <option value="4">Sa thải</option>-->
+                            <!--                        </select>-->
+                            <input type="text" class="form-control" name="hinhThuc" id="violationTypeMuc" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="penalty" class="form-label">Mức phạt <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="soTien" id="penalty" required>
+                                <span class="input-group-text">VND</span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Violation Type Modal -->
+    <div class="modal fade" id="editViolationTypeModal" tabindex="-1" aria-labelledby="editViolationTypeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editViolationTypeModalLabel">Chỉnh sửa loại vi phạm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/violation-type/update}">
+                        <div class="mb-3">
+                            <label for="editViolationTypeId" class="form-label">Mã loại vi phạm</label>
+                            <input type="text" class="form-control" name="id" id="editViolationTypeId" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editViolationTypeName" class="form-label">Tên loại vi phạm <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="ten" id="editViolationTypeName"
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editViolationTypeDescription" class="form-label">Hình thức phạt</label>
+                            <input class="form-control" name="hinhThuc" id="editViolationTypeDescription"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPenalty" class="form-label">Mức phạt <span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="soTien" id="editPenalty" value="200000" required>
+                                <span class="input-group-text">VND</span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Violation Type Modal -->
+    <div class="modal fade" id="deleteViolationTypeModal" tabindex="-1" aria-labelledby="deleteViolationTypeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteViolationTypeModalLabel">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa loại vi phạm này không? Hành động này không thể hoàn tác.</p>
+                    <p class="text-danger">Lưu ý: Việc xóa loại vi phạm sẽ ảnh hưởng đến tất cả các vi phạm thuộc loại
+                        này.</p>
+                </div>
+                <form method="post" th:action="@{/violation-type/delete}">
+                    <div class="mb-3">
+                        <label for="deleteViolationTypeId" class="form-label">Mã loại vi phạm</label>
+                        <input type="text" class="form-control" name="id" id="deleteViolationTypeId" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deleteViolationTypeName" class="form-label">Tên loại vi phạm <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="deleteViolationTypeName"
+                               readonly="true">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="submit" class="btn btn-danger">Xóa</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Violation Type Modal -->
-<div class="modal fade" id="editViolationTypeModal" tabindex="-1" aria-labelledby="editViolationTypeModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editViolationTypeModalLabel">Chỉnh sửa loại vi phạm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" th:action="@{/violation-type/update}">
-                    <div class="mb-3">
-                        <label for="editViolationTypeId" class="form-label">Mã loại vi phạm</label>
-                        <input type="text" class="form-control" name="id" id="editViolationTypeId" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editViolationTypeName" class="form-label">Tên loại vi phạm <span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="ten" id="editViolationTypeName"
-                               required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editViolationTypeDescription" class="form-label">Hình thức phạt</label>
-                        <input class="form-control" name="hinhThuc" id="editViolationTypeDescription"></input>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPenalty" class="form-label">Mức phạt <span
-                                class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="soTien" id="editPenalty" value="200000" required>
-                            <span class="input-group-text">VND</span>
+
+<!--    __________________________________________________________________________________________-->
+    <!-- Add Violation Modal -->
+    <div class="modal fade" id="addViolationModal" tabindex="-1" aria-labelledby="addViolationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addViolationModalLabel">Thêm vi phạm mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/violation/create}">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="employee" class="form-label">Nhân viên <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select" id="employee" name="id" required>
+                                    <option value="">Chọn nhân viên</option>
+                                    <option th:each="nhanVien : ${nhanVienList}"
+                                            th:value="${nhanVien.id}"
+                                            th:text="${nhanVien.hoTen + ' - ' + nhanVien.cccd}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="violationType" class="form-label">Loại vi phạm <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select" id="violationType" name="ma" required>
+                                    <option value="">Chọn loại vi phạm</option>
+                                    <option th:each="viPham : ${viPhams}"
+                                            th:value="${viPham.id}"
+                                            th:text="${viPham.loaiViPham}">
+                                    </option>
+                                </select>
+                            </div>
                         </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="violationDate" class="form-label">Ngày vi phạm <span
+                                        class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="violationDate" name="date" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="violationDescription" class="form-label">Mô tả vi phạm <span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control" id="violationDescription" rows="3" name="mota" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit Violation Modal -->
+    <div class="modal fade" id="editViolationModal" tabindex="-1" aria-labelledby="editViolationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editViolationModalLabel">Chỉnh sửa vi phạm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/violation/update}">
+                        <div class="row mb-3">
+                            <input type="hidden" class="form-control" id="editEmployeeMa" name="id" readonly>
+                            <div class="col-md-6">
+                                <label for="editEmployeeTen" class="form-label">Nhân viên</label>
+                                <input type="text" class="form-control" id="editEmployeeTen"  readonly>
+                            </div>
+                            <input type="hidden" class="form-control" id="editViolationId" name="ma" readonly>
+                            <div class="col-md-6">
+                                <label for="editViolationName" class="form-label">Loại vi phạm <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editViolationName" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editViolationDate" class="form-label">Ngày vi phạm <span
+                                        class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="editViolationDate" name="date"
+                                       required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editViolationEndFee" class="form-label">Mức phạt</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="editViolationEndFee" readonly>
+                                    <span class="input-group-text">VND</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editViolationDescription" class="form-label">Mô tả vi phạm <span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control" id="editViolationDescription" rows="3" name="mota"
+                                      required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Violation Modal -->
+    <div class="modal fade" id="deleteViolationModal" tabindex="-1" aria-labelledby="deleteViolationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteViolationModalLabel">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa vi phạm này không? Hành động này không thể hoàn tác.
+                </div>
+                <form method="post" th:action="@{/violation/delete}">
+                    <input type="hidden" class="form-control" id="deleteEmployeeMa" name="id" readonly>
+                    <div class="col-md-6">
+                        <label for="deleteEmployeeTen" class="form-label">Nhân viên</label>
+                        <input type="text" class="form-control" id="deleteEmployeeTen"  readonly>
+                    </div>
+                    <input type="hidden" class="form-control" id="deleteViolationId" name="ma" readonly>
+                    <div class="col-md-6">
+                        <label for="deleteViolationName" class="form-label">Loại vi phạm <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="deleteViolationName" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="submit" class="btn btn-danger">Xóa</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Delete Violation Type Modal -->
-<div class="modal fade" id="deleteViolationTypeModal" tabindex="-1" aria-labelledby="deleteViolationTypeModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteViolationTypeModalLabel">Xác nhận xóa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Bạn có chắc chắn muốn xóa loại vi phạm này không? Hành động này không thể hoàn tác.</p>
-                <p class="text-danger">Lưu ý: Việc xóa loại vi phạm sẽ ảnh hưởng đến tất cả các vi phạm thuộc loại
-                    này.</p>
-            </div>
-            <form method="post" th:action="@{/violation-type/delete}">
-                <div class="mb-3">
-                    <label for="deleteViolationTypeId" class="form-label">Mã loại vi phạm</label>
-                    <input type="text" class="form-control" name="id" id="deleteViolationTypeId" readonly>
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Bạn muốn đăng xuất?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label for="deleteViolationTypeName" class="form-label">Tên loại vi phạm <span
-                            class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="deleteViolationTypeName"
-                           readonly="true">
+                <div class="modal-body">
+                    Chọn "Đăng xuất" bên dưới nếu bạn đã sẵn sàng kết thúc phiên làm việc hiện tại.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn btn-danger">Xóa</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Add Violation Modal -->
-<div class="modal fade" id="addViolationModal" tabindex="-1" aria-labelledby="addViolationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addViolationModalLabel">Thêm vi phạm mới</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="employee" class="form-label">Nhân viên <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select" id="employee" required>
-                                <option value="">Chọn nhân viên</option>
-                                <option value="1">Nguyễn Văn A</option>
-                                <option value="2">Trần Thị B</option>
-                                <option value="3">Lê Văn C</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="violationType" class="form-label">Loại vi phạm <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select" id="violationType" required>
-                                <option value="">Chọn loại vi phạm</option>
-                                <option value="1">Vi phạm nội quy</option>
-                                <option value="2">Vi phạm quy trình</option>
-                                <option value="3">Vi phạm kỷ luật nghiêm trọng</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="violationDate" class="form-label">Ngày vi phạm <span
-                                    class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="violationDate" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="penaltyAmount" class="form-label">Mức phạt</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="penaltyAmount">
-                                <span class="input-group-text">VND</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="violationDescription" class="form-label">Mô tả vi phạm <span
-                                class="text-danger">*</span></label>
-                        <textarea class="form-control" id="violationDescription" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="evidence" class="form-label">Bằng chứng</label>
-                        <input type="file" class="form-control" id="evidence" multiple>
-                    </div>
-                    <div class="mb-3">
-                        <label for="handler" class="form-label">Người xử lý <span
-                                class="text-danger">*</span></label>
-                        <select class="form-select" id="handler" required>
-                            <option value="">Chọn người xử lý</option>
-                            <option value="1">Trưởng phòng nhân sự</option>
-                            <option value="2">Giám đốc</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="notes" class="form-label">Ghi chú</label>
-                        <textarea class="form-control" id="notes" rows="2"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- View Violation Modal -->
-<div class="modal fade" id="viewViolationModal" tabindex="-1" aria-labelledby="viewViolationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewViolationModalLabel">Chi tiết vi phạm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <h6 class="font-weight-bold">Thông tin nhân viên</h6>
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <th>Mã nhân viên</th>
-                                <td>NV001</td>
-                            </tr>
-                            <tr>
-                                <th>Họ tên</th>
-                                <td>Nguyễn Văn A</td>
-                            </tr>
-                            <tr>
-                                <th>Phòng ban</th>
-                                <td>Kỹ thuật</td>
-                            </tr>
-                            <tr>
-                                <th>Chức vụ</th>
-                                <td>Nhân viên</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="font-weight-bold">Thông tin vi phạm</h6>
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <th>Loại vi phạm</th>
-                                <td>Vi phạm nội quy</td>
-                            </tr>
-                            <tr>
-                                <th>Ngày vi phạm</th>
-                                <td>15/12/2023</td>
-                            </tr>
-                            <tr>
-                                <th>Mức phạt</th>
-                                <td>200,000 VND</td>
-                            </tr>
-                            <tr>
-                                <th>Trạng thái</th>
-                                <td><span class="badge bg-danger">Chưa xử lý</span></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <h6 class="font-weight-bold">Mô tả vi phạm</h6>
-                    <p>Đi muộn 30 phút không có lý do chính đáng.</p>
-                </div>
-
-                <div class="mb-4">
-                    <h6 class="font-weight-bold">Bằng chứng</h6>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="https://via.placeholder.com/150" alt="Bằng chứng 1" class="img-fluid mb-2">
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://via.placeholder.com/150" alt="Bằng chứng 2" class="img-fluid mb-2">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <h6 class="font-weight-bold">Lịch sử xử lý</h6>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Thời gian</th>
-                            <th>Người xử lý</th>
-                            <th>Hành động</th>
-                            <th>Ghi chú</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>15/12/2023 09:00</td>
-                            <td>Trưởng phòng nhân sự</td>
-                            <td>Tạo vi phạm</td>
-                            <td>Vi phạm nội quy công ty</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                        data-bs-target="#editViolationModal">Chỉnh sửa</button>
-            </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Violation Modal -->
-<div class="modal fade" id="editViolationModal" tabindex="-1" aria-labelledby="editViolationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editViolationModalLabel">Chỉnh sửa vi phạm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="editEmployee" class="form-label">Nhân viên</label>
-                            <input type="text" class="form-control" id="editEmployee" value="Nguyễn Văn A" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="editViolationType" class="form-label">Loại vi phạm <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select" id="editViolationType" required>
-                                <option value="1" selected>Vi phạm nội quy</option>
-                                <option value="2">Vi phạm quy trình</option>
-                                <option value="3">Vi phạm kỷ luật nghiêm trọng</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="editViolationDate" class="form-label">Ngày vi phạm <span
-                                    class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="editViolationDate" value="2023-12-15"
-                                   required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="editPenaltyAmount" class="form-label">Mức phạt</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="editPenaltyAmount" value="200000">
-                                <span class="input-group-text">VND</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editViolationDescription" class="form-label">Mô tả vi phạm <span
-                                class="text-danger">*</span></label>
-                        <textarea class="form-control" id="editViolationDescription" rows="3"
-                                  required>Đi muộn 30 phút không có lý do chính đáng.</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Bằng chứng hiện tại</label>
-                        <div class="row mb-2">
-                            <div class="col-md-3">
-                                <div class="position-relative">
-                                    <img src="https://via.placeholder.com/150" alt="Bằng chứng 1"
-                                         class="img-fluid mb-2">
-                                    <button type="button"
-                                            class="btn btn-danger btn-sm position-absolute top-0 end-0">
-                                        <i class="bi bi-x"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="position-relative">
-                                    <img src="https://via.placeholder.com/150" alt="Bằng chứng 2"
-                                         class="img-fluid mb-2">
-                                    <button type="button"
-                                            class="btn btn-danger btn-sm position-absolute top-0 end-0">
-                                        <i class="bi bi-x"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <label for="editEvidence" class="form-label">Thêm bằng chứng mới</label>
-                        <input type="file" class="form-control" id="editEvidence" multiple>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editStatus" class="form-label">Trạng thái <span
-                                class="text-danger">*</span></label>
-                        <select class="form-select" id="editStatus" required>
-                            <option value="1" selected>Chưa xử lý</option>
-                            <option value="2">Đang xử lý</option>
-                            <option value="3">Đã xử lý</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editNotes" class="form-label">Ghi chú</label>
-                        <textarea class="form-control" id="editNotes" rows="2"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom scripts -->
+    <script src="/js/script.js"></script>
+    <script>
+        const editModal = document.getElementById('editViolationTypeModal');
+        editModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+            // Lấy dữ liệu từ thuộc tính data-*
+            const id = button.getAttribute('data-id');
+            const ten = button.getAttribute('data-loai');
+            const hinhThuc = button.getAttribute('data-hinhthuc') || '';
+            const soTien=button.getAttribute('data-mucphat');
 
-<!-- Delete Violation Modal -->
-<div class="modal fade" id="deleteViolationModal" tabindex="-1" aria-labelledby="deleteViolationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteViolationModalLabel">Xác nhận xóa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Bạn có chắc chắn muốn xóa vi phạm này không? Hành động này không thể hoàn tác.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger">Xóa</button>
-            </div>
-        </div>
-    </div>
-</div>
+            // Điền dữ liệu vào form
+            document.getElementById('editViolationTypeId').value = id;
+            document.getElementById('editViolationTypeName').value = ten;
+            document.getElementById('editViolationTypeDescription').value = hinhThuc;
+            document.getElementById('editPenalty').value = soTien;
+        });
+    </script>
+    <script>
+        const deleteModal = document.getElementById('deleteViolationTypeModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+            // Lấy dữ liệu từ thuộc tính data-*
+            const id = button.getAttribute('data-id');
+            const ten = button.getAttribute('data-loai');
 
-<!-- Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Bạn muốn đăng xuất?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Chọn "Đăng xuất" bên dưới nếu bạn đã sẵn sàng kết thúc phiên làm việc hiện tại.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <a class="btn btn-primary" href="login.html">Đăng xuất</a>
-            </div>
-        </div>
-    </div>
-</div>
+            // Điền dữ liệu vào form
+            document.getElementById('deleteViolationTypeId').value = id;
+            document.getElementById('deleteViolationTypeName').value = ten;
+        });
+    </script>
+    <script>
+        const editEmployeeModal = document.getElementById('editViolationModal');
+        editEmployeeModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+            // Lấy dữ liệu từ thuộc tính data-*
+            const id = button.getAttribute('data-id');
+            const type = button.getAttribute('data-type');
+            const mnv = button.getAttribute('data-mnv');
+            const ten = button.getAttribute('data-ten') || '';
+            const date = button.getAttribute('data-date') || '-';
+            const mota = button.getAttribute('data-mota') || '-';
+            const tien=button.getAttribute('data-tien');
 
-<!-- Bootstrap core JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Custom scripts -->
-<script src="/js/script.js"></script>
-<script>
-    const editModal = document.getElementById('editViolationTypeModal');
-    editModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
-        // Lấy dữ liệu từ thuộc tính data-*
-        const id = button.getAttribute('data-id');
-        const ten = button.getAttribute('data-loai');
-        const hinhThuc = button.getAttribute('data-hinhthuc') || '';
-        const soTien=button.getAttribute('data-mucphat');
+            // Điền dữ liệu vào form
+            document.getElementById('editViolationId').value = id;
+            document.getElementById('editViolationName').value = type;
+            document.getElementById('editEmployeeMa').value = mnv;
+            document.getElementById('editEmployeeTen').value = ten;
+            document.getElementById('editViolationDate').value = date;
+            document.getElementById('editViolationEndFee').value = tien;
+            document.getElementById('editViolationDescription').value = mota;
+        });
+    </script>
+    <script>
+        const deleteEmployeeModal = document.getElementById('deleteViolationModal');
+        deleteEmployeeModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+            // Lấy dữ liệu từ thuộc tính data-*
+            const id = button.getAttribute('data-id');
+            const type = button.getAttribute('data-type');
+            const mnv = button.getAttribute('data-mnv');
+            const ten = button.getAttribute('data-ten') || '';
+            const date = button.getAttribute('data-date') || '-';
+            const mota = button.getAttribute('data-mota') || '-';
+            const tien=button.getAttribute('data-tien');
 
-        // Điền dữ liệu vào form
-        document.getElementById('editViolationTypeId').value = id;
-        document.getElementById('editViolationTypeName').value = ten;
-        document.getElementById('editViolationTypeDescription').value = hinhThuc;
-        document.getElementById('editPenalty').value = soTien;
-    });
-</script>
-<script>
-    const deleteModal = document.getElementById('deleteViolationTypeModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
-        // Lấy dữ liệu từ thuộc tính data-*
-        const id = button.getAttribute('data-id');
-        const ten = button.getAttribute('data-loai');
+            // Điền dữ liệu vào form
+            document.getElementById('deleteViolationId').value = id;
+            document.getElementById('deleteViolationName').value = type;
+            document.getElementById('deleteEmployeeMa').value = mnv;
+            document.getElementById('deleteEmployeeTen').value = ten;
+            document.getElementById('deleteViolationDate').value = date;
+            document.getElementById('deleteViolationEndFee').value = tien;
+            document.getElementById('deleteViolationDescription').value = mota;
+        });
+    </script>
 
-        // Điền dữ liệu vào form
-        document.getElementById('deleteViolationTypeId').value = id;
-        document.getElementById('deleteViolationTypeName').value = ten;
-    });
-</script>
-</body>
+    </body>
 
-</html>
+    </html>

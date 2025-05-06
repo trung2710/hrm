@@ -130,14 +130,6 @@
                 <option value="cancelled">Đã hủy</option>
               </select>
             </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Mức độ ưu tiên</option>
-                <option value="high">Cao</option>
-                <option value="medium">Trung bình</option>
-                <option value="low">Thấp</option>
-              </select>
-            </div>
             <div class="col-md-3">
               <select class="form-select">
                 <option value="">Người quản lý</option>
@@ -188,7 +180,7 @@
                     </button>
                     <button class="btn btn-sm btn-warning me-1" title="Chỉnh sửa"
                             data-bs-toggle="modal" data-bs-target="#editProjectModal"
-                            th:attr="data-id=${duAn.id}, data-name=${duAn.tenDuAn},data-kh=${duAn.tenKhachHang}, data-sta=${duAn.ngayBatDau}, data-end=${duAn.ngayKetThuc},data-status=${duAn.trangThai}, data-pb=${duAn.phongBan.tenPhongBan},data-phi=${duAn.phiDuAn}, data-ns=${duAn.nganSach}, data-thu=${duAn.doanhThu} ">
+                            th:attr="data-id=${duAn.id}, data-name=${duAn.tenDuAn},data-kh=${duAn.tenKhachHang}, data-sta=${duAn.ngayBatDau}, data-end=${duAn.ngayKetThuc},data-status=${duAn.trangThai}, data-pb=${duAn.phongBan.tenPhongBan},data-phi=${duAn.phiDuAn}, data-ns=${duAn.nganSach}, data-thu=${duAn.doanhThu},data-list=${duAn.nhanViens} ">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
@@ -232,6 +224,10 @@
                               <p><strong>Ngân sách:</strong><span id="viewProjectNganSach"></span></p>
                               <p><strong>Doanh thu:</strong><span id="viewProjectDoanhThu"></span></p>
                               <p><strong>Số thành viên:</strong><span id="viewProjectSoThanhVien"></span></p>
+                            </div>
+                            <div class="mb-3">
+                              <label for="budget" class="form-label">Member Project</label>
+                              <p type="text" id="viewProjectTv"></p>
                             </div>
                           </div>
                         </div>
@@ -299,94 +295,71 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post" th:action="@{/project/create}" th:object="${newDuAn}">
+        <form method="post" th:action="@{/project/create}">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="projectName" class="form-label">Tên dự án <span
                       class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="projectName" th:field="*{tenDuAn}" required>
+              <input type="text" class="form-control" id="projectName" name="ten" required>
+            </div>
+            <div class="mb-3">
+              <label for="projectCustomer" class="form-label">Tên khách hàng<span
+                      class="text-danger">*</span></label>
+              <input class="form-control" id="projectCustomer" name="kh" required>
             </div>
             <div class="col-md-6">
-              <label for="projectManager" class="form-label">Người quản lý <span
+              <label for="projectManager" class="form-label">Phòng ban<span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="projectManager" required>
-                <option value="">Chọn người quản lý</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
+              <select class="form-select" id="projectManager" name="pb" required>
+                <option value="">Chọn phòng ban</option>
+                <option th:each="pb : ${pbs}"
+                        th:value="${pb.id}"
+                        th:text="${pb.tenPhongBan}"></option>
               </select>
+            </div>
+            <div class="col-md-6">
+              <label for="projectManager" class="form-label">Danh sách nhân viên<span
+                      class="text-danger">*</span></label>
+              <div th:each="nv : ${employees}">
+                <p th:text="${nv.chucVu.phongBan.tenPhongBan+'-'+nv.chucVu.tenChucVu +'-'+nv.hoTen+'-'+nv.email}"></p>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="member" class="form-label">Thành viên dự án- Vai trò</label>
+              <textarea class="form-control" id="member" rows="3" name="tv"></textarea>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="startDate" class="form-label">Ngày bắt đầu <span
                       class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="startDate" required>
+              <input type="date" class="form-control" id="startDate" name="sta" required="true">
             </div>
             <div class="col-md-6">
               <label for="endDate" class="form-label">Ngày kết thúc <span
                       class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="endDate" required>
+              <input type="date" class="form-control" id="endDate" name="end" required="false">
             </div>
           </div>
           <div class="mb-3">
-            <label for="projectDescription" class="form-label">Mô tả dự án</label>
-            <textarea class="form-control" id="projectDescription" rows="3"></textarea>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="priority" class="form-label">Mức độ ưu tiên <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="priority" required>
-                <option value="">Chọn mức độ ưu tiên</option>
-                <option value="high">Cao</option>
-                <option value="medium">Trung bình</option>
-                <option value="low">Thấp</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="status" class="form-label">Trạng thái <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="status" required>
-                <option value="">Chọn trạng thái</option>
-                <option value="not-started">Chưa bắt đầu</option>
-                <option value="in-progress">Đang thực hiện</option>
-                <option value="completed">Hoàn thành</option>
-                <option value="delayed">Chậm tiến độ</option>
-                <option value="cancelled">Đã hủy</option>
-              </select>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Thành viên dự án</label>
-            <div class="row">
-              <div class="col-md-12">
-                <select class="form-select" multiple size="4">
-                  <option value="1">Nguyễn Văn A - Developer</option>
-                  <option value="2">Trần Thị B - Designer</option>
-                  <option value="3">Lê Văn C - Tester</option>
-                  <option value="4">Phạm Thị D - Business Analyst</option>
-                  <option value="5">Hoàng Văn E - Developer</option>
-                </select>
-              </div>
+            <label for="phi" class="form-label">Phí dự án</label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="phi" name="phi">
+              <span class="input-group-text">VND</span>
             </div>
           </div>
           <div class="mb-3">
             <label for="budget" class="form-label">Ngân sách dự án</label>
             <div class="input-group">
-              <input type="number" class="form-control" id="budget">
+              <input type="number" class="form-control" id="budget" name="ns">
               <span class="input-group-text">VND</span>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="documents" class="form-label">Tài liệu đính kèm</label>
-            <input type="file" class="form-control" id="documents" multiple>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Tạo dự án</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Tạo dự án</button>
       </div>
     </div>
   </div>
@@ -403,115 +376,82 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" th:action="@{/project/update}">
+          <input type="hidden" class="form-control" id="editProjectId" name="id" readonly>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="editProjectName" class="form-label">Tên dự án <span
                       class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="editProjectName" required>
+              <input type="text" class="form-control" id="editProjectName" name="ten" required>
+            </div>
+            <div class="mb-3">
+              <label for="editProjectKh" class="form-label">Tên khách hàng<span
+                      class="text-danger">*</span></label>
+              <input class="form-control" id="editProjectKh" name="kh" required>
             </div>
             <div class="col-md-6">
-              <label for="editProjectManager" class="form-label">Người quản lý <span
+              <label for="editProjectDepartment" class="form-label">Tên phong ban <span
                       class="text-danger">*</span></label>
-              <select class="form-select" id="editProjectManager" required>
-                <option value="">Chọn người quản lý</option>
-                <option value="1" selected>Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="editStartDate" class="form-label">Ngày bắt đầu <span
-                      class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="editStartDate" required>
+              <input type="text" class="form-control" id="editProjectDepartment" readonly>
             </div>
             <div class="col-md-6">
-              <label for="editEndDate" class="form-label">Ngày kết thúc <span
+              <label for="projectManager" class="form-label">Danh sách nhân viên<span
                       class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="editEndDate" required>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="editProjectDescription" class="form-label">Mô tả dự án</label>
-            <textarea class="form-control" id="editProjectDescription" rows="3"></textarea>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="editPriority" class="form-label">Mức độ ưu tiên <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="editPriority" required>
-                <option value="">Chọn mức độ ưu tiên</option>
-                <option value="high" selected>Cao</option>
-                <option value="medium">Trung bình</option>
-                <option value="low">Thấp</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="editStatus" class="form-label">Trạng thái <span
-                      class="text-danger">*</span></label>
-              <select class="form-select" id="editStatus" required>
-                <option value="">Chọn trạng thái</option>
-                <option value="not-started">Chưa bắt đầu</option>
-                <option value="in-progress" selected>Đang thực hiện</option>
-                <option value="completed">Hoàn thành</option>
-                <option value="delayed">Chậm tiến độ</option>
-                <option value="cancelled">Đã hủy</option>
-              </select>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Thành viên dự án</label>
-            <div class="row">
-              <div class="col-md-12">
-                <select class="form-select" multiple size="4">
-                  <option value="1" selected>Nguyễn Văn A - Developer</option>
-                  <option value="2" selected>Trần Thị B - Designer</option>
-                  <option value="3" selected>Lê Văn C - Tester</option>
-                  <option value="4">Phạm Thị D - Business Analyst</option>
-                  <option value="5">Hoàng Văn E - Developer</option>
-                </select>
+              <div th:each="nv : ${employees}">
+                <p th:text="${nv.chucVu.phongBan.tenPhongBan+'-'+nv.chucVu.tenChucVu +'-'+nv.hoTen+'-'+nv.email}"></p>
               </div>
             </div>
+            <div class="mb-3">
+              <label for="editProjectMember" class="form-label">Member Project</label>
+              <textarea class="form-control" id="editProjectMember" name="tv" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editProjectStart" class="form-label">Ngày bắt đầu <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="editProjectStart" name="sta" required>
+            </div>
+            <div class="col-md-6">
+              <label for="editProjectEnd" class="form-label">Ngày kết thúc <span
+                      class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="editProjectEnd" name="end" required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editProjectStatus" class="form-label">Trạng thái <span
+                      class="text-danger">*</span></label>
+              <select class="form-select" id="editProjectStatus" name="status" required>
+                <option value="">Chọn trạng thái</option>
+                <option value="Đang triển khai">Đang triển khai</option>
+                <option value="Hoàn thành">Hoàn thành</option>
+                <option value="Tạm dừng">Tạm dừng</option>
+              </select>
+            </div>
           </div>
           <div class="mb-3">
-            <label for="editBudget" class="form-label">Ngân sách dự án</label>
+            <label for="editProjectFee" class="form-label">Phí dự án</label>
             <div class="input-group">
-              <input type="number" class="form-control" id="editBudget" value="500000000">
+              <input type="number" class="form-control" id="editProjectFee" name="phi" required>
               <span class="input-group-text">VND</span>
             </div>
           </div>
           <div class="mb-3">
-            <label for="editDocuments" class="form-label">Tài liệu đính kèm</label>
-            <input type="file" class="form-control" id="editDocuments" multiple>
-            <!-- Existing Documents -->
-            <div class="mt-2">
-              <small class="text-muted">Tài liệu hiện tại:</small>
-              <div class="list-group mt-1">
-                <div
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-file-pdf text-danger me-2"></i>Tài liệu phân
-                                            tích.pdf</span>
-                  <button type="button" class="btn btn-sm btn-danger"><i
-                          class="bi bi-trash"></i></button>
-                </div>
-                <div
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-file-word text-primary me-2"></i>Báo cáo tiến
-                                            độ.docx</span>
-                  <button type="button" class="btn btn-sm btn-danger"><i
-                          class="bi bi-trash"></i></button>
-                </div>
-              </div>
+            <label for="editProjectNganSach" class="form-label">Ngân sách dự án</label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="editProjectNganSach" name="ns" required>
+              <span class="input-group-text">VND</span>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-      </div>
+
     </div>
   </div>
 </div>
@@ -581,6 +521,7 @@
     document.getElementById('viewProjectFee').textContent = phi;
     document.getElementById('viewProjectNganSach').textContent = ns;
     document.getElementById('viewProjectDoanhThu').textContent = thu;
+    document.getElementById('viewProjectTv').textContent = membersString;
 
 
     // Nếu có dữ liệu nhân viên hoặc dự án động, có thể cập nhật tại đây
@@ -592,8 +533,8 @@
     teamMembersList.innerHTML = ''; // Xóa nội dung cũ
     if (membersString) {
       const members = membersString.split(',').map(member => {
-        const [hoTen, vaiTro] = member.split(':');
-        return { hoTen, vaiTro };
+        const [email,hoTen, vaiTro] = member.split(':');
+        return {email,hoTen, vaiTro };
       });
       members.forEach(member => {
         const memberDiv = document.createElement('div');
@@ -601,6 +542,8 @@
         memberDiv.innerHTML = `
           <div>
             <p class="mb-0"><strong>${member.hoTen}</strong></p>
+            <small class="text-muted">${member.email}</small>
+            <br>
             <small class="text-muted">${member.vaiTro}</small>
           </div>
         `;
@@ -612,6 +555,63 @@
       document.getElementById('viewProjectSoThanhVien').textContent = '0';
     }
   });
+</script>
+<script>
+  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
+  const editModal = document.getElementById('editProjectModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ten = button.getAttribute('data-name');
+    const kh=button.getAttribute('data-kh');
+    const sta=button.getAttribute('data-sta');
+    const end=button.getAttribute('data-end');
+    const status=button.getAttribute('data-status');
+    const pb=button.getAttribute('data-pb');
+    const phi=button.getAttribute('data-phi');
+    const ns=button.getAttribute('data-ns');
+    const membersString = button.getAttribute('data-list') || '';
+
+    // Cập nhật nội dung modal
+    document.getElementById('editProjectId').value = id;
+    document.getElementById('editProjectName').value = ten;
+    document.getElementById('editProjectKh').value = kh;
+    document.getElementById('editProjectStart').value = sta;
+    document.getElementById('editProjectEnd').value = end;
+    document.getElementById('editProjectStatus').value = status;
+    document.getElementById('editProjectDepartment').value = pb;
+    document.getElementById('editProjectFee').value = phi;
+    document.getElementById('editProjectNganSach').value = ns;
+    document.getElementById('editProjectMember').textContent = membersString;
+    console.log('Edit Modal - membersString:', membersString); // Thêm log
+
+    const editProjectMember = document.getElementById('editProjectMember');
+    if (membersString) {
+      try {
+        const decodedMembersString = decodeURIComponent(membersString);
+        console.log('Decoded membersString:', decodedMembersString);
+
+        const formattedMembers = decodedMembersString.split(',').map(member => {
+          const [email,hoTen,vaiTro] = member.split(':');
+          if (email && vaiTro) {
+            return `${email.trim()} - ${vaiTro.trim()}`;
+          }
+          return member;
+        }).join('\n');
+        editProjectMember.value = formattedMembers;
+        console.log('Formatted members:', formattedMembers);
+      } catch (error) {
+        console.error('Error processing membersString:', error, 'Original string:', membersString);
+        editProjectMember.value = membersString;
+      }
+    } else {
+      editProjectMember.value = '';
+      console.log('No members data found');
+    }
+  });
+
+
 </script>
 <script>
   const deleteModal = document.getElementById('deleteProjectModal');

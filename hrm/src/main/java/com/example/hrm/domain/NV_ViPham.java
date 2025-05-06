@@ -2,9 +2,11 @@ package com.example.hrm.domain;
 
 import java.time.LocalDate;
 
+import com.example.hrm.domain.idClass.NVViPhamId;
 import jakarta.persistence.*;
 
 @Entity
+@IdClass(NVViPhamId.class)
 @Table(name="NhanVien_ViPham")
 public class NV_ViPham {
     @Id
@@ -23,7 +25,7 @@ public class NV_ViPham {
     @Id
     @ManyToOne
     @JoinColumn(name = "MaViPham", referencedColumnName = "MaViPham")
-    private ViPham vp_id;
+    private ViPham viPham;
 
     @Column(name = "NgayViPham", nullable = false)
     private LocalDate ngayViPham;
@@ -36,16 +38,14 @@ public class NV_ViPham {
     private NhanVien NguoiRaQuyetDinh;
 
     @Column(name = "NgayRaQuyetDinh", nullable = false)
-    private LocalDate ngayRaQuyetDinh;
+    private LocalDate ngayRaQuyetDinh=LocalDate.now();
 
-
-
-    public ViPham getVp_id() {
-        return vp_id;
+    public ViPham getViPham() {
+        return viPham;
     }
 
-    public void setVp_id(ViPham vp_id) {
-        this.vp_id = vp_id;
+    public void setViPham(ViPham viPham) {
+        this.viPham = viPham;
     }
 
     public LocalDate getNgayViPham() {

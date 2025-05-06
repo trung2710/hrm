@@ -28,7 +28,7 @@
       <!-- Page Heading -->
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Quản lý nhân viên</h1>
-        <a href="employees-add.html" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <a th:href="@{/user/create}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
           <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm nhân viên
         </a>
       </div>
@@ -115,168 +115,33 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>NV001</td>
+              <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.hoTen}"></td>
+                <td th:text="${user.chucVu.phongBan.tenPhongBan}"></td>
+                <td th:text="${user.chucVu.tenChucVu}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.soDienThoai}"></td>
                 <td>
-                  <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar"
-                         class="avatar-sm me-2">
-                    Nguyễn Văn A
-                  </div>
-                </td>
-                <td>Kỹ thuật</td>
-                <td>Trưởng phòng</td>
-                <td>nguyenvana@example.com</td>
-                <td>0901234567</td>
-                <td>
-                  <span class="badge bg-success">Đang làm việc</span>
+                  <span th:if="${user.trangThai.equals('Đang làm')}" class="badge bg-success">Đang làm</span>
+                  <span th:if="${user.trangThai.equals('Nghỉ việc')}" class="badge bg-danger">Nghỉ việc</span>
+                  <span th:if="${user.trangThai.equals('Đang nghỉ phép')}" class="badge bg-warning">Đang nghỉ phép</span>
                 </td>
                 <td>
                   <div class="d-flex">
-                    <a href="employees-view.html"
+                    <a th:href="@{/user/{id}(id=${user.id})}"
                        class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết">
                       <i class="bi bi-eye"></i>
                     </a>
-                    <a href="employees-edit.html"
+                    <a th:href="@{/user/update/{id}(id=${user.id})}"
                        class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa">
                       <i class="bi bi-pencil"></i>
                     </a>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <a th:href="@{/user/delete/{id}(id=${user.id})}"
+                            class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal">
                       <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV002</td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar"
-                         class="avatar-sm me-2">
-                    Trần Thị B
-                  </div>
-                </td>
-                <td>Kinh doanh</td>
-                <td>Nhân viên</td>
-                <td>tranthib@example.com</td>
-                <td>0912345678</td>
-                <td>
-                  <span class="badge bg-success">Đang làm việc</span>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a href="employees-view.html"
-                       class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết">
-                      <i class="bi bi-eye"></i>
                     </a>
-                    <a href="employees-edit.html"
-                       class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa">
-                      <i class="bi bi-pencil"></i>
-                    </a>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV003</td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar"
-                         class="avatar-sm me-2">
-                    Lê Văn C
-                  </div>
-                </td>
-                <td>Nhân sự</td>
-                <td>Nhân viên</td>
-                <td>levanc@example.com</td>
-                <td>0923456789</td>
-                <td>
-                  <span class="badge bg-warning text-dark">Nghỉ phép</span>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a href="employees-view.html"
-                       class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết">
-                      <i class="bi bi-eye"></i>
-                    </a>
-                    <a href="employees-edit.html"
-                       class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa">
-                      <i class="bi bi-pencil"></i>
-                    </a>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV004</td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar"
-                         class="avatar-sm me-2">
-                    Phạm Thị D
-                  </div>
-                </td>
-                <td>Kế toán</td>
-                <td>Nhân viên</td>
-                <td>phamthid@example.com</td>
-                <td>0934567890</td>
-                <td>
-                  <span class="badge bg-success">Đang làm việc</span>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a href="employees-view.html"
-                       class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết">
-                      <i class="bi bi-eye"></i>
-                    </a>
-                    <a href="employees-edit.html"
-                       class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa">
-                      <i class="bi bi-pencil"></i>
-                    </a>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>NV005</td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar"
-                         class="avatar-sm me-2">
-                    Hoàng Văn E
-                  </div>
-                </td>
-                <td>Marketing</td>
-                <td>Nhân viên</td>
-                <td>hoangvane@example.com</td>
-                <td>0945678901</td>
-                <td>
-                  <span class="badge bg-danger">Nghỉ việc</span>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a href="employees-view.html"
-                       class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết">
-                      <i class="bi bi-eye"></i>
-                    </a>
-                    <a href="employees-edit.html"
-                       class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa">
-                      <i class="bi bi-pencil"></i>
-                    </a>
-                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal">
-                      <i class="bi bi-trash"></i>
-                    </button>
                   </div>
                 </td>
               </tr>

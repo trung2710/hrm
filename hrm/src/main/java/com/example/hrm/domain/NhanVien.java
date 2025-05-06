@@ -91,6 +91,17 @@ public class NhanVien {
      @OneToMany(mappedBy="nguoiTao")
      List<ThongBao> thongBaos;
 
+     @OneToMany(mappedBy="nhanVien")
+     List<ChamCong> chamCongs;
+
+    public List<ChamCong> getChamCongs() {
+        return chamCongs;
+    }
+
+    public void setChamCongs(List<ChamCong> chamCongs) {
+        this.chamCongs = chamCongs;
+    }
+
     public Integer getId() {
         return id;
     }

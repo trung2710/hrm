@@ -26,4 +26,7 @@ public interface PositionRepository extends JpaRepository<ChucVu, Integer> {
     @Transactional
     @Query(value = "DELETE FROM ChucVu WHERE id = :id", nativeQuery = true)
     void deleteById(@Param("id") int id);
+
+    @Query(value="SELECT c FROM ChucVu c WHERE c.phongBan.id=:id", nativeQuery = true)
+    List<ChucVu> findByPhongBanId(@Param("id") int id);
 }

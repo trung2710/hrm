@@ -1,6 +1,7 @@
 package com.example.hrm.repository;
 
 import com.example.hrm.domain.HopDong;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +16,6 @@ public interface ContractRepository extends JpaRepository<HopDong, Integer> {
     HopDong findById(int id);
     @Query(value="SELECT h FROM HopDong h WHERE h.loaiHopDong= : name")
     HopDong findByName(@Param("name") String name);
+    @Query(value = "SELECT c FROM HopDong c WHERE c.nhanVien.id=:id")
+    List<HopDong> findAllByNV(@Param("id") int id, Sort sort);
 }

@@ -31,10 +31,10 @@
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Thông tin nhân viên</h1>
         <div>
-          <a href="employees-edit.html" class="btn btn-warning btn-sm me-2">
+          <a th:href="@{/user/update/{id}(id=${user.id})}" class="btn btn-warning btn-sm me-2">
             <i class="bi bi-pencil me-1"></i> Chỉnh sửa
           </a>
-          <a href="employees.html" class="btn btn-secondary btn-sm">
+          <a th:href="@{/user}" class="btn btn-secondary btn-sm">
             <i class="bi bi-arrow-left me-1"></i> Quay lại
           </a>
         </div>
@@ -45,13 +45,13 @@
           <!-- Profile Card -->
           <div class="card shadow mb-4">
             <div class="card-body text-center">
-              <img src="https://via.placeholder.com/150" alt="Avatar"
+              <img th:src="@{/images/upload/${user.avatar}}" alt="Avatar"
                    class="img-profile rounded-circle mb-3"
                    style="width: 150px; height: 150px; object-fit: cover;">
-              <h4 class="mb-0">Nguyễn Văn A</h4>
-              <p class="text-muted">Trưởng phòng Kỹ thuật</p>
+              <h4 class="mb-0">[[${user.hoTen}]]</h4>
+              <p class="text-muted">[[${user.chucVu.tenChucVu}]]</p>
               <div class="mb-3">
-                <span class="badge bg-success">Đang làm việc</span>
+                <span class="badge bg-success">[[${user.trangThai}]]</span>
               </div>
               <div class="d-flex justify-content-center mb-2">
                 <button class="btn btn-primary me-1">
@@ -72,23 +72,23 @@
             <div class="card-body">
               <div class="mb-3">
                 <div class="small text-gray-500">Email</div>
-                <div>nguyenvana@example.com</div>
+                <div>[[${user.email}]]</div>
               </div>
               <div class="mb-3">
                 <div class="small text-gray-500">Số điện thoại</div>
-                <div>0901234567</div>
+                <div>[[${user.soDienThoai}]]</div>
               </div>
               <div class="mb-3">
                 <div class="small text-gray-500">Địa chỉ</div>
-                <div>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</div>
+                <div>[[${user.diaChi}]]</div>
               </div>
               <div class="mb-3">
                 <div class="small text-gray-500">Ngày sinh</div>
-                <div>01/01/1990</div>
+                <div>[[${user.ngaySinh}]]</div>
               </div>
               <div>
                 <div class="small text-gray-500">CCCD/CMND</div>
-                <div>079123456789</div>
+                <div>[[${user.cccd}]]</div>
               </div>
             </div>
           </div>
@@ -100,16 +100,12 @@
             </div>
             <div class="card-body">
               <div class="mb-3">
-                <div class="small text-gray-500">Tên đăng nhập</div>
-                <div>nguyenvana</div>
+                <div class="small text-gray-500">Quyền</div>
+                <div>[[${user.chucVu.quyen.tenQuyen}]]</div>
               </div>
               <div class="mb-3">
-                <div class="small text-gray-500">Quyền</div>
-                <div>Quản lý</div>
-              </div>
-              <div>
-                <div class="small text-gray-500">Lần đăng nhập cuối</div>
-                <div>22/12/2023 15:30</div>
+                <div class="small text-gray-500">Trạng thái làm việc</div>
+                <div>[[${user.trangThai}]]</div>
               </div>
             </div>
           </div>
@@ -125,41 +121,45 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Mã nhân viên</div>
-                  <div>NV001</div>
+                  <div>[[${user.id}]]</div>
                 </div>
                 <div class="col-md-6">
-                  <div class="small text-gray-500">Ngày vào làm</div>
-                  <div>01/01/2020</div>
+                  <div class="small text-gray-500">Tên nhân viên</div>
+                  <div>[[${user.hoTen}]]</div>
+                </div>
+                <div class="col-md-6">
+                  <div class="small text-gray-500">Giới tính</div>
+                  <div>[[${user.gioiTinh}]] ngày</div>
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Phòng ban</div>
-                  <div>Kỹ thuật</div>
+                  <div>[[${user.chucVu.phongBan.tenPhongBan}]]</div>
                 </div>
                 <div class="col-md-6">
                   <div class="small text-gray-500">Chức vụ</div>
-                  <div>Trưởng phòng</div>
+                  <div>[[${user.chucVu.tenChucVu}]]</div>
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Trình độ học vấn</div>
-                  <div>Đại học</div>
+                  <div>[[${user.hocVan}]]</div>
                 </div>
                 <div class="col-md-6">
                   <div class="small text-gray-500">Thâm niên</div>
-                  <div>3 năm 11 tháng</div>
+                  <div>[[${user.thamNien}]]</div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Lương cơ bản</div>
-                  <div>15,000,000 VND</div>
+                  <div>[[${user.luongHienTai}]] VND</div>
                 </div>
                 <div class="col-md-6">
                   <div class="small text-gray-500">Số ngày phép còn lại</div>
-                  <div>12 ngày</div>
+                  <div>[[${user.soNgayPhep}]] ngày</div>
                 </div>
               </div>
             </div>
@@ -169,40 +169,42 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary">Thông tin hợp đồng</h6>
-              <a href="contracts-view.html" class="btn btn-sm btn-primary">
+              <a th:href="@{/contract}" class="btn btn-sm btn-primary">
                 Xem hợp đồng
               </a>
             </div>
-            <div class="card-body">
+            <div class="card-body" th:if="${hopDongs != null}">
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Mã hợp đồng</div>
-                  <div>HD001</div>
+                  <div>[[${hopDongs.id}]]</div>
                 </div>
                 <div class="col-md-6">
                   <div class="small text-gray-500">Loại hợp đồng</div>
-                  <div>Hợp đồng không xác định thời hạn</div>
+                  <div>[[${hopDongs.loaiHopDong}]]</div>
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Ngày bắt đầu</div>
-                  <div>01/01/2020</div>
+                  <div>[[${hopDongs.ngayBatDau}]]</div>
                 </div>
                 <div class="col-md-6">
                   <div class="small text-gray-500">Ngày kết thúc</div>
-                  <div>Không xác định</div>
+                  <div>[[${hopDongs.ngayKetThuc}]]</div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="small text-gray-500">Lương cơ bản gốc</div>
-                  <div>12,000,000 VND</div>
+                  <div>[[${hopDongs.luongCoBan}]]</div>
                 </div>
                 <div class="col-md-6">
                   <div class="small text-gray-500">Trạng thái</div>
                   <div>
-                    <span class="badge bg-success">Đang hiệu lực</span>
+                    <span th:if="${hopDongs.trangThai.equals('Còn hiệu lực')}" class="badge bg-success">Còn hiệu lực</span>
+                    <span th:if="${hopDongs.trangThai.equals('Hết hạn')}" class="badge bg-success">Hết hạn</span>
+                    <span th:if="${hopDongs.trangThai.equals('Chấm dứt')}" class="badge bg-success">Chấm dứt</span>
                   </div>
                 </div>
               </div>
@@ -310,7 +312,7 @@
                     </table>
                   </div>
                   <div class="text-end">
-                    <a href="attendance.html" class="btn btn-sm btn-primary">
+                    <a th:href="@{/attendance}" class="btn btn-sm btn-primary">
                       Xem tất cả
                     </a>
                   </div>
@@ -364,7 +366,7 @@
                     </table>
                   </div>
                   <div class="text-end">
-                    <a href="salary.html" class="btn btn-sm btn-primary">
+                    <a th:href="@{/salary}" class="btn btn-sm btn-primary">
                       Xem tất cả
                     </a>
                   </div>
@@ -416,7 +418,7 @@
                     </table>
                   </div>
                   <div class="text-end">
-                    <a href="leave.html" class="btn btn-sm btn-primary">
+                    <a th:href="@{/leave}" class="btn btn-sm btn-primary">
                       Xem tất cả
                     </a>
                   </div>
@@ -469,7 +471,7 @@
                     </table>
                   </div>
                   <div class="text-end">
-                    <a href="projects.html" class="btn btn-sm btn-primary">
+                    <a th:href="@{/project}" class="btn btn-sm btn-primary">
                       Xem tất cả
                     </a>
                   </div>

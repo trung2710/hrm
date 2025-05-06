@@ -15,7 +15,7 @@ public class ChamCong {
 
     @ManyToOne
     @JoinColumn(name = "MaNhanVien", referencedColumnName = "MaNhanVien")
-    private NhanVien nv_id;
+    private NhanVien nhanVien;
 
     @Column(name = "Ngay", nullable = false)
     private LocalDate ngay;
@@ -37,12 +37,12 @@ public class ChamCong {
         this.id = id;
     }
 
-    public NhanVien getNv_id() {
-        return nv_id;
+    public NhanVien getNhanVien() {
+        return nhanVien;
     }
 
-    public void setNv_id(NhanVien nv_id) {
-        this.nv_id = nv_id;
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
     }
 
     public LocalDate getNgay() {
