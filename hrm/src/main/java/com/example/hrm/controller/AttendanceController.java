@@ -15,11 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AttendanceController {
@@ -124,5 +127,22 @@ public class AttendanceController {
     public String getAttendanceDeletePage(Model model, @RequestParam("id") Integer id){
         this.attendanceRepository.deleteById(id);
         return "redirect:/attendance";
+    }
+
+    @GetMapping("/attendance/check")
+    @ResponseBody
+    public Map<String, Object> checkAttendance(@RequestParam("employeeId") Integer employeeId,
+                                               @RequestParam("date") LocalDate date) {
+        Map<String, Object> response = new HashMap<>();
+        ChamCong chamCong = attendanceRepository.findByNhanVienIdAndNgay(employeeId, date);
+
+        if (chamCong != null) {
+            response.put("exists", true);
+            response.put("attendance", chamCong); // Trả về dữ liệu chấm công
+        } else {
+            response.put("exists", false);
+        }
+
+        return response;
     }
 }

@@ -1,11 +1,9 @@
 package com.example.hrm.controller;
 
+import com.example.hrm.domain.BaoHiem;
 import com.example.hrm.domain.HopDong;
 import com.example.hrm.domain.NhanVien;
-import com.example.hrm.repository.ContractRepository;
-import com.example.hrm.repository.DepartmentRepository;
-import com.example.hrm.repository.PositionRepository;
-import com.example.hrm.repository.UserRepository;
+import com.example.hrm.repository.*;
 import com.example.hrm.service.UploadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,9 @@ public class UserController {
     private DepartmentRepository departmentRepository;
     @Autowired
     private PositionRepository positionRepository;
+    //lien quan den xoa nhan vien
+    @Autowired
+    private InsuranceRepository insuranceRepository;
     @GetMapping("/user")
     public String getUserPage(Model model){
         List<NhanVien> users=this.userRepository.findAll();
@@ -139,8 +140,19 @@ public class UserController {
     public String getUserDeletePage(Model model, @PathVariable Integer id){
         NhanVien nhanVien=new NhanVien();
         nhanVien.setId(id);
-        model.addAttribute("user",nhanVien);
+        model.addAttribute("newUser",nhanVien);
         return "admin/employee/delete";
+    }
+
+    @PostMapping("/user/delete")
+    public String postUserDelete(Model model, @ModelAttribute("newUser") NhanVien nv){
+        NhanVien nhanVien=this.userRepository.findById(nv.getId());
+        for(BaoHiem x: nhanVien.getBaoHiems()){
+            this.insuranceRepository.delete(x);
+        }
+        //can phai xoa them vi pham, thuong , phu cap, cham cong lien quan dn nhan vien thi moi xoa duoc nhan vien.
+        this.userRepository.delete(nhanVien);
+        return "redirect:/user";
     }
 
 }

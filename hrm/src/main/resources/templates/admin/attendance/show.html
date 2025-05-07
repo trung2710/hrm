@@ -822,7 +822,47 @@
     });
   });
 </script>
+<script>
+  // Handle click on calendar day
+  function handleAttendanceClick(date) {
+    if (!selectedEmployee) {
+      alert('Vui lòng chọn nhân viên trước');
+      return;
+    }
 
+    // Gọi API để kiểm tra xem ngày này đã được chấm công hay chưa
+    fetch(`/attendance/check?employeeId=${selectedEmployee.id}&date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.exists) {
+                // Nếu đã tồn tại, hiển thị modal chỉnh sửa chấm công
+                showEditAttendanceModal(date, data.attendance);
+              } else {
+                // Nếu chưa tồn tại, hiển thị modal thêm chấm công
+                showAttendanceModal(date);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Có lỗi xảy ra khi kiểm tra dữ liệu chấm công.');
+            });
+    function showEditAttendanceModal(date, attendance) {
+      document.getElementById('editEmployeeInput').value = `${selectedEmployee.code} - ${selectedEmployee.name}`;
+      document.getElementById('editDate').value = date;
+      document.getElementById('editAttendanceStatus').value = attendance.status;
+      document.getElementById('editTimeIn').value = attendance.timeIn || '';
+      document.getElementById('editTimeOut').value = attendance.timeOut || '';
+      const modal = new bootstrap.Modal(document.getElementById('editAttendanceModal'));
+      modal.show();
+    }
+    function showAttendanceModal(date) {
+      document.getElementById('selectedEmployeeInput').value = `${selectedEmployee.code} - ${selectedEmployee.name}`;
+      document.getElementById('selectedDate').value = date;
+      const modal = new bootstrap.Modal(document.getElementById('addAttendanceModal'));
+      modal.show();
+    }
+  }
+</script>
 </body>
 
 </html>

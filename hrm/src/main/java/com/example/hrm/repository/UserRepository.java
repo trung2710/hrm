@@ -18,4 +18,7 @@ public interface  UserRepository extends JpaRepository<NhanVien, Long>{
     void deleteById(Long id);
     NhanVien findByEmail(String email);
     List<NhanVien> findAll();
+    @Query(value="SELECT * FROM NhanVien  WHERE email=:email",nativeQuery = true)
+    NhanVien findUserByEmail(@Param("email") String email);
+
 }
