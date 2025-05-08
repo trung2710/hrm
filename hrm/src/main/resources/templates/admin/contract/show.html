@@ -81,12 +81,12 @@
     <div class="container-fluid">
       <!-- Page Heading -->
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Quản lý Hợp đồng</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
-          <i class="bi bi-plus-lg me-1"></i>
-          Tạo hợp đồng mới
-        </button>
-      </div>
+        <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
+          <h1 class="h3 mb-0 text-gray-800">Quản lý Hợp đồng</h1>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
+            <i class="bi bi-plus-lg me-1"></i>
+            Tạo hợp đồng mới
+          </button>
 
       <!-- Thống kê -->
       <div class="row mb-4">
@@ -106,7 +106,6 @@
             </div>
           </div>
         </div>
-
         <div class="col-xl-3 col-md-6">
           <div class="card stats-card border-left-success shadow h-100 py-2">
             <div class="card-body">
@@ -158,7 +157,8 @@
           </div>
         </div>
       </div>
-
+      </div>
+      </div>
       <!-- Thanh tìm kiếm và lọc -->
       <div class="card shadow mb-4">
         <div class="card-body">
@@ -196,7 +196,7 @@
 
       <!-- Danh sách hợp đồng -->
       <div class="contract-list">
-        <div th:each="hopDong: ${hopDongs}">
+        <div th:if="${hopDongs}" th:each="hopDong: ${hopDongs}">
           <div class="contract-item">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div>
@@ -231,11 +231,13 @@
                         th:attr="data-id=${hopDong.id},data-type=${hopDong.loaiHopDong},data-nv=${hopDong.nhanVien.hoTen},data-chuvu=${hopDong.nhanVien.chucVu.tenChucVu},data-pb=${hopDong.nhanVien.chucVu.phongBan.tenPhongBan},data-sta=${hopDong.ngayBatDau},data-end=${hopDong.ngayKetThuc},data-tt=${hopDong.trangThai},data-luong=${#numbers.formatDecimal(hopDong.luongCoBan, 0, 'COMMA', 0, 'POINT')}">
                   <i class="bi bi-eye"></i>
                 </button>
+                <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                 <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
                         data-bs-target="#deleteContractModal"
                         th:attr=" data-id=${hopDong.id}, data-type=${hopDong.loaiHopDong}, data-nv=${hopDong.nhanVien.hoTen}">
                   <i class="bi bi-trash"></i>
                 </button>
+                </div>
               </div>
             </div>
           </div>

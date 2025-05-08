@@ -5,7 +5,9 @@ import com.example.hrm.domain.HopDong;
 import com.example.hrm.domain.NhanVien;
 import com.example.hrm.repository.ContractRepository;
 import com.example.hrm.repository.UserRepository;
+import com.example.hrm.service.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,28 +27,47 @@ public class ContactController {
     @Autowired
     private UserRepository userRepository;
     @GetMapping("/contract")
-    public String getContactPage(Model model){
-        List<HopDong> hopDongs = contractRepository.findAll();
-        List<NhanVien> nhanVienList=this.userRepository.findAll();
-        model.addAttribute("nhanViens",nhanVienList);
-        int dem1=0;
-        int dem2=0;
-        int dem3=0;
-        for(HopDong x : hopDongs){
-            if (x.getTrangThai().equals(ContractStatusEnum.VALID.getValue())){
-                dem1+=1;
+    public String getContactPage(Model model, Authentication authentication){
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            List<HopDong> hopDongs = contractRepository.findAll();
+            List<NhanVien> nhanVienList=this.userRepository.findAll();
+            model.addAttribute("nhanViens",nhanVienList);
+            int dem1=0;
+            int dem2=0;
+            int dem3=0;
+            for(HopDong x : hopDongs){
+                //logic nếu hợp đồng hết hạn thì set trạng thái của hợp đồng.
+                if(x.getNgayKetThuc().isBefore(LocalDate.now())){
+                    x.setTrangThai(ContractStatusEnum.EXPIRED.getValue());
+                    this.contractRepository.save(x);
+                }
+                if (x.getTrangThai().equals(ContractStatusEnum.VALID.getValue())){
+                    dem1+=1;
+                }
+                else if(ChronoUnit.DAYS.between(x.getNgayKetThuc(), LocalDate.now())<=60){
+                    dem2+=1;
+                }
+                else{
+                    dem3+=1;
+                }
             }
-            else if(ChronoUnit.DAYS.between(x.getNgayKetThuc(), LocalDate.now())<=60){
-                dem2+=1;
-            }
-            else{
-                dem3+=1;
-            }
+            model.addAttribute("valid",dem1);
+            model.addAttribute("expire",dem2);
+            model.addAttribute("expired",dem3);
+            model.addAttribute("hopDongs",hopDongs);
         }
-        model.addAttribute("valid",dem1);
-        model.addAttribute("expire",dem2);
-        model.addAttribute("expired",dem3);
-        model.addAttribute("hopDongs",hopDongs);
+        else{
+            List<HopDong> hopDongs = contractRepository.findAll();
+            for (HopDong x : hopDongs){
+                if(x.getNhanVien().getId()!=nhanVien.getId()){
+                    hopDongs.remove(x);
+                }
+            }
+            model.addAttribute("hopDongs",hopDongs);
+        }
+
         return "admin/contract/show";
     }
 
@@ -71,6 +92,9 @@ public class ContactController {
             hopDong.setNgayKetThuc(end);
             hopDong.setLuongCoBan(luongCoBan);
             this.contractRepository.save(hopDong);
+            NhanVien nhanVien=hopDong.getNhanVien();
+            nhanVien.setLuongHienTai(hopDong.getLuongCoBan());
+            this.userRepository.save(nhanVien);
         }
         return "redirect:/contract";
     }

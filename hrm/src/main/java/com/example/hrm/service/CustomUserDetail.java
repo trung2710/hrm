@@ -1,6 +1,7 @@
 package com.example.hrm.service;
 
 import com.example.hrm.domain.NhanVien;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,52 +9,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetail implements UserDetails {
-    private final NhanVien nhanVien;
+public class CustomUserDetail extends User {
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private NhanVien nhanVien;
 
-    public CustomUserDetail(NhanVien user, Collection<? extends GrantedAuthority> authorities) {
-        this.nhanVien = user;
-        this.authorities = authorities;
+    public NhanVien getNhanVien() {
+        return nhanVien;
     }
 
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
     }
 
-    @Override
-    public String getPassword() {
-        return nhanVien.getPassword();
+    public CustomUserDetail(NhanVien nhanVien,String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+        this.nhanVien=nhanVien;
     }
 
-    @Override
-    public String getUsername() {
-        return nhanVien.getEmail();
-    }
-
-
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public CustomUserDetail(NhanVien nhanVien,String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        this.nhanVien=nhanVien;
     }
 }

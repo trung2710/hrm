@@ -54,6 +54,19 @@ public class AttendanceController {
     @GetMapping("/attendance")
     public String getAttendancePage(Model model){
         List<ChamCong> chamCongs = this.attendanceRepository.findAll();
+        for(ChamCong chamCong:chamCongs){
+            if(chamCong.getGioVao().isAfter(LocalTime.of(8,0))){
+                chamCong.setTrangThai(ChamCongStatusEnum.LATE.getValue());
+                NV_ViPham nV_ViPham=new NV_ViPham();
+                nV_ViPham.setNhanVien(chamCong.getNhanVien());
+                nV_ViPham.setViPham(violationRepository.findById(1));
+                nV_ViPham.setNgayViPham(LocalDate.now());
+                long min=Duration.between(LocalTime.of(8,0),chamCong.getGioVao()).toMinutes();
+                nV_ViPham.setMoTa("Đi làm muộn "+min +"phút");
+                nV_ViPham.setNguoiRaQuyetDinh(this.userRepository.findById(2));
+                this.nV_ViPhamRepository.save(nV_ViPham);
+            }
+        }
         model.addAttribute("chamCongs",chamCongs);
         List<NhanVien> users = this.userRepository.findAll();
         model.addAttribute("users",users);
@@ -129,20 +142,4 @@ public class AttendanceController {
         return "redirect:/attendance";
     }
 
-    @GetMapping("/attendance/check")
-    @ResponseBody
-    public Map<String, Object> checkAttendance(@RequestParam("employeeId") Integer employeeId,
-                                               @RequestParam("date") LocalDate date) {
-        Map<String, Object> response = new HashMap<>();
-        ChamCong chamCong = attendanceRepository.findByNhanVienIdAndNgay(employeeId, date);
-
-        if (chamCong != null) {
-            response.put("exists", true);
-            response.put("attendance", chamCong); // Trả về dữ liệu chấm công
-        } else {
-            response.put("exists", false);
-        }
-
-        return response;
-    }
 }

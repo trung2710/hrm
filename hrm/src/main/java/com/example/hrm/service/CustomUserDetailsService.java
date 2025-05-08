@@ -25,8 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        return new CustomUserDetail(nhanVien,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_"+nhanVien.getChucVu().getQuyen().getTenQuyen()))
-        );
+        return new CustomUserDetail(nhanVien,nhanVien.getEmail(),nhanVien.getPassword(),Collections.singletonList(new SimpleGrantedAuthority("ROLE_"+nhanVien.getChucVu().getQuyen().getTenQuyen())));
     }
 }

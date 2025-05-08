@@ -2,56 +2,60 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-brand d-flex align-items-center justify-content-center py-4">
-            <div class="sidebar-brand-icon">
-                <i class="bi bi-building fs-4"></i>
+            <a class="nav-link" th:href="@{/}">
+                <div class="sidebar-brand-icon">
+                    <i class="bi bi-building fs-4"></i>
+                    <div class="sidebar-brand-text mx-3">HR Manager</div>
+                </div>
+            </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
+            <div class="sidebar-heading">Tổng quan</div>
+
+            <div class="nav-item">
+                <a th:href="@{/}" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
             </div>
-            <div class="sidebar-brand-text mx-3">HR Manager</div>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Quản lý nhân sự</div>
+
+            <div class="nav-item">
+                <a th:href="@{/user}" class="nav-link " >
+
+                    <i class="bi bi-people"></i>
+                    <span>Nhân viên</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a th:href="@{/department}" class="nav-link active">
+                    <i class="bi bi-diagram-3"></i>
+                    <span>Phòng ban</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a th:href="@{/position}" class="nav-link active">
+                    <i class="bi bi-person-badge"></i>
+                    <span>Chức vụ</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a th:href="@{/role}" class="nav-link active">
+                    <i class="bi bi-person-badge"></i>
+                    <span>Quyền</span>
+                </a>
+            </div>
+
+            <hr class="sidebar-divider">
         </div>
-
-        <hr class="sidebar-divider">
-
-        <div class="sidebar-heading">Tổng quan</div>
-
-        <div class="nav-item">
-            <a th:href="@{/}" class="nav-link">
-                <i class="bi bi-speedometer2"></i>
-                <span>Dashboard</span>
-            </a>
-        </div>
-
-        <hr class="sidebar-divider">
-
-        <div class="sidebar-heading">Quản lý nhân sự</div>
-
-        <div class="nav-item">
-            <a th:href="@{/user}" class="nav-link " >
-
-                <i class="bi bi-people"></i>
-                <span>Nhân viên</span>
-            </a>
-        </div>
-
-        <div class="nav-item">
-            <a th:href="@{/department}" class="nav-link active">
-                <i class="bi bi-diagram-3"></i>
-                <span>Phòng ban</span>
-            </a>
-        </div>
-
-        <div class="nav-item">
-            <a th:href="@{/position}" class="nav-link active">
-                <i class="bi bi-person-badge"></i>
-                <span>Chức vụ</span>
-            </a>
-        </div>
-        <div class="nav-item">
-            <a th:href="@{/role}" class="nav-link active">
-                <i class="bi bi-person-badge"></i>
-                <span>Quyền</span>
-            </a>
-        </div>
-
-        <hr class="sidebar-divider">
 
         <div class="sidebar-heading">Quản lý hợp đồng</div>
 
@@ -146,32 +150,19 @@
 
         <hr class="sidebar-divider">
 
-        <div class="sidebar-heading">Báo cáo</div>
 
-        <div class="nav-item">
-            <a th:href="@{/report}" class="nav-link active">
-                <i class="bi bi-bar-chart"></i>
-                <span>Báo cáo</span>
-            </a>
+
+        <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
+            <div class="sidebar-heading">Báo cáo</div>
+            <div class="nav-item">
+                <a th:href="@{/report}" class="nav-link active">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>Báo cáo</span>
+                </a>
+            </div>
         </div>
-
         <hr class="sidebar-divider">
 
-        <div class="sidebar-heading">Hệ thống</div>
-
-        <div class="nav-item">
-            <a href="users.html" class="nav-link active">
-                <i class="bi bi-person-lock"></i>
-                <span>Tài khoản</span>
-            </a>
-        </div>
-
-        <div class="nav-item">
-            <a href="settings.html" class="nav-link active">
-                <i class="bi bi-gear"></i>
-                <span>Cài đặt</span>
-            </a>
-        </div>
 
         <hr class="sidebar-divider">
 
