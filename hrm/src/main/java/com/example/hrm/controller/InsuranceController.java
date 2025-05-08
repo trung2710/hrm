@@ -4,8 +4,10 @@ import com.example.hrm.domain.BaoHiem;
 import com.example.hrm.domain.NhanVien;
 import com.example.hrm.repository.InsuranceRepository;
 import com.example.hrm.repository.UserRepository;
+import com.example.hrm.service.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +25,26 @@ public class InsuranceController {
     @Autowired
     private UserRepository userRepository;
     @GetMapping("/insurance")
-    public String getInsurancePage(Model model){
+    public String getInsurancePage(Model model, Authentication authentication){
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
         List<BaoHiem> bhs=this.insuranceRepository.findAll();
-        model.addAttribute("bhs",bhs );
-        List<NhanVien> nhanViens=this.userRepository.findAll();
-        model.addAttribute("nhanViens",nhanViens);
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            model.addAttribute("bhs",bhs );
+            List<NhanVien> nhanViens=this.userRepository.findAll();
+            model.addAttribute("nhanViens",nhanViens);
+        }
+        else{
+            List<BaoHiem> bhs1=new java.util.ArrayList<>();
+            for(BaoHiem bh:bhs){
+                if(bh.getNhanVien().getId().equals(nhanVien.getId())){
+                    bhs1.add(bh);
+                }
+            }
+            model.addAttribute("bhs",bhs1);
+        }
+
+
         return "admin/insurance/show";
     }
 

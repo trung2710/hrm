@@ -7,7 +7,9 @@ import com.example.hrm.domain.idClass.NVPhuCapId;
 import com.example.hrm.repository.AllowanceRepository;
 import com.example.hrm.repository.NV_AllowanceRepository;
 import com.example.hrm.repository.UserRepository;
+import com.example.hrm.service.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +30,27 @@ public class AllowanceController {
     @Autowired
     private NV_AllowanceRepository nv_allowanceRepository;
     @GetMapping("/allowance")
-    public String getAllowancePage(Model model){
+    public String getAllowancePage(Model model, Authentication authentication){
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
+
         List<PhuCap> phuCaps = allowanceRepository.findAll();
         model.addAttribute("phuCaps",phuCaps);
         List<NhanVien> nhanVienList = userRepository.findAll();
         model.addAttribute("nhanViens",nhanVienList);
         List<NV_PhuCap> nv_phuCaps = nv_allowanceRepository.findAll();
-        model.addAttribute("nv_phuCaps",nv_phuCaps);
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            model.addAttribute("nv_phuCaps",nv_phuCaps);
+        }
+        else{
+            List<NV_PhuCap> nv=new java.util.ArrayList<>();
+            for(NV_PhuCap x:nv_phuCaps){
+                if(x.getNhanVien().getId().equals(nhanVien.getId())){
+                    nv.add(x);
+                }
+            }
+            model.addAttribute("nv_phuCaps",nv);
+        }
         return "admin/allowances/show";
     }
 

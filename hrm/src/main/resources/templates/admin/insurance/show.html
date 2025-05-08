@@ -20,17 +20,21 @@
   <div class="content-wrapper">
     <!-- Topbar -->
     <div th:replace="~{layout/header :: header}"></div>
+    <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
     <div th:if="${mess}">[[${mess}]]</div>
+    </div>
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
       <!-- Page Heading -->
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Quản lý bảo hiểm</h1>
-        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+        <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
+          <h1 class="h3 mb-0 text-gray-800">Quản lý bảo hiểm</h1>
+          <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
                 data-bs-target="#addInsuranceModal">
-          <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm bảo hiểm
-        </button>
+            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm bảo hiểm
+          </button>
+        </div>
       </div>
 
       <!-- Search and Filter -->
@@ -121,6 +125,7 @@
                               th:attr="data-id=${baoHiem.id}, data-ten=${baoHiem.tenBaoHiem}, data-sta=${baoHiem.ngayBatDau}, data-end=${baoHiem.ngayHetHan},data-tenNv=${baoHiem.nhanVien.hoTen}, data-idNv=${baoHiem.nhanVien.id}, data-chuvuNv=${baoHiem.nhanVien.chucVu.tenChucVu}, data-pb=${baoHiem.nhanVien.chucVu.phongBan.tenPhongBan}">
                         <i class="bi bi-eye"></i>
                       </button>
+                      <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                       <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
                               data-bs-toggle="modal" data-bs-target="#editInsuranceModal"
                               th:attr="data-id=${baoHiem.id}, data-ten=${baoHiem.tenBaoHiem}, data-nv=${baoHiem.nhanVien.hoTen}, data-sta=${baoHiem.ngayBatDau}, data-end=${baoHiem.ngayHetHan}">
@@ -131,6 +136,7 @@
                               th:attr="data-id=${baoHiem.id}, data-ten=${baoHiem.tenBaoHiem}, data-nv=${baoHiem.nhanVien.hoTen}, data-sta=${baoHiem.ngayBatDau}, data-end=${baoHiem.ngayHetHan}">
                         <i class="bi bi-trash"></i>
                       </button>
+                      </div>
                     </div>
                   </td>
                 </tr>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -60,12 +61,13 @@ public class ContactController {
         }
         else{
             List<HopDong> hopDongs = contractRepository.findAll();
+            List<HopDong>hp=new ArrayList<>();
             for (HopDong x : hopDongs){
-                if(x.getNhanVien().getId()!=nhanVien.getId()){
-                    hopDongs.remove(x);
+                if(x.getNhanVien().getId().equals(nhanVien.getId())){
+                    hp.add(x);
                 }
             }
-            model.addAttribute("hopDongs",hopDongs);
+            model.addAttribute("hopDongs",hp);
         }
 
         return "admin/contract/show";
@@ -80,7 +82,7 @@ public class ContactController {
         List<HopDong> hopDongs=this.contractRepository.findAll();
         boolean check=true;
         for(HopDong x:hopDongs){
-            if(x.getNhanVien().getId()==id && x.getNgayKetThuc().isAfter(sta)){
+            if(x.getNhanVien().getId().equals(id) && x.getNgayKetThuc().isAfter(sta)){
                 check=false;
                 break;
             }

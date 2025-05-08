@@ -25,6 +25,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
       <!-- Page Heading -->
+      <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Quản lý phụ cấp</h1>
         <div>
@@ -38,7 +39,7 @@
           </button>
         </div>
       </div>
-
+      </div>
       <!-- Allowance Types Card -->
       <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -83,6 +84,7 @@
                 <td th:text="${phuCap.loaiPhuCap}"></td>
                 <td th:text="${phuCap.moTa}"></td>
                 <td th:text="${#numbers.formatDecimal(phuCap.mucPhuCap, 0, 'COMMA', 0, 'POINT')}"></td>
+                <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
@@ -98,6 +100,7 @@
                     </button>
                   </div>
                 </td>
+                </div>
               </tr>
               </tbody>
             </table>
@@ -200,6 +203,7 @@
                             th:attr="data-id=${nv.nhanVien.id},data-hoten=${nv.nhanVien.hoTen},data-cv=${nv.nhanVien.chucVu.tenChucVu}, data-pb=${nv.nhanVien.chucVu.phongBan.tenPhongBan}, data-loai=${nv.phuCap.tenPhuCap}, data-muc=${#numbers.formatDecimal(nv.mucTien, 0, 'COMMA', 0, 'POINT')}, data-sta=${nv.ngayBatDau}, data-end=${nv.ngayKetThuc}">
                       <i class="bi bi-eye"></i>
                     </button>
+                    <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
                             data-bs-toggle="modal" data-bs-target="#editAllowanceModal"
                             th:attr="data-id=${nv.nhanVien.id},data-hoten=${nv.nhanVien.hoTen},data-cv=${nv.nhanVien.chucVu.tenChucVu}, data-pb=${nv.nhanVien.chucVu.phongBan.tenPhongBan}, data-phuCap-id=${nv.phuCap.id},data-loai=${nv.phuCap.tenPhuCap}, data-muc=${nv.mucTien}, data-sta=${nv.ngayBatDau}, data-end=${nv.ngayKetThuc}">
@@ -210,6 +214,7 @@
                             th:attr="data-id=${nv.nhanVien.id},data-hoten=${nv.nhanVien.hoTen},data-cv=${nv.nhanVien.chucVu.tenChucVu}, data-pb=${nv.nhanVien.chucVu.phongBan.tenPhongBan},data-phuCap-id=${nv.phuCap.id}, data-loai=${nv.phuCap.tenPhuCap}, data-muc=${#numbers.formatDecimal(nv.mucTien, 0, 'COMMA', 0, 'POINT')}, data-sta=${nv.ngayBatDau}, data-end=${nv.ngayKetThuc}">
                       <i class="bi bi-trash"></i>
                     </button>
+                    </div>
                   </div>
                 </td>
               </tr>

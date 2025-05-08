@@ -96,10 +96,12 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Thông báo</h1>
+                <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createNotificationModal">
                     <i class="bi bi-plus-lg me-1"></i>
                     Tạo thông báo
                 </button>
+                </div>
             </div>
 
             <!-- Notifications List -->
@@ -249,10 +251,12 @@
                 <input type="text" class="form-control" id="viewNotiId" name="id" readonly>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                     <button type="submit" class="btn btn-danger">
                         <i class="bi bi-trash me-1"></i>
                         Xóa thông báo
                     </button>
+                    </div>
                 </div>
             </form>
         </div>

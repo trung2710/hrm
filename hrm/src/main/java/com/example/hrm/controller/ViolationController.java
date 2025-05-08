@@ -7,7 +7,9 @@ import com.example.hrm.domain.idClass.NVViPhamId;
 import com.example.hrm.repository.NV_ViolationRepository;
 import com.example.hrm.repository.UserRepository;
 import com.example.hrm.repository.ViolationRepository;
+import com.example.hrm.service.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,13 +29,26 @@ public class ViolationController {
     @Autowired
     private NV_ViolationRepository nvViolationRepository;
     @GetMapping("/violation-type")
-    public String getViolationPage(Model model){
+    public String getViolationPage(Model model, Authentication authentication){
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
         List<ViPham> viPhams = violationRepository.findAll();
         model.addAttribute("viPhams",viPhams);
         List<NhanVien> nhanVienList = userRepository.findAll();
         model.addAttribute("nhanVienList",nhanVienList);
         List<NV_ViPham> nv_viPhams=this.nvViolationRepository.findAll();
-        model.addAttribute("nv_viPhams",nv_viPhams);
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            model.addAttribute("nv_viPhams",nv_viPhams);
+        }
+        else{
+            List<NV_ViPham> nv_viPhams1=new java.util.ArrayList<>();
+            for(NV_ViPham nv_viPham:nv_viPhams){
+                if(nv_viPham.getNhanVien().getId().equals(nhanVien.getId())){
+                    nv_viPhams1.add(nv_viPham);
+                }
+            }
+            model.addAttribute("nv_viPhams",nv_viPhams1);
+        }
         return "admin/violation/show";
     }
 

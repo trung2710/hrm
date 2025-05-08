@@ -15,172 +15,418 @@
 
 <body>
 <div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
   <!-- Content Wrapper -->
   <div class="content-wrapper">
+    <!-- Topbar -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+    <!-- Begin Page Content -->
     <div class="container-fluid">
       <!-- Page Heading -->
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Quản lý chấm công</h1>
-        <button class="btn btn-primary btn-sm" id="addAttendanceButton" disabled data-bs-toggle="modal"
-                data-bs-target="#addAttendanceModal">
-          <i class="bi bi-plus-lg"></i> Thêm bản ghi
-        </button>
+        <div>
+          <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
+          <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                  data-bs-target="#addAttendanceModal">
+            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm chấm công
+          </button>
+          </div>
+        </div>
       </div>
 
-      <div class="row">
-        <!-- Employee List -->
-        <div class="col-md-4">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+      <!-- Search and Filter -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc</h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
             </div>
-            <div class="card-body">
-              <ul class="list-group" id="employeeList">
-                <!-- Hiển thị danh sách nhân viên -->
-                <li th:each="user : ${users}"
-                    class="list-group-item"
-                    th:attr="data-id=${user.id}, data-chamcongs=${#objects.toJson(user.chamCongs)}"
-                    th:text="${user.hoTen}"
-                    onclick="selectEmployee(this)">
-                </li>
-              </ul>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Phòng ban</option>
+                <option value="1">Kỹ thuật</option>
+                <option value="2">Kinh doanh</option>
+                <option value="3">Nhân sự</option>
+                <option value="4">Kế toán</option>
+                <option value="5">Marketing</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option value="">Trạng thái</option>
+                <option value="1">Đúng giờ</option>
+                <option value="2">Đi muộn</option>
+                <option value="3">Về sớm</option>
+                <option value="4">Vắng mặt</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <input type="date" class="form-control" placeholder="Từ ngày">
+            </div>
+            <div class="col-md-2">
+              <input type="date" class="form-control" placeholder="Đến ngày">
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-primary w-100">
+                <i class="bi bi-search"></i>
+              </button>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Attendance Records -->
-        <div class="col-md-8">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">
-                Bản chấm công - <span id="selectedEmployeeName">Chưa chọn</span>
-              </h6>
+      <!-- Attendance List -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Danh sách chấm công</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+              <div class="dropdown-header">Tùy chọn:</div>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-excel me-2"></i>Xuất Excel
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-file-pdf me-2"></i>Xuất PDF
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="bi bi-printer me-2"></i>In danh sách
+              </a>
             </div>
-            <div class="card-body">
-              <table class="table table-bordered">
-                <thead>
-                <tr>
-                  <th>Ngày</th>
-                  <th>Giờ vào</th>
-                  <th>Giờ ra</th>
-                  <th>Trạng thái</th>
-                  <th>Thao tác</th>
-                </tr>
-                </thead>
-                <tbody id="attendanceRecords">
-                <tr>
-                  <td colspan="5" class="text-center text-muted">Chọn nhân viên để hiển thị bản ghi chấm công</td>
-                </tr>
-                </tbody>
-              </table>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Mã NV</th>
+                <th>Họ tên</th>
+                <th>Phòng ban</th>
+                <th>Chức vụ</th>
+                <th>Ngày</th>
+                <th>Giờ vào</th>
+                <th>Giờ ra</th>
+                <th>Trạng thái</th>
+                <th>Tăng ca</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="cc: ${chamCongs}">
+                <td>[[${cc.nhanVien.id}]]</td>
+                <td>[[${cc.nhanVien.hoTen}]]</td>
+                <td>[[${cc.nhanVien.chucVu.phongBan.tenPhongBan}]]</td>
+                <td>[[${cc.nhanVien.chucVu.tenChucVu}]]</td>
+                <td>[[${cc.ngay}]]</td>
+                <td>[[${cc.gioVao}]]</td>
+                <td>[[${cc.gioRa}]]</td>
+                <td>
+                  <span class="badge bg-success" th:if="${cc.trangThai.equals('Đúng giờ')}">Đúng giờ</span>
+                  <span class="badge bg-warning" th:if="${cc.trangThai.equals('Muộn')}">Muộn</span>
+                  <span class="badge bg-danger" th:if="${cc.trangThai.equals('Vắng')}">Vắng</span>
+                </td>
+                <td>[[${cc.soGioTangCa}]]</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
+                            data-bs-toggle="modal" data-bs-target="#editAttendanceModal"
+                    th:attr="data-id=${cc.id},data-ngay=${cc.ngay}, data-vao=${cc.gioVao}, data-ra=${cc.gioRa},data-mnv=${cc.nhanVien.id}, data-ten=${cc.nhanVien.hoTen}">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
+                            data-bs-toggle="modal" data-bs-target="#deleteAttendanceModal"
+                            th:attr="data-id=${cc.id},data-ngay=${cc.ngay}, data-vao=${cc.gioVao}, data-ra=${cc.gioRa},data-mnv=${cc.nhanVien.id}, data-ten=${cc.nhanVien.hoTen}">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>Hiển thị 1 đến 5 của 150 bản ghi</div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Summary -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Thống kê chấm công tháng 12/2023</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Tổng số ngày làm việc</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">22 ngày</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-calendar-date fs-2 text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Đúng giờ</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">85%</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-check-circle fs-2 text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        Đi muộn/Về sớm</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">12%</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-exclamation-circle fs-2 text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                        Vắng mặt</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">3%</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-x-circle fs-2 text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- /.container-fluid -->
   </div>
+  <!-- End of Content Wrapper -->
 </div>
+<!-- End of Page Wrapper -->
 
-<!-- Modals -->
 <!-- Add Attendance Modal -->
 <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceModalLabel"
      aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addAttendanceModalLabel">Thêm bản chấm công</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <h5 class="modal-title" id="addAttendanceModalLabel">Thêm chấm công</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="addAttendanceForm" method="post" th:action="@{/attendance/create}">
+        <form method="post" th:action="@{/attendance/create}">
           <div class="mb-3">
-            <label for="addAttendanceDate" class="form-label">Ngày</label>
-            <input type="date" class="form-control" id="addAttendanceDate" name="ngay" required>
+            <label for="employee" class="form-label">Nhân viên <span
+                    class="text-danger">*</span></label>
+            <select class="form-select" id="employee" name="id" required>
+              <option value="">Chọn nhân viên</option>
+              <option
+                      th:each="user:${users}"
+                      th:value="${user.id}"
+                      th:text="${user.hoTen+'-'+user.cccd}"></option>
+            </select>
           </div>
           <div class="mb-3">
-            <label for="addAttendanceTimeIn" class="form-label">Giờ vào</label>
-            <input type="time" class="form-control" id="addAttendanceTimeIn" name="in">
+            <label for="date" class="form-label">Ngày <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="date" name="ngay" required>
           </div>
-          <input type="hidden" id="selectedEmployeeId" name="id">
+          <div class="mb-3">
+            <label for="timeIn" class="form-label">Giờ vào</label>
+            <input type="time" class="form-control" id="timeIn" name="in" required>
+          </div>
+          <div class="mb-3">
+            <label for="timeOut" class="form-label">Giờ ra</label>
+            <input type="time" class="form-control" id="timeOut">
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
             <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- View Attendance Modal -->
-<div class="modal fade" id="viewAttendanceModal" tabindex="-1" aria-labelledby="viewAttendanceModalLabel"
+<!-- Edit Attendance Modal -->
+<div class="modal fade" id="editAttendanceModal" tabindex="-1" aria-labelledby="editAttendanceModalLabel"
      aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="viewAttendanceModalLabel">Chi tiết bản chấm công</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <h5 class="modal-title" id="editAttendanceModalLabel">Chỉnh sửa chấm công</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Ngày:</strong> <span id="viewDate"></span></p>
-        <p><strong>Giờ vào:</strong> <span id="viewTimeIn"></span></p>
-        <p><strong>Giờ ra:</strong> <span id="viewTimeOut"></span></p>
-        <p><strong>Trạng thái:</strong> <span id="viewStatus"></span></p>
+        <form method="post" th:action="@{/attendance/update}">
+          <div class="mb-3">
+            <input type="hidden" id="editAttendanceId" name="mcc" readonly>
+            <label for="editEmployeeName" class="form-label">Nhân viên <span
+                    class="text-danger">*</span></label>
+            <input type="text" id="editEmployeeName" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="editAttendanceDate" class="form-label">Ngày <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="editAttendanceDate" name="ngay" required>
+          </div>
+          <div class="mb-3">
+            <label for="editAttendanceTimeIn" class="form-label">Giờ vào</label>
+            <input type="time" class="form-control" id="editAttendanceTimeIn" name="in" required>
+          </div>
+          <div class="mb-3">
+            <label for="editAttendanceTimeOut" class="form-label">Giờ ra</label>
+            <input type="time" class="form-control" id="editAttendanceTimeOut" name="out" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
+        </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- Delete Attendance Modal -->
+<div class="modal fade" id="deleteAttendanceModal" tabindex="-1" aria-labelledby="deleteAttendanceModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAttendanceModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa dữ liệu chấm công này không? Hành động này không thể hoàn tác.
+      </div>
+      <form method="post" th:action="@{/attendance/delete}">
+        <input type="hidden" id="deleteAttendanceId" name="id" readonly>
+        <label for="deleteEmployeeName" class="form-label">Nhân viên <span
+                class="text-danger">*</span></label>
+        <input type="text" id="deleteEmployeeName" readonly>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function selectEmployee(element) {
-    const employeeId = element.getAttribute('data-id');
-    const employeeName = element.textContent.trim();
-    const selectedEmployeeName = document.getElementById('selectedEmployeeName');
-    const attendanceRecords = document.getElementById('attendanceRecords');
-
-    // Hiển thị tên nhân viên đã chọn
-    selectedEmployeeName.textContent = employeeName;
-
-    // Kích hoạt nút thêm bản ghi
-    document.getElementById('addAttendanceButton').disabled = false;
-
-    // Lấy danh sách chấm công của nhân viên từ thuộc tính `data-chamcongs`
-    const chamCongs = JSON.parse(element.getAttribute('data-chamcongs'));
-
-    // Xóa danh sách cũ
-    attendanceRecords.innerHTML = '';
-
-    // Hiển thị danh sách chấm công mới
-    if (chamCongs && chamCongs.length > 0) {
-      chamCongs.forEach(record => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-        <td>${record.ngay}</td>
-        <td>${record.gioVao}</td>
-        <td>${record.gioRa || 'Chưa có'}</td>
-        <td>${record.trangThai}</td>
-        <td>
-          <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewAttendanceModal">Xem</button>
-          <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editAttendanceModal">Sửa</button>
-          <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAttendanceModal">Xóa</button>
-        </td>
-      `;
-        attendanceRecords.appendChild(row);
-      });
-    } else {
-      attendanceRecords.innerHTML = `
-      <tr>
-        <td colspan="5" class="text-center text-muted">Không có bản ghi chấm công</td>
-      </tr>
-    `;
-    }
-  }
-</script>
+<!-- Custom scripts -->
+<script src="/js/script.js"></script>
 </body>
+<script>
+  const editModal = document.getElementById('editAttendanceModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xoa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ngay = button.getAttribute('data-ngay');
+    const vao = button.getAttribute('data-vao');
+    const ra = button.getAttribute('data-ra');
+    const mnv = button.getAttribute('data-mnv');
+    const ten = button.getAttribute('data-ten');
 
+
+
+    document.getElementById('editAttendanceId').value = id;
+    document.getElementById('editAttendanceDate').value = ngay;
+    document.getElementById('editAttendanceTimeIn').value = vao;
+    document.getElementById('editAttendanceTimeOut').value = ra;
+    document.getElementById('editEmployeeId').value = mnv;
+    document.getElementById('editEmployeeName').value = ten;
+  });
+</script>
+<script>
+  const deleteModal = document.getElementById('deleteAttendanceModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Nút "Xoa" được nhấn
+    // Lấy dữ liệu từ thuộc tính data-*
+    const id = button.getAttribute('data-id');
+    const ngay = button.getAttribute('data-ngay');
+    const vao = button.getAttribute('data-vao');
+    const ra = button.getAttribute('data-ra');
+    const mnv = button.getAttribute('data-mnv');
+    const ten = button.getAttribute('data-ten');
+
+
+
+    document.getElementById('deleteAttendanceId').value = id;
+    document.getElementById('deleteAttendanceDate').value = ngay;
+    document.getElementById('deleteAttendanceTimeIn').value = vao;
+    document.getElementById('deleteAttendanceTimeOut').value = ra;
+    document.getElementById('deleteEmployeeId').value = mnv;
+    document.getElementById('deleteEmployeeName').value = ten;
+  });
+</script>
 </html>

@@ -35,7 +35,7 @@
           </button>
         </div>
       </div>
-
+      <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
       <!-- Form Statistics -->
       <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
@@ -105,6 +105,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <!-- Search and Filter -->
@@ -177,6 +178,22 @@
                         Gửi: [[${form.ngayGuiDon}]]
                       </small>
                       <div>
+                        Nguời gửi : [[${form.nhanVien.hoTen+' - '+ form.nhanVien.chucVu.tenChucVu+' - '+ form.nhanVien.chucVu.phongBan.tenPhongBan}]]
+                      </div>
+                      <div class="d-flex align-items-center justify-content-center">
+                        <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
+                          <div th:if="${form.trangThai.equals('Chờ duyệt')}">
+                            <form method="post" th:action="@{/form/update}">
+                              <input type="hidden" class="form-control" th:value="${form.id}" name="id" readonly>
+                              <button type="submit" class="btn btn-success btn-circle btn-sm me-1" title="Duyệt" name="action" value="yes">
+                                <i class="bi bi-check"></i>
+                              </button>
+                              <button type="submit" class="btn btn-danger btn-circle btn-sm me-1" title="Từ chối" name="action" value="no">
+                                <i class="bi bi-x"></i>
+                              </button>
+                            </form>
+                          </div>
+                        </div>
                         <button class="btn btn-sm btn-info me-1" title="Xem chi tiết"
                                 data-bs-toggle="modal" data-bs-target="#viewFormModal"
                         th:attr="data-id=${form.id},data-loai=${form.loaiDon},data-date=${form.ngayGuiDon},data-qd=${form.nguoiPheDuyet.hoTen},data-status=${form.trangThai},data-mnv=${form.nhanVien.id},data-ten=${form.nhanVien.hoTen},data-pb=${form.nhanVien.chucVu.phongBan.tenPhongBan},data-cv=${form.nhanVien.chucVu.tenChucVu},data-email=${form.nhanVien.email}">
@@ -186,11 +203,13 @@
 <!--                                data-bs-toggle="modal" data-bs-target="#editFormModal">-->
 <!--                          <i class="bi bi-pencil"></i>-->
 <!--                        </button>-->
+                        <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                         <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
                                 data-bs-target="#deleteFormModal"
                                 th:attr="data-id=${form.id},data-loai=${form.loaiDon},data-date=${form.ngayGuiDon},data-qd=${form.nguoiPheDuyet.hoTen},data-mnv=${form.nhanVien.id},data-ten=${form.nhanVien.hoTen},data-pb=${form.nhanVien.chucVu.phongBan.tenPhongBan},data-cv=${form.nhanVien.chucVu.tenChucVu},data-email=${form.nhanVien.email}">
                           <i class="bi bi-trash"></i>
                         </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -246,12 +265,6 @@
         <form method="post" th:action="@{/form/create}">
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="leaveEmployeeId" class="form-label">Mã nhân viên<span
-                      class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="leaveEmployeeId" name="id" readonly>
-              <label for="leaveEmployee" class="form-label">Người gửi đơn<span
-                      class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="leaveEmployee" readonly>
               <label for="leaveType" class="form-label">Nội dung của đơn<span
                       class="text-danger">*</span></label>
               <input type="text" class="form-control" id="leaveType" name="type" required>
@@ -261,8 +274,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-primary">Gửi đơn</button>
-            <button type="submit" class="btn btn-outline-primary">Lưu nháp</button>
+            <button type="submit" class="btn btn-primary">Gửi đơn</button>
           </div>
         </form>
       </div>
@@ -316,7 +328,7 @@
               </tr>
               <tr>
                 <th>Trạng thái</th>
-                <td><span class="badge bg-warning" id="form-status"></span></td>
+                <td><span class="badge bg-success" id="viewFormStatus"></span></td>
               </tr>
               <tr>
                 <th>Ngày tạo</th>
@@ -352,14 +364,10 @@
 
 
       </div>
-      <form method="post" th:action="@{/form/update}">
-        <input type="hidden" class="form-control" id="viewFormMa" name="id" readonly>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button type="submit" class="btn btn-danger" name="action" value="reject">Từ chối</button>
-            <button type="submit" class="btn btn-success" name="action" value="approve">Phê duyệt</button>
-        </div>
-      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -401,24 +409,23 @@
     const loai = button.getAttribute('data-loai');
     const date = button.getAttribute('data-date');
     const qd = button.getAttribute('data-qd');
+    const status = button.getAttribute('data-status');
     const mnv = button.getAttribute('data-mnv');
     const ten = button.getAttribute('data-ten');
     const pb = button.getAttribute('data-pb');
     const cv = button.getAttribute('data-cv');
     const email = button.getAttribute('data-email');
-    const status = button.getAttribute('data-status');
     // Cập nhật nội dung modal
     document.getElementById('viewFormId').textContent = id;
-    document.getElementById('viewFormMa').textContent = id;
     document.getElementById('viewFormName').textContent = loai;
     document.getElementById('viewFormDate').textContent = date;
     document.getElementById('viewFormQd').textContent = qd;
+    document.getElementById('viewFormStatus').textContent = status;
     document.getElementById('viewFormMnv').textContent = mnv;
     document.getElementById('viewFormTen').textContent = ten;
     document.getElementById('viewFormPb').textContent = pb;
     document.getElementById('viewFormCv').textContent = cv;
     document.getElementById('viewFormEmail').textContent = email;
-    document.getElementById('form-status').textContent = status;
 
   });
 </script>

@@ -26,6 +26,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
+                <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Quản lý vi phạm</h1>
                     <div>
@@ -39,7 +40,7 @@
                         </button>
                     </div>
                 </div>
-
+                </div>
                 <!-- Violation Types Card -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -82,6 +83,7 @@
                                     <td th:text="${viPham.loaiViPham}"></td>
                                     <td th:text="${viPham.hinhThucPhat}"></td>
                                     <td th:text="${#numbers.formatDecimal(viPham.soTienPhat, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                                    <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                                     <td>
                                         <div class="d-flex">
                                             <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
@@ -95,7 +97,7 @@
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
-                                    </td>
+                                    </td></div>
                                 </tr>
                                 </tbody>
                             </table>
@@ -196,6 +198,7 @@
                                     <td th:text="${nv.viPham.hinhThucPhat}"></td>
                                     <td th:text="${#numbers.formatDecimal(nv.viPham.soTienPhat, 0, 'COMMA', 0, 'POINT')}+ ' VND'"></td>
                                     <td th:text="${nv.ngayRaQuyetDinh}"></td>
+                                    <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                                     <td>
                                         <div class="d-flex">
                                             <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
@@ -209,7 +212,7 @@
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
-                                    </td>
+                                    </td></div>
                                 </tr>
                                 </tbody>
                             </table>

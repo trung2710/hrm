@@ -139,6 +139,7 @@
                 </td>
                 <td>
                   <div class="d-flex">
+                    <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
                     <div th:if="${nghiPhep.trangThaiPheDuyet.equals('Chờ duyệt')}">
                       <form method="post" th:action="@{/leave/update}">
                         <input type="hidden" class="form-control" th:value="${nghiPhep.id}" name="id" readonly>
@@ -149,6 +150,7 @@
                           <i class="bi bi-x"></i>
                         </button>
                       </form>
+                    </div>
                     </div>
                     <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
                             data-bs-toggle="modal" data-bs-target="#viewLeaveModal"
@@ -190,7 +192,7 @@ data-sta=${nghiPhep.ngayBatDau},data-end=${nghiPhep.ngayKetThuc},data-mnv=${nghi
           </div>
         </div>
       </div>
-
+      <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
       <!-- Leave Summary -->
       <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -267,6 +269,7 @@ data-sta=${nghiPhep.ngayBatDau},data-end=${nghiPhep.ngayKetThuc},data-mnv=${nghi
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
     <!-- /.container-fluid -->

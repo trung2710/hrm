@@ -8,7 +8,9 @@ import com.example.hrm.repository.BonusRepository;
 import com.example.hrm.repository.NV_AllowanceRepository;
 import com.example.hrm.repository.NV_ThuongRepository;
 import com.example.hrm.repository.UserRepository;
+import com.example.hrm.service.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,9 @@ public class BonusController {
     @Autowired
     private NV_ThuongRepository nvThuongRepository;
     @GetMapping("/bonus")
-    public String getBonusPage(Model model){
+    public String getBonusPage(Model model, Authentication authentication){
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
         List<Thuong> thuongs=this.bonusRepository.findAll();
         model.addAttribute("thuongs",thuongs);
         List<NhanVien> nhanVienList=this.userRepository.findAll();
@@ -41,7 +45,19 @@ public class BonusController {
         }
         model.addAttribute("qds",qd);
         List<NV_Thuong> nvThuongList=this.nvThuongRepository.findAll();
-        model.addAttribute("nvThuongList",nvThuongList);
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            model.addAttribute("nvThuongList",nvThuongList);
+        }
+        else{
+            List<NV_Thuong>nvThuongList1=new ArrayList<>();
+            for(NV_Thuong x : nvThuongList){
+                if(x.getNhanVien().getId().equals(nhanVien.getId())){
+                    nvThuongList1.add(x);
+                }
+            }
+            model.addAttribute("nvThuongList",nvThuongList1);
+        }
+
         return "admin/bonus/show";
     }
 
