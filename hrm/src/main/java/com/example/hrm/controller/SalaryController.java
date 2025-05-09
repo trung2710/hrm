@@ -5,8 +5,10 @@ import com.example.hrm.repository.AttendanceRepository;
 import com.example.hrm.repository.ContractRepository;
 import com.example.hrm.repository.SalaryRepository;
 import com.example.hrm.repository.UserRepository;
+import com.example.hrm.service.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +31,10 @@ public class SalaryController {
     private ContractRepository contractRepository;
 
     @GetMapping("/salary")
-    public String getSalaryPage(Model model) {
+    public String getSalaryPage(Model model, Authentication authentication) {
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
         List<Luong> luongs = salaryRepository.findAll();
-        model.addAttribute("luongs", luongs);
         for (Luong luong : luongs) {
             try {
                 int month = luong.getThang();
@@ -125,6 +128,18 @@ public class SalaryController {
                 System.err.println("Lỗi khi tính toán lương cho nhân viên: " + luong.getNhanVien().getHoTen());
                 e.printStackTrace();
             }
+        }
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            model.addAttribute("luongs", luongs);
+        }
+        else{
+            List<Luong> luongs1=new java.util.ArrayList<>();
+            for(Luong luong:luongs){
+                if(luong.getNhanVien().getId().equals(nhanVien.getId())){
+                    luongs1.add(luong);
+                }
+            }
+            model.addAttribute("luongs", luongs1);
         }
         List<NhanVien> users = userRepository.findAll();
         model.addAttribute("users", users);
