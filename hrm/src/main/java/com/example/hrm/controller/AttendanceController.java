@@ -4,13 +4,15 @@ import com.example.hrm.constant.ChamCongStatusEnum;
 import com.example.hrm.domain.ChamCong;
 import com.example.hrm.domain.NV_ViPham;
 import com.example.hrm.domain.NhanVien;
-import com.example.hrm.repository.AttendanceRepository;
-import com.example.hrm.repository.NV_ViolationRepository;
-import com.example.hrm.repository.UserRepository;
-import com.example.hrm.repository.ViolationRepository;
+import com.example.hrm.domain.PhongBan;
+import com.example.hrm.repository.*;
 import com.example.hrm.service.CustomUserDetail;
+import com.example.hrm.specification.AttendanceSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class AttendanceController {
@@ -36,6 +39,8 @@ public class AttendanceController {
     private NV_ViolationRepository nV_ViPhamRepository;
     @Autowired
     private ViolationRepository violationRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
     public double calculateHoursDifference(LocalTime startTime, LocalTime endTime) {
         // Đảm bảo endTime lớn hơn startTime, nếu không thì hoán đổi
         if (endTime.isBefore(startTime)) {
@@ -54,10 +59,24 @@ public class AttendanceController {
         return hours;
     }
     @GetMapping("/attendance")
-    public String getAttendancePage(Model model, Authentication authentication){
+    public String getAttendancePage(Model model, Authentication authentication, @RequestParam("page") Optional<String> p
+    ,@RequestParam("ten") Optional<String> ten, @RequestParam("pb")  Optional<String> pb
+    ,@RequestParam("sta") Optional<LocalDate> sta,  @RequestParam("end") Optional<LocalDate> end) {
+        int page=1;
         CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
         NhanVien nhanVien=cus.getNhanVien();
-        List<ChamCong> chamCongs = this.attendanceRepository.findAll();
+        try{
+            page=Integer.parseInt(p.get());
+        }catch(Exception e){
+            //
+        }
+        String tenParam=ten.orElse(null);
+        String pbParam=pb.orElse(null);
+        LocalDate staParam=sta.orElse(null);
+        LocalDate endParam=end.orElse(null);
+        Pageable pageable= PageRequest.of(page-1,20);
+        Page<ChamCong> ccs=this.attendanceRepository.findAll(AttendanceSpec.findByCriteria(tenParam, pbParam, staParam, endParam), pageable);
+        List<ChamCong> chamCongs = ccs.getContent();
 //        for(ChamCong x:chamCongs){
 //            if(x.getGioRa().isAfter(LocalTime.of(17,0)) && !x.getTrangThai().equals(ChamCongStatusEnum.LATE.getValue())){
 //                double hours=calculateHoursDifference(LocalTime.of(17,0), x.getGioRa());
@@ -80,6 +99,10 @@ public class AttendanceController {
         }
         if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
             model.addAttribute("chamCongs",chamCongs);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", ccs.getTotalPages());
+            List<PhongBan> pbs=this.departmentRepository.findAll();
+            model.addAttribute("pbs",pbs);
         }
         else{
             List<ChamCong> chamCongs1=new java.util.ArrayList<>();

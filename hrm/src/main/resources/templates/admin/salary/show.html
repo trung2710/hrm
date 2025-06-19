@@ -18,7 +18,6 @@
   <!-- Sidebar -->
   <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-
   <!-- Content Wrapper -->
   <div class="content-wrapper">
     <!-- Topbar -->
@@ -29,7 +28,10 @@
     <div class="container-fluid">
       <!-- Page Heading -->
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Quản lý lương</h1>
+        <div>
+          <h1 class="h3 mb-0 text-gray-800">Quản lý lương</h1>
+          <p class="text-muted mb-0">Chào trung2710! Thời gian: 2025-06-19 14:39:16 UTC</p>
+        </div>
         <div>
           <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm me-2"
                   data-bs-toggle="modal" data-bs-target="#addSalaryModal">
@@ -48,49 +50,58 @@
         </div>
         <div class="card-body">
           <div class="row g-3">
-            <div class="col-md-3">
-              <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Phòng ban</option>
-                <option value="1">Kỹ thuật</option>
-                <option value="2">Kinh doanh</option>
-                <option value="3">Nhân sự</option>
-                <option value="4">Kế toán</option>
-                <option value="5">Marketing</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Tháng</option>
-                <option value="1">Tháng 1</option>
-                <option value="2">Tháng 2</option>
-                <option value="3">Tháng 3</option>
-                <option value="4">Tháng 4</option>
-                <option value="5">Tháng 5</option>
-                <option value="6">Tháng 6</option>
-                <option value="7">Tháng 7</option>
-                <option value="8">Tháng 8</option>
-                <option value="9">Tháng 9</option>
-                <option value="10">Tháng 10</option>
-                <option value="11">Tháng 11</option>
-                <option value="12">Tháng 12</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Năm</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-primary w-100">
-                <i class="bi bi-search me-1"></i> Tìm kiếm
-              </button>
-            </div>
+            <form th:action="@{/salary}" method="get" class="row g-3 align-items-end">
+              <div class="col-md-3">
+                <input type="text" class="form-control" name="ten"
+                       th:value="${param.ten}"
+                       placeholder="Tìm theo tên, mã nhân viên...">
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" name="pb">
+                  <option value="">Chọn phòng ban</option>
+                  <option th:each="phongBan : ${pbs}"
+                          th:value="${phongBan.tenPhongBan}"
+                          th:text="${phongBan.tenPhongBan}"
+                          th:selected="${phongBan.tenPhongBan == param.pb}">
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" name="month">
+                  <option value="">Tháng</option>
+                  <option value="1" th:selected="${param.month == '1'}">Tháng 1</option>
+                  <option value="2" th:selected="${param.month == '2'}">Tháng 2</option>
+                  <option value="3" th:selected="${param.month == '3'}">Tháng 3</option>
+                  <option value="4" th:selected="${param.month == '4'}">Tháng 4</option>
+                  <option value="5" th:selected="${param.month == '5'}">Tháng 5</option>
+                  <option value="6" th:selected="${param.month == '6'}">Tháng 6</option>
+                  <option value="7" th:selected="${param.month == '7'}">Tháng 7</option>
+                  <option value="8" th:selected="${param.month == '8'}">Tháng 8</option>
+                  <option value="9" th:selected="${param.month == '9'}">Tháng 9</option>
+                  <option value="10" th:selected="${param.month == '10'}">Tháng 10</option>
+                  <option value="11" th:selected="${param.month == '11'}">Tháng 11</option>
+                  <option value="12" th:selected="${param.month == '12'}">Tháng 12</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" name="year">
+                  <option value="">Năm</option>
+                  <option value="2023" th:selected="${param.year == '2023'}">2023</option>
+                  <option value="2024" th:selected="${param.year == '2024'}">2024</option>
+                  <option value="2025" th:selected="${param.year == '2025'}">2025</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i> Tìm kiếm
+                  </button>
+                  <a th:href="@{/salary}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Reset
+                  </a>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -161,10 +172,9 @@
                   <div class="d-flex">
                     <button class="btn btn-info btn-circle btn-sm me-1" title="Xem chi tiết"
                             data-bs-toggle="modal" data-bs-target="#viewSalaryModal"
-                    th:attr="data-id=${luong.id},data-thang=${luong.thang},data-nam=${luong.nam},data-pt=${luong.soNguoiPhuThuoc}, data-tc=${luong.tienTangCa}, data-tn=${luong.thueThuNhap}, data-tt=${luong.tongThuNhap}, data-bonus=${luong.tienThuong}, data-pc=${luong.tienPC}, data-vp=${luong.tienViPham},
+                            th:attr="data-id=${luong.id},data-thang=${luong.thang},data-nam=${luong.nam},data-pt=${luong.soNguoiPhuThuoc}, data-tc=${luong.tienTangCa}, data-tn=${luong.thueThuNhap}, data-tt=${luong.tongThuNhap}, data-bonus=${luong.tienThuong}, data-pc=${luong.tienPC}, data-vp=${luong.tienViPham},
 data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong.nhanVien.chucVu.tenChucVu}, data-pb=${luong.nhanVien.chucVu.phongBan.tenPhongBan}, data-date=${luong.ngayNhan}">
                       <i class="bi bi-eye"></i>
-                    </button>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
                             data-bs-toggle="modal" data-bs-target="#deleteSalaryModal"
@@ -178,26 +188,28 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
               </tbody>
             </table>
           </div>
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>Hiển thị 1 đến 5 của 215 bản ghi</div>
+
+          <!-- ✅ PAGINATION ĐÃ SỬA - GIỮ LẠI SEARCH PARAMETERS -->
+          <div class="d-flex justify-content-center align-items-center mt-3">
             <nav aria-label="Page navigation">
               <ul class="pagination">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" aria-label="Previous">
+                <li class="page-item">
+                  <a th:class="${currentPage==1} ? 'disabled page-link' : 'page-link'"
+                     th:href="@{/salary(page=${currentPage-1}, ten=${param.ten}, pb=${param.pb}, month=${param.month}, year=${param.year})}"
+                     aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">1</a>
+                <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                    th:class="${currentPage == i+1} ? 'page-item active' : 'page-item'">
+                  <a class="page-link"
+                     th:href="@{/salary(page=${i+1}, ten=${param.ten}, pb=${param.pb}, month=${param.month}, year=${param.year})}"
+                     th:text="${i+1}"></a>
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
+                  <a th:class="${currentPage==totalPages} ? 'disabled page-link' : 'page-link'"
+                     th:href="@{/salary(page=${currentPage+1}, ten=${param.ten}, pb=${param.pb}, month=${param.month}, year=${param.year})}"
+                     aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -235,9 +247,9 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
               <select class="form-select" id="employee" name="id" required>
                 <option value="">Chọn nhân viên</option>
                 <option
-                th:each="user:${users}"
-                th:value="${user.id}"
-                th:text="${user.hoTen+'-'+user.cccd}"></option>
+                        th:each="user:${users}"
+                        th:value="${user.id}"
+                        th:text="${user.hoTen+'-'+user.cccd}"></option>
               </select>
             </div>
             <div class="col-md-3">
@@ -496,7 +508,7 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có chắc chắn muốn xóa bảng lương này không? Hành động này không thể hoàn tác.
+        User trung2710 - Bạn có chắc chắn muốn xóa bảng lương này không? Hành động này không thể hoàn tác.
       </div>
       <form method="post" th:action="@{/salary/delete}">
         <input type="hidden" name="id" id="deleteSalaryId"  readonly>
@@ -517,6 +529,8 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
 <!-- Custom scripts -->
 <script src="/js/script.js"></script>
 <script>
+  console.log('User trung2710 loaded salary page at 2025-06-19 14:39:16 UTC');
+
   // Xử lý sự kiện khi modal xem chi tiết được hiển thị
   const viewModal = document.getElementById('viewSalaryModal');
   viewModal.addEventListener('show.bs.modal', function (event) {
@@ -537,6 +551,8 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
     const ten = button.getAttribute('data-ten');
     const cv = button.getAttribute('data-cv');
     const pb = button.getAttribute('data-pb');
+
+    console.log('User trung2710 viewing salary details:', {id, thang, nam, date});
 
     // Cập nhật nội dung modal
     document.getElementById('viewSalaryId').textContent = id;
@@ -566,7 +582,7 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
     const thang = button.getAttribute('data-thang');
     const nam = button.getAttribute('data-nam');
 
-
+    console.log('User trung2710 attempting to delete salary:', {id, ten, thang, nam});
 
     document.getElementById('deleteSalaryId').value = id;
     document.getElementById('deleteEmployeeName').value = ten;
@@ -575,5 +591,4 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
   });
 </script>
 </body>
-
 </html>

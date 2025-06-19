@@ -74,7 +74,6 @@
   <!-- Sidebar -->
   <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-
   <div class="content-wrapper">
     <!-- Topbar -->
     <div th:replace="~{layout/header :: header}"></div>
@@ -83,112 +82,92 @@
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
           <h1 class="h3 mb-0 text-gray-800">Quản lý Hợp đồng</h1>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContractModal">
+          <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addContractModal">
             <i class="bi bi-plus-lg me-1"></i>
             Tạo hợp đồng mới
           </button>
-
-      <!-- Thống kê -->
-      <div class="row mb-4">
-        <div class="col-xl-3 col-md-6">
-          <div class="card stats-card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                    TỔNG SỐ HỢP ĐỒNG</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${hopDongs.size}"></div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-file-text fa-2x text-gray-300"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-          <div class="card stats-card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    HỢP ĐỒNG ĐANG HIỆU LỰC</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">[[${valid}]]</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-check-circle fa-2x text-gray-300"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="card stats-card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col">
-                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                    HỢP ĐỒNG SẮP HẾT HẠN</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">[[${expire}]]</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-exclamation-circle fa-2x text-gray-300"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="card stats-card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col">
-                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    HẾT HẠN VS CHẤM DỨT</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">[[${expired}]]</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-hourglass-split fa-2x text-gray-300"></i>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-      </div>
-      </div>
+
       <!-- Thanh tìm kiếm và lọc -->
       <div class="card shadow mb-4">
+        <div class="card-header">
+          <h6 class="mb-0">
+            <i class="bi bi-funnel me-2"></i>Bộ lọc tìm kiếm hợp đồng
+          </h6>
+        </div>
         <div class="card-body">
-          <div class="row g-3">
-            <div class="col-md-4">
-              <input type="text" class="form-control" placeholder="Tìm kiếm hợp đồng...">
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Loại hợp đồng</option>
-                <option>Toàn thời gian</option>
-                <option>Bán thời gian</option>
-                <option>Thử việc</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Trạng thái</option>
-                <option>Đang hiệu lực</option>
-                <option>Chờ phê duyệt</option>
-                <option>Hết hạn</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <input type="date" class="form-control">
-            </div>
-            <div class="col-md-2">
-              <button class="btn btn-primary w-100">
-                <i class="bi bi-search"></i> Tìm kiếm
-              </button>
+          <div class="mb-4">
+            <form th:action="@{/contract}" method="get" class="row g-3 align-items-end">
+              <!-- Tìm kiếm hợp đồng -->
+              <div class="col-md-4">
+                <label for="ten" class="form-label">Tìm kiếm hợp đồng</label>
+                <input type="text"
+                       id="ten"
+                       name="ten"
+                       class="form-control"
+                       th:value="${param.ten}"
+                       placeholder="Nhập tên, mã hợp đồng...">
+              </div>
+
+              <!-- Loại hợp đồng -->
+              <div class="col-md-2">
+                <label for="loai" class="form-label">Loại hợp đồng</label>
+                <select class="form-select" id="loai" name="loai">
+                  <option value="">Tất cả loại</option>
+                  <option value="Fulltime" th:selected="${param.loai == 'Fulltime'}">Fulltime</option>
+                  <option value="Parttime" th:selected="${param.loai == 'Parttime'}">Parttime</option>
+                  <option value="Probation" th:selected="${param.loai == 'Probation'}">Probation</option>
+                </select>
+              </div>
+
+              <!-- Trạng thái -->
+              <div class="col-md-2">
+                <label for="tt" class="form-label">Trạng thái</label>
+                <select class="form-select" id="tt" name="tt">
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="Còn hiệu lực" th:selected="${param.tt == 'Còn hiệu lực'}">Còn hiệu lực</option>
+                  <option value="Hết hạn" th:selected="${param.tt == 'Hết hạn'}">Hết hạn</option>
+                  <option value="Chấm dứt" th:selected="${param.tt == 'Chấm dứt'}">Chấm dứt</option>
+                </select>
+              </div>
+
+              <!-- Buttons -->
+              <div class="col-md-4">
+                <label class="form-label d-none d-md-block">&nbsp;</label>
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i> Tìm kiếm
+                  </button>
+                  <a th:href="@{/contract}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Reset
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- ✅ THÔNG TIN KẾT QUẢ TÌM KIẾM -->
+          <div th:if="${param.ten != null || param.loai != null || param.tt != null}" class="alert alert-info">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>User trung2710 đang lọc:</strong>
+                <span th:if="${param.ten != null && !param.ten.isEmpty()}">
+                  Tìm kiếm: "<span th:text="${param.ten}"></span>"
+                </span>
+                <span th:if="${param.loai != null && !param.loai.isEmpty()}">
+                  <span th:if="${param.ten != null && !param.ten.isEmpty()}"> | </span>
+                  Loại: <span th:text="${param.loai}"></span>
+                </span>
+                <span th:if="${param.tt != null && !param.tt.isEmpty()}">
+                  <span th:if="${(param.ten != null && !param.ten.isEmpty()) || (param.loai != null && !param.loai.isEmpty())}"> | </span>
+                  Trạng thái: <span th:text="${param.tt}"></span>
+                </span>
+              </div>
+              <a th:href="@{/contract}" class="btn btn-sm btn-outline-primary">
+                Xóa bộ lọc
+              </a>
             </div>
           </div>
         </div>
@@ -201,7 +180,7 @@
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div>
                 <h5 class="mb-1" th:text="${hopDong.loaiHopDong}"></h5>
-                <p class="text-muted mb-0" th:text="${hopDong.id}"></p>
+                <p class="text-muted mb-0">ID: <span th:text="${hopDong.id}"></span></p>
               </div>
               <span class="contract-status active" th:text="${hopDong.trangThai}"></span>
             </div>
@@ -232,35 +211,64 @@
                   <i class="bi bi-eye"></i>
                 </button>
                 <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
-                <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
-                        data-bs-target="#deleteContractModal"
-                        th:attr=" data-id=${hopDong.id}, data-type=${hopDong.loaiHopDong}, data-nv=${hopDong.nhanVien.hoTen}">
-                  <i class="bi bi-trash"></i>
-                </button>
+                  <button class="btn btn-sm btn-danger" title="Xóa" data-bs-toggle="modal"
+                          data-bs-target="#deleteContractModal"
+                          th:attr=" data-id=${hopDong.id}, data-type=${hopDong.loaiHopDong}, data-nv=${hopDong.nhanVien.hoTen}">
+                    <i class="bi bi-trash"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- ✅ NO RESULTS MESSAGE -->
+        <div th:if="${hopDongs == null || hopDongs.isEmpty()}" class="text-center py-5">
+          <i class="bi bi-search display-1 text-muted"></i>
+          <h4 class="text-muted mt-3">Không tìm thấy hợp đồng nào</h4>
+          <p class="text-muted">User trung2710 - Thử thay đổi điều kiện tìm kiếm</p>
+          <a th:href="@{/contract}" class="btn btn-primary">
+            <i class="bi bi-eye"></i> Xem tất cả hợp đồng
+          </a>
+        </div>
       </div>
 
-      <!-- Phân trang -->
-      <div class="d-flex justify-content-between align-items-center mt-4">
+      <!-- ✅ PHÂN TRANG ĐÃ SỬA - GIỮ LẠI SEARCH PARAMETERS -->
+      <div th:if="${totalPages > 1}" class="d-flex justify-content-center align-items-center mt-4">
         <nav>
           <ul class="pagination mb-0">
-            <li class="page-item disabled">
-              <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <!-- Previous button -->
             <li class="page-item">
-              <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+              <a th:class="${currentPage==1} ? 'disabled page-link' : 'page-link'"
+                 th:href="@{/contract(page=${currentPage-1}, ten=${param.ten}, loai=${param.loai}, tt=${param.tt})}">
+                <i class="bi bi-chevron-left"></i>
+              </a>
+            </li>
+
+            <!-- Page numbers -->
+            <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                th:class="${currentPage == i+1} ? 'page-item active' : 'page-item'">
+              <a class="page-link"
+                 th:href="@{/contract(page=${i+1}, ten=${param.ten}, loai=${param.loai}, tt=${param.tt})}"
+                 th:text="${i+1}"></a>
+            </li>
+
+            <!-- Next button -->
+            <li class="page-item">
+              <a th:class="${currentPage==totalPages} ? 'disabled page-link': 'page-link'"
+                 th:href="@{/contract(page=${currentPage+1}, ten=${param.ten}, loai=${param.loai}, tt=${param.tt})}"
+                 aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
             </li>
           </ul>
         </nav>
       </div>
+
+      <!-- ✅ PAGE INFO -->
+<!--      <div th:if="${totalPages > 1}" class="text-center text-muted mt-2">-->
+<!--        <p>User <strong>trung2710</strong> - Trang <strong th:text="${currentPage}"></strong> / <strong th:text="${totalPages}"></strong></p>-->
+<!--      </div>-->
     </div>
   </div>
 </div>
@@ -323,7 +331,6 @@
           </div>
         </form>
       </div>
-
     </div>
   </div>
 </div>
@@ -455,6 +462,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/script.js"></script>
 <script>
+  console.log('User trung2710 loaded contract page at 2025-06-19 11:57:31 UTC');
+
   // Xử lý sự kiện khi modal xem chi tiết được hiển thị
   const viewModal = document.getElementById('viewContractModal');
   viewModal.addEventListener('show.bs.modal', function (event) {
@@ -470,6 +479,8 @@
     const tt = button.getAttribute('data-tt');
     const luong = button.getAttribute('data-luong');
 
+    console.log('User trung2710 viewing contract details:', {id, type, tenNv, chucvu, pb, sta, end, tt, luong});
+
     // Cập nhật nội dung modal
     document.getElementById('viewContractId').textContent = id;
     document.getElementById('viewContractName').textContent = type;
@@ -480,19 +491,18 @@
     document.getElementById('viewContractEnd').textContent = end;
     document.getElementById('viewContractTt').textContent = tt;
     document.getElementById('viewContractLuong').textContent = luong+" VND";
-
-    // Nếu có dữ liệu nhân viên hoặc dự án động, có thể cập nhật tại đây
-    // Ví dụ: document.getElementById('viewEmployeeList').innerHTML = ...;
   });
 </script>
 <script>
   const deleteModal = document.getElementById('deleteContractModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget; // Nút "Chỉnh sửa" được nhấn
+    const button = event.relatedTarget; // Nút "Xóa" được nhấn
     // Lấy dữ liệu từ thuộc tính data-*
     const id = button.getAttribute('data-id');
     const ten = button.getAttribute('data-type');
     const nhanVien = button.getAttribute('data-nv') || '';
+
+    console.log('User trung2710 attempting to delete contract:', {id, ten, nhanVien});
 
     // Điền dữ liệu vào form
     document.getElementById('deleteContractId').value = id;
@@ -501,5 +511,4 @@
   });
 </script>
 </body>
-
 </html>

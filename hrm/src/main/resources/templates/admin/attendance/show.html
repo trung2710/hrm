@@ -30,10 +30,10 @@
         <h1 class="h3 mb-0 text-gray-800">Quản lý chấm công</h1>
         <div>
           <div th:if="${#authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Admin' || #authentication.principal.nhanVien.chucVu.quyen.tenQuyen == 'Manager' }">
-          <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
-                  data-bs-target="#addAttendanceModal">
-            <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm chấm công
-          </button>
+            <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                    data-bs-target="#addAttendanceModal">
+              <i class="bi bi-plus-lg text-white-50 me-1"></i> Thêm chấm công
+            </button>
           </div>
         </div>
       </div>
@@ -45,39 +45,49 @@
         </div>
         <div class="card-body">
           <div class="row g-3">
-            <div class="col-md-3">
-              <input type="text" class="form-control" placeholder="Tìm theo tên, mã nhân viên...">
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Phòng ban</option>
-                <option value="1">Kỹ thuật</option>
-                <option value="2">Kinh doanh</option>
-                <option value="3">Nhân sự</option>
-                <option value="4">Kế toán</option>
-                <option value="5">Marketing</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <select class="form-select">
-                <option value="">Trạng thái</option>
-                <option value="1">Đúng giờ</option>
-                <option value="2">Đi muộn</option>
-                <option value="3">Về sớm</option>
-                <option value="4">Vắng mặt</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <input type="date" class="form-control" placeholder="Từ ngày">
-            </div>
-            <div class="col-md-2">
-              <input type="date" class="form-control" placeholder="Đến ngày">
-            </div>
-            <div class="col-md-1">
-              <button class="btn btn-primary w-100">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
+            <form th:action="@{/attendance}" method="get" class="row g-4">
+              <div class="col-md-3">
+                <input type="text" class="form-control" name="ten"
+                       th:value="${param.ten}"
+                       placeholder="Tìm theo tên, mã nhân viên...">
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" name="pb">
+                  <option value="">Chọn phòng ban</option>
+                  <option th:each="phongBan : ${pbs}"
+                          th:value="${phongBan.tenPhongBan}"
+                          th:text="${phongBan.tenPhongBan}"
+                          th:selected="${phongBan.tenPhongBan == param.pb}">
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" name="tt">
+                  <option value="">Trạng thái</option>
+                  <option value="Đúng giờ" th:selected="${param.tt == 'Đúng giờ'}">Đúng giờ</option>
+                  <option value="Muộn" th:selected="${param.tt == 'Muộn'}">Đi muộn</option>
+                  <option value="Vắng" th:selected="${param.tt == 'Vắng'}">Vắng mặt</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <input type="date" name="sta" class="form-control"
+                       th:value="${param.sta}"
+                       placeholder="Từ ngày">
+              </div>
+              <div class="col-md-2">
+                <input type="date" name="end" class="form-control"
+                       th:value="${param.end}"
+                       placeholder="Đến ngày">
+              </div>
+              <div class="col-md-1">
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-search"></i>
+                </button>
+                <a th:href="@{/attendance}" class="btn btn-outline-secondary">
+                  <i class="bi bi-arrow-clockwise me-1"></i> Reset
+                </a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -142,7 +152,7 @@
                   <div class="d-flex">
                     <button class="btn btn-warning btn-circle btn-sm me-1" title="Chỉnh sửa"
                             data-bs-toggle="modal" data-bs-target="#editAttendanceModal"
-                    th:attr="data-id=${cc.id},data-ngay=${cc.ngay}, data-vao=${cc.gioVao}, data-ra=${cc.gioRa},data-mnv=${cc.nhanVien.id}, data-ten=${cc.nhanVien.hoTen}">
+                            th:attr="data-id=${cc.id},data-ngay=${cc.ngay}, data-vao=${cc.gioVao}, data-ra=${cc.gioRa},data-mnv=${cc.nhanVien.id}, data-ten=${cc.nhanVien.hoTen}">
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-danger btn-circle btn-sm" title="Xóa"
@@ -156,26 +166,27 @@
               </tbody>
             </table>
           </div>
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>Hiển thị 1 đến 5 của 150 bản ghi</div>
+
+          <!-- ✅ PAGINATION SỬA CHỈ CHỖ NÀY - GIỮ LẠI SEARCH PARAMETERS -->
+          <div class="d-flex justify-content-center align-items-center mt-3">
             <nav aria-label="Page navigation">
               <ul class="pagination">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" aria-label="Previous">
+                <li class="page-item">
+                  <a th:class="${currentPage==1} ? 'disabled page-link' : 'page-link'"
+                     th:href="@{/attendance(page=${currentPage-1}, ten=${param.ten}, pb=${param.pb}, tt=${param.tt}, sta=${param.sta}, end=${param.end})}"
+                     aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">1</a>
+                <li th:each="i : ${#numbers.sequence(0, totalPages-1)}">
+                  <a th:class="${currentPage==i+1} ? 'active page-link' : 'page-link'"
+                     th:href="@{/attendance(page=${i+1}, ten=${param.ten}, pb=${param.pb}, tt=${param.tt}, sta=${param.sta}, end=${param.end})}">[[${i+1}]]</a>
                 </li>
+
                 <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
+                  <a th:class="${currentPage==totalPages} ? 'disabled page-link' : 'page-link'"
+                     th:href="@{/attendance(page=${currentPage+1}, ten=${param.ten}, pb=${param.pb}, tt=${param.tt}, sta=${param.sta}, end=${param.end})}"
+                     aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -187,80 +198,6 @@
 
       <!-- Monthly Summary -->
       <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">Thống kê chấm công tháng 12/2023</h6>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Tổng số ngày làm việc</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">22 ngày</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="bi bi-calendar-date fs-2 text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                        Đúng giờ</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">85%</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="bi bi-check-circle fs-2 text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                        Đi muộn/Về sớm</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">12%</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="bi bi-exclamation-circle fs-2 text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-danger shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                        Vắng mặt</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">3%</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="bi bi-x-circle fs-2 text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <!-- /.container-fluid -->

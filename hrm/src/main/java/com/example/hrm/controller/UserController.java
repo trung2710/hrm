@@ -3,10 +3,16 @@ package com.example.hrm.controller;
 import com.example.hrm.domain.BaoHiem;
 import com.example.hrm.domain.HopDong;
 import com.example.hrm.domain.NhanVien;
+import com.example.hrm.domain.PhongBan;
 import com.example.hrm.repository.*;
+import com.example.hrm.service.DepartmentService;
 import com.example.hrm.service.UploadService;
+import com.example.hrm.specification.EmployeeSpec;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -37,10 +44,32 @@ public class UserController {
     //lien quan den xoa nhan vien
     @Autowired
     private InsuranceRepository insuranceRepository;
+    @Autowired
+    private DepartmentService departmentService;
     @GetMapping("/user")
-    public String getUserPage(Model model){
-        List<NhanVien> users=this.userRepository.findAll();
-        model.addAttribute("users",users);
+    public String getUserPage(Model model, @RequestParam("page") Optional<String> p, @RequestParam("ten") Optional<String> ten, @RequestParam("pb") Optional<String> pb) {
+        //Optional<String> trong Java được sử dụng để biểu diễn một đối tượng có thể chứa hoặc không chứa giá trị.
+        // Đây là một cách để xử lý trường hợp null một cách an toàn và rõ ràng hơn.
+        int page=1;
+        try{
+            if(p.isPresent()){
+                page=Integer.parseInt(p.get());
+            }
+        }catch (Exception e){
+
+        }
+        String tenParam = ten.orElse(null);
+        String pbParam = pb.orElse(null);
+        //database quan tam 2 tham so la offset vs limit
+        //client:  quan tam den limit thoi
+        Pageable pageable = PageRequest.of(page-1 , 20);
+        Page<NhanVien> users=this.userRepository.findAll(EmployeeSpec.findNV(tenParam, pbParam), pageable);
+        List<NhanVien> listUsers=users.getContent();
+        List<PhongBan> pbs=this.departmentRepository.findAll();
+        model.addAttribute("pbs",pbs);
+        model.addAttribute("users",listUsers);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPages", users.getTotalPages());
         return "admin/employee/show";
     }
 

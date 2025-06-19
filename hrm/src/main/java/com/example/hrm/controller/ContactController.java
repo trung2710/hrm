@@ -6,7 +6,11 @@ import com.example.hrm.domain.NhanVien;
 import com.example.hrm.repository.ContractRepository;
 import com.example.hrm.repository.UserRepository;
 import com.example.hrm.service.CustomUserDetail;
+import com.example.hrm.specification.ContractSpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +24,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ContactController {
@@ -28,11 +33,28 @@ public class ContactController {
     @Autowired
     private UserRepository userRepository;
     @GetMapping("/contract")
-    public String getContactPage(Model model, Authentication authentication){
+    public String getContactPage(Model model, Authentication authentication, @RequestParam("page") Optional<String> p,
+                                 @RequestParam("ten") Optional<String> ten, @RequestParam("loai") Optional<String> loai,
+                                 @RequestParam("tt") Optional<String> tt){
         CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
         NhanVien nhanVien=cus.getNhanVien();
         if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
-            List<HopDong> hopDongs = contractRepository.findAll();
+            int page=1;
+            try{
+                if(p.isPresent()){
+                    page=Integer.parseInt(p.get());
+                }
+            }catch (Exception e){
+
+            }
+            String tenParam=ten.orElse(null);
+            String loaiParam=loai.orElse(null);
+            String ttParam=tt.orElse(null);
+            //database quan tam 2 tham so la offset vs limit
+            //client:  quan tam den limit thoi
+            Pageable pageable = PageRequest.of(page-1 , 20);
+            Page<HopDong> hds=this.contractRepository.findAll(ContractSpec.findByCriteria(tenParam, loaiParam, ttParam), pageable);
+            List<HopDong> hopDongs = hds.getContent();
             List<NhanVien> nhanVienList=this.userRepository.findAll();
             model.addAttribute("nhanViens",nhanVienList);
             int dem1=0;
@@ -58,6 +80,8 @@ public class ContactController {
             model.addAttribute("expire",dem2);
             model.addAttribute("expired",dem3);
             model.addAttribute("hopDongs",hopDongs);
+            model.addAttribute("currentPage",page);
+            model.addAttribute("totalPages", hds.getTotalPages());
         }
         else{
             List<HopDong> hopDongs = contractRepository.findAll();

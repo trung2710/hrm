@@ -1,23 +1,33 @@
 package com.example.hrm.controller;
 
 import com.example.hrm.domain.*;
-import com.example.hrm.repository.AttendanceRepository;
-import com.example.hrm.repository.ContractRepository;
-import com.example.hrm.repository.SalaryRepository;
-import com.example.hrm.repository.UserRepository;
+import com.example.hrm.repository.*;
 import com.example.hrm.service.CustomUserDetail;
+import com.example.hrm.specification.SalarySpec;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SalaryController {
@@ -29,12 +39,28 @@ public class SalaryController {
     private AttendanceRepository attendanceRepository;
     @Autowired
     private ContractRepository contractRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @GetMapping("/salary")
-    public String getSalaryPage(Model model, Authentication authentication) {
+    public String getSalaryPage(Model model, Authentication authentication, @RequestParam("page") Optional<String> p
+    ,@RequestParam("ten") Optional<String> ten, @RequestParam("pb")  Optional<String> pb
+    ,@RequestParam("month") Optional<String> m, @RequestParam("year") Optional<String> y) {
+        int page=1;
+        try{
+            page=Integer.parseInt(p.get());
+        }catch(Exception e){
+            //
+        }
+        String tenParam=ten.orElse(null);
+        String pbParam=pb.orElse(null);
+        String  mParam=m.orElse(null);
+        String yParam=y.orElse(null);
+        Pageable pageable= PageRequest.of(page-1, 20);
+        Page<Luong> ls=this.salaryRepository.findAll(SalarySpec.findByCriteria(tenParam, mParam, yParam, pbParam), pageable);
         CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
         NhanVien nhanVien=cus.getNhanVien();
-        List<Luong> luongs = salaryRepository.findAll();
+        List<Luong> luongs = ls.getContent();
         for (Luong luong : luongs) {
             try {
                 int month = luong.getThang();
@@ -131,6 +157,10 @@ public class SalaryController {
         }
         if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
             model.addAttribute("luongs", luongs);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages",ls.getTotalPages());
+            List<PhongBan> pbs=this.departmentRepository.findAll();
+            model.addAttribute("pbs",pbs);
         }
         else{
             List<Luong> luongs1=new java.util.ArrayList<>();
@@ -180,4 +210,52 @@ public class SalaryController {
         this.salaryRepository.deleteById(id);
         return "redirect:/salary";
     }
+
+//    @GetMapping("/salary/{id}/pdf")
+//    public void getEmployeePdfPage(@PathVariable("id") int id, Model model, HttpServletResponse response) throws IOException, DocumentException {
+//        Luong salary=this.salaryRepository.findById(id);
+//        if (salary == null) {
+//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//            return;
+//        }
+//
+//        response.setContentType("application/pdf");
+//        response.setHeader("Content-Disposition", "attachment; filename=salary_employee_" + id + ".pdf");
+//
+//        Document document = new Document();
+//        PdfWriter.getInstance(document, response.getOutputStream());
+//        document.open();
+//
+//        // Đường dẫn đến file font (resources/fonts/)
+//        String fontPath = "/fonts/";
+//        BaseFont baseFont = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+//        Font font = new Font(baseFont, 14, Font.NORMAL);
+//
+//        Paragraph title = new Paragraph("Bảng lương nhân viên", font);
+//        title.setAlignment(Element.ALIGN_CENTER);
+//        document.add(title);
+//        document.add(new Paragraph(" ")); // dòng trắng
+//
+//        PdfPTable table = new PdfPTable(2);
+//        table.setWidthPercentage(60);
+//        table.setHorizontalAlignment(Element.ALIGN_CENTER);
+//
+//        PdfPCell cell1 = new PdfPCell(new Phrase("Mã nhân viên", font));
+//        PdfPCell cell2 = new PdfPCell(new Phrase(String.valueOf(salary.getNhanVien().getId()), font));
+//        PdfPCell cell3 = new PdfPCell(new Phrase("Tên nhân viên", font));
+//        PdfPCell cell4 = new PdfPCell(new Phrase(salary.getNhanVien().getHoTen(), font));
+//        PdfPCell cell5 = new PdfPCell(new Phrase("Lương", font));
+//        PdfPCell cell6 = new PdfPCell(new Phrase(String.valueOf(salary.getTongThuNhap()), font));
+//
+//        table.addCell(cell1);
+//        table.addCell(cell2);
+//        table.addCell(cell3);
+//        table.addCell(cell4);
+//        table.addCell(cell5);
+//        table.addCell(cell6);
+//
+//        document.add(table);
+//        document.close();
+//
+//    }
 }
