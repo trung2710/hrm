@@ -34,6 +34,14 @@ public class AttendanceSpec {
             );
         };
     }
+    public static  Specification<ChamCong> findByTt(String trangThai){
+        return (root, query, criteriaBuilder) -> {
+            if(trangThai==null || trangThai.trim().isEmpty()){
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("trangThai")),"%" + trangThai.toLowerCase() + "%");
+        };
+    }
     // Greater than or equal (lớn hơn hoặc bằng)
     public static Specification<ChamCong> dateGreaterThanOrEqual(LocalDate sta) {
         return (root, query, criteriaBuilder) -> {
@@ -48,12 +56,13 @@ public class AttendanceSpec {
             return criteriaBuilder.lessThanOrEqualTo(root.get("ngay"), end);
         };
     }
-    public static Specification<ChamCong> findByCriteria(String name, String tenPhongBan, LocalDate sta, LocalDate end) {
+    public static Specification<ChamCong> findByCriteria(String name, String tenPhongBan,String trangThai, LocalDate sta, LocalDate end) {
         Specification<ChamCong> combinedSpec=Specification.where(null);
         combinedSpec=combinedSpec.and(findByName(name));
         combinedSpec=combinedSpec.and(dateGreaterThanOrEqual(sta));
         combinedSpec=combinedSpec.and(dateLessThanOrEqual(end));
         combinedSpec=combinedSpec.and(findByPb(tenPhongBan));
+        combinedSpec=combinedSpec.and(findByTt(trangThai));
         return combinedSpec;
     }
 }

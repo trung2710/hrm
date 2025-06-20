@@ -146,30 +146,6 @@
               </div>
             </form>
           </div>
-
-          <!-- ✅ THÔNG TIN KẾT QUẢ TÌM KIẾM -->
-          <div th:if="${param.ten != null || param.loai != null || param.tt != null}" class="alert alert-info">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <i class="bi bi-info-circle me-2"></i>
-                <strong>User trung2710 đang lọc:</strong>
-                <span th:if="${param.ten != null && !param.ten.isEmpty()}">
-                  Tìm kiếm: "<span th:text="${param.ten}"></span>"
-                </span>
-                <span th:if="${param.loai != null && !param.loai.isEmpty()}">
-                  <span th:if="${param.ten != null && !param.ten.isEmpty()}"> | </span>
-                  Loại: <span th:text="${param.loai}"></span>
-                </span>
-                <span th:if="${param.tt != null && !param.tt.isEmpty()}">
-                  <span th:if="${(param.ten != null && !param.ten.isEmpty()) || (param.loai != null && !param.loai.isEmpty())}"> | </span>
-                  Trạng thái: <span th:text="${param.tt}"></span>
-                </span>
-              </div>
-              <a th:href="@{/contract}" class="btn btn-sm btn-outline-primary">
-                Xóa bộ lọc
-              </a>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -408,9 +384,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary">
+        <a href="#" id="printContractLink" class="btn btn-primary" target="_blank"
+           onclick="handlePrintContract(event)">
           <i class="bi bi-printer"></i> In hợp đồng
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -462,52 +439,79 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/script.js"></script>
 <script>
-  console.log('User trung2710 loaded contract page at 2025-06-19 11:57:31 UTC');
 
-  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
-  const viewModal = document.getElementById('viewContractModal');
-  viewModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
-    // Lấy dữ liệu từ thuộc tính data-*
-    const id = button.getAttribute('data-id');
-    const type = button.getAttribute('data-type');
-    const tenNv = button.getAttribute('data-nv');
-    const chucvu = button.getAttribute('data-chucvu');
-    const pb = button.getAttribute('data-pb');
-    const sta = button.getAttribute('data-sta');
-    const end = button.getAttribute('data-end');
-    const tt = button.getAttribute('data-tt');
-    const luong = button.getAttribute('data-luong');
+  let currentContractId = null;
 
-    console.log('User trung2710 viewing contract details:', {id, type, tenNv, chucvu, pb, sta, end, tt, luong});
+  // ✅ SIMPLE PRINT FUNCTION
+  function handlePrintContract(event) {
+    event.preventDefault();
+    console.log('🖨️ User trung2710 printing contract at 2025-06-19 20:03:10');
 
-    // Cập nhật nội dung modal
-    document.getElementById('viewContractId').textContent = id;
-    document.getElementById('viewContractName').textContent = type;
-    document.getElementById('viewContractTen').textContent = tenNv;
-    document.getElementById('viewContractChucVu').textContent = chucvu;
-    document.getElementById('viewContractPb').textContent = pb;
-    document.getElementById('viewContractSta').textContent = sta;
-    document.getElementById('viewContractEnd').textContent = end;
-    document.getElementById('viewContractTt').textContent = tt;
-    document.getElementById('viewContractLuong').textContent = luong+" VND";
-  });
-</script>
-<script>
-  const deleteModal = document.getElementById('deleteContractModal');
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget; // Nút "Xóa" được nhấn
-    // Lấy dữ liệu từ thuộc tính data-*
-    const id = button.getAttribute('data-id');
-    const ten = button.getAttribute('data-type');
-    const nhanVien = button.getAttribute('data-nv') || '';
+    if (currentContractId) {
+      const exportUrl = `/export/contract/${currentContractId}`;
+      console.log('Opening:', exportUrl);
+      window.open(exportUrl, '_blank');
+    } else {
+      alert('Vui lòng chọn hợp đồng cần in!');
+    }
+    return false;
+  }
 
-    console.log('User trung2710 attempting to delete contract:', {id, ten, nhanVien});
+  // ✅ MODAL VIEW CONTRACT - SIMPLE
+  document.addEventListener('DOMContentLoaded', function() {
+    const viewModal = document.getElementById('viewContractModal');
 
-    // Điền dữ liệu vào form
-    document.getElementById('deleteContractId').value = id;
-    document.getElementById('deleteContractType').value = ten;
-    document.getElementById('deleteEmployee').value = nhanVien;
+    if (viewModal) {
+      viewModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const type = button.getAttribute('data-type');
+        const tenNv = button.getAttribute('data-nv');
+        const chucvu = button.getAttribute('data-chucvu');
+        const pb = button.getAttribute('data-pb');
+        const sta = button.getAttribute('data-sta');
+        const end = button.getAttribute('data-end');
+        const tt = button.getAttribute('data-tt');
+        const luong = button.getAttribute('data-luong');
+
+        // SAVE CONTRACT ID
+        currentContractId = id;
+        console.log('📄 Contract selected:', id, type, tenNv);
+
+        // UPDATE MODAL CONTENT
+        document.getElementById('viewContractId').textContent = id;
+        document.getElementById('viewContractName').textContent = type;
+        document.getElementById('viewContractTen').textContent = tenNv;
+        document.getElementById('viewContractChucVu').textContent = chucvu;
+        document.getElementById('viewContractPb').textContent = pb;
+        document.getElementById('viewContractSta').textContent = sta;
+        document.getElementById('viewContractEnd').textContent = end;
+        document.getElementById('viewContractTt').textContent = tt;
+        document.getElementById('viewContractLuong').textContent = luong + " VND";
+
+        // UPDATE PRINT LINK HREF
+        const printLink = document.getElementById('printContractLink');
+        if (printLink) {
+          printLink.href = `/export/contract/${id}`;
+          console.log('✅ Print link updated:', printLink.href);
+        }
+      });
+    }
+
+    // DELETE MODAL
+    const deleteModal = document.getElementById('deleteContractModal');
+    if (deleteModal) {
+      deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const ten = button.getAttribute('data-type');
+        const nhanVien = button.getAttribute('data-nv') || '';
+
+        document.getElementById('deleteContractId').value = id;
+        document.getElementById('deleteContractType').value = ten;
+        document.getElementById('deleteEmployee').value = nhanVien;
+      });
+    }
   });
 </script>
 </body>

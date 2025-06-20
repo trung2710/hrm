@@ -115,17 +115,18 @@
                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="bi bi-three-dots-vertical text-gray-400"></i>
             </a>
+            <!-- Tìm dropdown menu trong HTML (khoảng dòng 110) -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                  aria-labelledby="dropdownMenuLink">
               <div class="dropdown-header">Tùy chọn:</div>
-              <a class="dropdown-item" href="#">
+              <!-- ✅ SỬA HREF VỚI DYNAMIC PARAMETERS -->
+              <a class="dropdown-item"
+                 th:href="@{/export/salary/excel(ten=${param.ten}, pb=${param.pb}, month=${param.month}, year=${param.year})}">
                 <i class="bi bi-file-excel me-2"></i>Xuất Excel
               </a>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item"
+                 th:href="@{/export/salary/pdf(ten=${param.ten}, pb=${param.pb}, month=${param.month}, year=${param.year})}">
                 <i class="bi bi-file-pdf me-2"></i>Xuất PDF
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="bi bi-printer me-2"></i>In danh sách
               </a>
             </div>
           </div>
@@ -291,111 +292,101 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
 <!-- View Salary Modal -->
 <div class="modal fade" id="viewSalaryModal" tabindex="-1" aria-labelledby="viewSalaryModalLabel"
      aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="viewSalaryModalLabel">Chi tiết bảng lương</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <!-- ✅ EMPLOYEE & SALARY INFO SECTION -->
         <div class="row mb-4">
           <div class="col-md-6">
-            <h6 class="font-weight-bold">Thông tin nhân viên</h6>
-            <table class="table table-bordered">
+            <h6 class="font-weight-bold text-primary">Thông tin nhân viên</h6>
+            <table class="table table-bordered table-sm">
               <tbody>
               <tr>
-                <th width="40%">Mã nhân viên</th>
-                <td id="viewSalaryEmployeeId"></td>
+                <th width="40%" class="bg-light">Mã nhân viên</th>
+                <td id="viewSalaryEmployeeId">-</td>
               </tr>
               <tr>
-                <th>Họ tên</th>
-                <td id="viewSalaryEmployeeName"></td>
+                <th class="bg-light">Họ tên</th>
+                <td id="viewSalaryEmployeeName">-</td>
               </tr>
               <tr>
-                <th>Phòng ban</th>
-                <td id="viewSalaryEmployeePB"></td>
+                <th class="bg-light">Phòng ban</th>
+                <td id="viewSalaryEmployeePB">-</td>
               </tr>
               <tr>
-                <th>Chức vụ</th>
-                <td id="viewSalaryEmployeeCV"></td>
+                <th class="bg-light">Chức vụ</th>
+                <td id="viewSalaryEmployeeCV">-</td>
               </tr>
               </tbody>
             </table>
           </div>
           <div class="col-md-6">
-            <h6 class="font-weight-bold">Thông tin lương</h6>
-            <table class="table table-bordered">
+            <h6 class="font-weight-bold text-primary">Thông tin lương</h6>
+            <table class="table table-bordered table-sm">
               <tbody>
               <tr>
-                <th>Mã bảng lương</th>
-                <td id="viewSalaryId"></td>
+                <th width="40%" class="bg-light">Mã bảng lương</th>
+                <td id="viewSalaryId">-</td>
               </tr>
               <tr>
-                <th width="40%">Kỳ lương</th>
-                <td id="viewSalaryMonthYear"></td>
+                <th class="bg-light">Kỳ lương</th>
+                <td id="viewSalaryMonthYear">-</td>
               </tr>
               <tr>
-                <th>Ngày nhận lương</th>
-                <td id="viewSalaryNhan"></td>
+                <th class="bg-light">Ngày nhận lương</th>
+                <td id="viewSalaryNhan">-</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Số người phụ thuộc</th>
+                <td id="viewSalaryPT">-</td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <h6 class="font-weight-bold border-bottom pb-2">Chi tiết lương</h6>
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-            <tr>
-              <th>Khoản mục</th>
-              <th>Số tiền (VND)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>Lương cơ bản</td>
-              <td ></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>Phụ cấp</td>
-              <td id="viewSalaryPC"></td>
-            </tr>
-            <tr>
-              <td>Thưởng</td>
-              <td id="viewSalaryBonus"></td>
-            </tr>
-            <tr>
-              <td>Tăng ca</td>
-              <td id="viewSalaryTC"></td>
-            </tr>
-            <tr class="table-danger">
-              <td>Thuế TNCN</td>
-              <td id="viewSalaryTN"></td>
-            </tr>
-            <tr class="table-danger">
-              <td>Bảo hiểm</td>
-              <td>-770,000</td>
-              <td>BHXH, BHYT, BHTN</td>
-            </tr>
-            <tr class="table-success">
-              <td><strong>Tổng nhận</strong></td>
-              <td><strong>17,730,000</strong></td>
-              <td></td>
-            </tr>
-            </tbody>
-          </table>
+        <!-- ✅ SALARY DETAILS SECTION -->
+        <div class="row">
+          <div class="col-12">
+            <h6 class="font-weight-bold text-primary border-bottom pb-2 mb-3">Chi tiết lương</h6>
+            <div class="table-responsive">
+              <table class="table table-bordered" id="salaryDetailsTable">
+                <thead class="table-primary">
+                <tr>
+                  <th width="30%">Khoản mục</th>
+                  <th width="25%" class="text-end">Số tiền (VNĐ)</th>
+                  <th width="45%">Ghi chú</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- ✅ DATA WILL BE POPULATED BY JAVASCRIPT -->
+                <tr>
+                  <td colspan="3" class="text-center text-muted">
+                    <i class="bi bi-hourglass-split me-2"></i>Đang tải dữ liệu...
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary">In phiếu lương</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-1"></i> Đóng
+        </button>
+        <a href="#" id="printSalarySlipLink" class="btn btn-primary" target="_blank"
+           onclick="handlePrintSalarySlip(event)">
+          <i class="bi bi-printer me-1"></i> In phiếu lương
+        </a>
       </div>
     </div>
   </div>
 </div>
-
 <!-- Edit Salary Modal -->
 <div class="modal fade" id="editSalaryModal" tabindex="-1" aria-labelledby="editSalaryModalLabel"
      aria-hidden="true">
@@ -529,13 +520,61 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
 <!-- Custom scripts -->
 <script src="/js/script.js"></script>
 <script>
-  console.log('User trung2710 loaded salary page at 2025-06-19 14:39:16 UTC');
+  console.log('🔧 User trung2710 fixed salary modal layout at 2025-06-20 01:59:19 UTC');
 
-  // Xử lý sự kiện khi modal xem chi tiết được hiển thị
+  let currentSalaryId = null;
+
+  // ✅ FUNCTION XỬ LÝ IN PHIẾU LƯƠNG
+  function handlePrintSalarySlip(event) {
+    event.preventDefault();
+    console.log('🖨️ User trung2710 printing salary slip at 2025-06-20 01:59:19');
+
+    if (currentSalaryId) {
+      const printUrl = `/print/salary/${currentSalaryId}`;
+      console.log('Opening salary slip:', printUrl);
+      window.open(printUrl, '_blank');
+    } else {
+      alert('Vui lòng chọn bảng lương cần in!');
+    }
+    return false;
+  }
+
+  // ✅ HELPER FUNCTION: FORMAT CURRENCY
+  function formatCurrency(value) {
+    if (!value || value == null || value == undefined || value === '' || value === 'null') {
+      return '0';
+    }
+
+    let numStr = value.toString().trim();
+
+    // Handle scientific notation
+    if (numStr.includes('E') || numStr.includes('e')) {
+      let num = parseFloat(numStr);
+      if (isNaN(num) || num === 0) {
+        return '0';
+      }
+      numStr = num.toString();
+    }
+
+    // Remove existing commas
+    numStr = numStr.replace(/,/g, '');
+
+    // Parse as number
+    let num = parseFloat(numStr);
+    if (isNaN(num)) {
+      return '0';
+    }
+
+    // Format with comma separator
+    return Math.round(Math.abs(num)).toLocaleString('vi-VN');
+  }
+
+  // ✅ MAIN MODAL EVENT LISTENER
   const viewModal = document.getElementById('viewSalaryModal');
   viewModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget; // Nút "Xem chi tiết" được nhấn
-    // Lấy dữ liệu từ thuộc tính data-*
+    const button = event.relatedTarget;
+
+    // Get all data attributes
     const id = button.getAttribute('data-id');
     const thang = button.getAttribute('data-thang');
     const nam = button.getAttribute('data-nam');
@@ -552,26 +591,148 @@ data-mnv=${luong.nhanVien.id}, data-ten=${luong.nhanVien.hoTen}, data-cv=${luong
     const cv = button.getAttribute('data-cv');
     const pb = button.getAttribute('data-pb');
 
-    console.log('User trung2710 viewing salary details:', {id, thang, nam, date});
+    // Get salary data from table row
+    const row = button.closest('tr');
+    const cells = row.cells;
+    const luongCoBanText = cells[7] ? cells[7].textContent.trim().replace(/,/g, '') : '0';
 
-    // Cập nhật nội dung modal
-    document.getElementById('viewSalaryId').textContent = id;
-    document.getElementById('viewSalaryMonth').textContent = thang;
-    document.getElementById('viewSalaryMonthYear').textContent =thang+'/'+ nam;
-    document.getElementById('viewSalaryNhan').textContent = date;
-    document.getElementById('viewSalaryPT').textContent = soNg;
-    document.getElementById('viewSalaryTC').textContent = tc;
-    document.getElementById('viewSalaryTN').textContent = tn;
-    document.getElementById('viewSalarySum').textContent = tt;
-    document.getElementById('viewSalaryBonus').textContent = bonus;
-    document.getElementById('viewSalaryPC').textContent = pc;
-    document.getElementById('viewSalaryVP').textContent = vp;
-    document.getElementById('viewSalaryEmployeeId').textContent = mnv;
-    document.getElementById('viewSalaryEmployeeName').textContent = ten;
-    document.getElementById('viewSalaryEmployeeCV').textContent = cv;
-    document.getElementById('viewSalaryEmployeePB').textContent = pb;
+    console.log('🔍 User trung2710 viewing salary details:', {
+      id: id, employee: ten, month: thang + '/' + nam
+    });
+
+    // Save current salary ID
+    currentSalaryId = id;
+
+    // ✅ UPDATE EMPLOYEE INFO (CORRECTLY)
+    document.getElementById('viewSalaryEmployeeId').textContent = mnv || 'N/A';
+    document.getElementById('viewSalaryEmployeeName').textContent = ten || 'N/A';
+    document.getElementById('viewSalaryEmployeePB').textContent = pb || 'N/A';
+    document.getElementById('viewSalaryEmployeeCV').textContent = cv || 'N/A';
+
+    // ✅ UPDATE SALARY INFO (CORRECTLY)
+    document.getElementById('viewSalaryId').textContent = id || 'N/A';
+    document.getElementById('viewSalaryMonthYear').textContent = (thang || '0') + '/' + (nam || '0');
+    document.getElementById('viewSalaryNhan').textContent = date || 'Chưa có';
+    document.getElementById('viewSalaryPT').textContent = soNg || '0';
+
+    // ✅ CALCULATE VALUES
+    const luongCoBanNum = parseFloat(luongCoBanText) || 0;
+    const pcNum = parseFloat(pc) || 0;
+    const bonusNum = parseFloat(bonus) || 0;
+    const tcNum = parseFloat(tc) || 0;
+    const vpNum = parseFloat(vp) || 0;
+    const tnNum = parseFloat(tn) || 0;
+    const ttNum = parseFloat(tt) || 0;
+
+    // Calculate insurance (10.5% of gross income)
+    const grossIncome = luongCoBanNum + pcNum + bonusNum + tcNum;
+    const baoHiem = Math.round(grossIncome * 0.105);
+
+    // ✅ POPULATE SALARY DETAILS TABLE
+    const salaryDetailsTable = document.querySelector('#salaryDetailsTable tbody');
+    if (salaryDetailsTable) {
+      salaryDetailsTable.innerHTML = '';
+
+      const salaryRows = [
+        {
+          label: 'Lương cơ bản',
+          value: formatCurrency(luongCoBanNum),
+          note: 'Lương theo hợp đồng lao động',
+          class: 'table-light',
+          positive: true
+        },
+        {
+          label: 'Phụ cấp',
+          value: formatCurrency(pcNum),
+          note: 'Phụ cấp ăn trưa, xăng xe, điện thoại',
+          class: 'table-light',
+          positive: true
+        },
+        {
+          label: 'Thưởng',
+          value: formatCurrency(bonusNum),
+          note: 'Thưởng KPI, dự án, lễ tết',
+          class: 'table-light',
+          positive: true
+        },
+        {
+          label: 'Tăng ca',
+          value: formatCurrency(tcNum),
+          note: 'Làm thêm giờ, cuối tuần, lễ',
+          class: 'table-light',
+          positive: true
+        },
+        {
+          label: 'Vi phạm',
+          value: formatCurrency(vpNum),
+          note: 'Đi trễ, nghỉ không phép',
+          class: 'table-warning',
+          positive: false
+        },
+        {
+          label: 'Thuế TNCN',
+          value: formatCurrency(tnNum),
+          note: 'Thuế thu nhập cá nhân theo luật',
+          class: 'table-danger',
+          positive: false
+        },
+        {
+          label: 'Bảo hiểm',
+          value: formatCurrency(baoHiem),
+          note: 'BHXH (8%) + BHYT (1.5%) + BHTN (1%)',
+          class: 'table-danger',
+          positive: false
+        },
+        {
+          label: 'Thực nhận',
+          value: formatCurrency(ttNum),
+          note: 'Số tiền nhận về tài khoản',
+          class: 'table-success',
+          positive: true,
+          isTotal: true
+        }
+      ];
+
+      salaryRows.forEach(row => {
+        const tr = document.createElement('tr');
+        if (row.class) {
+          tr.className = row.class;
+        }
+
+        let displayValue = row.value;
+        if (!row.positive && row.value !== '0') {
+          displayValue = '-' + row.value;
+        }
+
+        const fontWeight = row.isTotal ? 'font-weight-bold' : '';
+        const fontSize = row.isTotal ? 'fs-6' : '';
+
+        tr.innerHTML = `
+                <td class="${fontWeight}">
+                    ${row.isTotal ? '<i class="bi bi-cash-coin me-2"></i>' : ''}
+                    ${row.label}
+                </td>
+                <td class="text-end ${fontWeight} ${fontSize}">
+                    ${displayValue}
+                </td>
+                <td class="text-muted">${row.note}</td>
+            `;
+        salaryDetailsTable.appendChild(tr);
+      });
+
+      console.log('✅ User trung2710 - Salary details populated successfully');
+    }
+
+    // ✅ UPDATE PRINT LINK
+    const printLink = document.getElementById('printSalarySlipLink');
+    if (printLink) {
+      printLink.href = `/print/salary/${id}`;
+    }
+
+    console.log('✅ Modal layout fixed for user trung2710:', ten, thang + '/' + nam);
   });
 </script>
+
 <script>
   const deleteModal = document.getElementById('deleteSalaryModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {

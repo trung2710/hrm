@@ -104,14 +104,14 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                  aria-labelledby="dropdownMenuLink">
               <div class="dropdown-header">Tùy chọn:</div>
-              <a class="dropdown-item" href="#">
+              <!-- ✅ CẬP NHẬT HREF VỚI DYNAMIC PARAMETERS -->
+              <a class="dropdown-item"
+                 th:href="@{/export/attendance/excel(ten=${param.ten}, pb=${param.pb}, tt=${param.tt}, sta=${param.sta}, end=${param.end})}">
                 <i class="bi bi-file-excel me-2"></i>Xuất Excel
               </a>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item"
+                 th:href="@{/export/attendance/pdf(ten=${param.ten}, pb=${param.pb}, tt=${param.tt}, sta=${param.sta}, end=${param.end})}">
                 <i class="bi bi-file-pdf me-2"></i>Xuất PDF
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="bi bi-printer me-2"></i>In danh sách
               </a>
             </div>
           </div>

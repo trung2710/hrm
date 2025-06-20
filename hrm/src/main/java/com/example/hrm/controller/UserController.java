@@ -1,13 +1,14 @@
 package com.example.hrm.controller;
 
+import com.example.hrm.constant.NhanVienStatusEnum;
 import com.example.hrm.domain.BaoHiem;
 import com.example.hrm.domain.HopDong;
 import com.example.hrm.domain.NhanVien;
 import com.example.hrm.domain.PhongBan;
 import com.example.hrm.repository.*;
-import com.example.hrm.service.DepartmentService;
 import com.example.hrm.service.UploadService;
 import com.example.hrm.specification.EmployeeSpec;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +50,7 @@ public class UserController {
     //lien quan den xoa nhan vien
     @Autowired
     private InsuranceRepository insuranceRepository;
-    @Autowired
-    private DepartmentService departmentService;
+
     @GetMapping("/user")
     public String getUserPage(Model model, @RequestParam("page") Optional<String> p, @RequestParam("ten") Optional<String> ten, @RequestParam("pb") Optional<String> pb) {
         //Optional<String> trong Java được sử dụng để biểu diễn một đối tượng có thể chứa hoặc không chứa giá trị.
@@ -159,6 +164,22 @@ public class UserController {
             nhanVien.setSoNgayPhep(nv.getSoNgayPhep());
             nhanVien.setChucVu(nv.getChucVu());
             nhanVien.setThamNien(nv.getThamNien());
+            List<HopDong> hdong=new ArrayList<>();
+            for(HopDong x : this.contractRepository.findAll()){
+                if (x.getNhanVien().getId().equals(nhanVien.getId())){
+                    hdong.add(x);
+                }
+            }
+            boolean check=false;
+            for(HopDong  x : hdong){
+                if(x.getNgayKetThuc().isAfter(LocalDate.now())){
+                    check=true;
+                    break;
+                }
+            }
+            if(!check){
+                nhanVien.setTrangThai(NhanVienStatusEnum.RETIRE.getValue());
+            }
             this.userRepository.save(nhanVien);
         }
         return  "redirect:/user";
@@ -184,4 +205,188 @@ public class UserController {
         return "redirect:/user";
     }
 
+    //Xuat file bao cao dang pdf va excel
+    @GetMapping("/export/employee/pdf")  // ✅ FIXED: Thêm /export
+    public void exportEmployeePdf(
+            @RequestParam(required = false) String ten,
+            @RequestParam(required = false) String pb,
+            HttpServletResponse response) throws IOException {
+
+        System.out.println("Filters: ten=" + ten + ", pb=" + pb);
+
+        String tenParam = (ten != null && !ten.isEmpty()) ? ten : null;
+        String pbParam = (pb != null && !pb.isEmpty()) ? pb : null;
+
+        // Get ALL employees (no pagination)
+        Page<NhanVien> allEmployeesPage = userRepository.findAll(
+                EmployeeSpec.findNV(tenParam, pbParam),
+                Pageable.unpaged()
+        );
+        List<NhanVien> allEmployees = allEmployeesPage.getContent();
+
+        System.out.println("Found " + allEmployees.size() + " employees for PDF export");
+
+        // ✅ Simple PDF export (HTML format)
+        exportToPdf(allEmployees, response, tenParam, pbParam);
+    }
+
+    @GetMapping("/export/employee/excel")  // ✅ FIXED: Thêm /export
+    public void exportEmployeeExcel(
+            @RequestParam(required = false) String ten,
+            @RequestParam(required = false) String pb,
+            HttpServletResponse response) throws IOException {
+
+        System.out.println("Filters: ten=" + ten + ", pb=" + pb);
+
+        String tenParam = (ten != null && !ten.isEmpty()) ? ten : null;
+        String pbParam = (pb != null && !pb.isEmpty()) ? pb : null;
+
+        Page<NhanVien> allEmployeesPage = userRepository.findAll(
+                EmployeeSpec.findNV(tenParam, pbParam),
+                Pageable.unpaged()
+        );
+        List<NhanVien> allEmployees = allEmployeesPage.getContent();
+
+        System.out.println("Found " + allEmployees.size() + " employees for Excel export");
+
+        // ✅ Simple Excel export (CSV format)
+        exportToExcel(allEmployees, response, tenParam, pbParam);
+    }
+
+    private void exportToExcel(List<NhanVien> employees, HttpServletResponse response,
+                               String ten, String pb) throws IOException {
+
+        // ✅ FIXED: Sử dụng CSV format với đúng extension
+        response.setContentType("text/csv; charset=UTF-8");
+        String filename = String.format("employee_report_%s.csv",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")));
+        response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+
+        PrintWriter writer = response.getWriter();
+
+        // ✅ UTF-8 BOM for Excel compatibility
+        writer.write("\uFEFF");
+
+        // Title
+        writer.println("BÁO CÁO DANH SÁCH NHÂN VIÊN");
+        writer.println("");
+
+        // Filter info
+        StringBuilder filterInfo = new StringBuilder("Điều kiện lọc: ");
+        if (ten != null && !ten.isEmpty()) {
+            filterInfo.append("Tìm kiếm: ").append(ten).append(" | ");
+        }
+        if (pb != null && !pb.isEmpty()) {
+            filterInfo.append("Phòng ban: ").append(pb).append(" | ");
+        }
+        if (filterInfo.toString().equals("Điều kiện lọc: ")) {
+            filterInfo.append("Tất cả nhân viên");
+        } else {
+            filterInfo.setLength(filterInfo.length() - 3);
+        }
+        writer.println(filterInfo.toString());
+        writer.println("Xuất bởi: trung2710 | Thời gian: "+LocalDateTime.now() +" UTC | Tổng: " + employees.size() + " nhân viên");
+        writer.println("");
+
+        // ✅ FIXED: Sử dụng comma-separated values thay vì tab
+        writer.println("STT,Mã NV,Họ tên,Phòng ban,Chức vụ,Email,Số điện thoại,Trạng thái");
+
+        // Data
+        int index = 1;
+        for (NhanVien emp : employees) {
+            String phongBan = emp.getChucVu() != null && emp.getChucVu().getPhongBan() != null ?
+                    emp.getChucVu().getPhongBan().getTenPhongBan() : "Chưa có";
+            String chucVu = emp.getChucVu() != null ? emp.getChucVu().getTenChucVu() : "Chưa có";
+            String email = emp.getEmail() != null ? emp.getEmail() : "Chưa có";
+            String sdt = emp.getSoDienThoai() != null ? emp.getSoDienThoai() : "Chưa có";
+            String trangThai = emp.getTrangThai() != null ? emp.getTrangThai() : "Chưa xác định";
+            String hoTen = emp.getHoTen() != null ? emp.getHoTen() : "";
+
+            // ✅ FIXED: Escape commas in data và sử dụng quotes
+            writer.printf("%d,\"%d\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
+                    index++,
+                    emp.getId(),
+                    hoTen.replace("\"", "\"\""), // Escape quotes
+                    phongBan.replace("\"", "\"\""),
+                    chucVu.replace("\"", "\"\""),
+                    email.replace("\"", "\"\""),
+                    sdt.replace("\"", "\"\""),
+                    trangThai.replace("\"", "\"\"")
+            );
+        }
+
+        writer.flush();
+        System.out.println("CSV export completed  " + employees.size() + " employees");
+    }
+
+    private void exportToPdf(List<NhanVien> employees, HttpServletResponse response,
+                             String ten, String pb) throws IOException {
+
+        response.setContentType("text/html; charset=UTF-8");
+        response.setHeader("Content-Disposition", "inline; filename=employee_report_trung2710.html");
+
+        PrintWriter writer = response.getWriter();
+
+        writer.println("<!DOCTYPE html>");
+        writer.println("<html><head>");
+        writer.println("<meta charset='UTF-8'>");
+        writer.println("<title>Báo cáo nhân viên</title>");
+        writer.println("<style>");
+        writer.println("body { font-family: Arial, sans-serif; margin: 20px; }");
+        writer.println("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
+        writer.println("th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }");
+        writer.println("th { background-color: #f2f2f2; font-weight: bold; }");
+        writer.println(".header { text-align: center; margin-bottom: 20px; }");
+        writer.println("@media print { body { margin: 0; } }");
+        writer.println("</style>");
+        writer.println("</head><body>");
+
+        // Header
+        writer.println("<div class='header'>");
+        writer.println("<h1>BÁO CÁO DANH SÁCH NHÂN VIÊN</h1>");
+
+        StringBuilder filterInfo = new StringBuilder("Điều kiện lọc: ");
+        if (ten != null && !ten.isEmpty()) {
+            filterInfo.append("Tìm kiếm: '").append(ten).append("' | ");
+        }
+        if (pb != null && !pb.isEmpty()) {
+            filterInfo.append("Phòng ban: '").append(pb).append("' | ");
+        }
+        if (filterInfo.toString().equals("Điều kiện lọc: ")) {
+            filterInfo.append("Tất cả nhân viên");
+        } else {
+            filterInfo.setLength(filterInfo.length() - 3);
+        }
+        writer.println("<p>" + filterInfo.toString() + "</p>");
+        writer.println("<p>Thời gian: "+LocalDateTime.now()+ " UTC | Tổng: " + employees.size() + " nhân viên</p>");
+        writer.println("</div>");
+
+        // Table
+        writer.println("<table>");
+        writer.println("<thead><tr>");
+        writer.println("<th>STT</th><th>Mã NV</th><th>Họ tên</th><th>Phòng ban</th><th>Chức vụ</th>");
+        writer.println("<th>Email</th><th>Số điện thoại</th><th>Trạng thái</th>");
+        writer.println("</tr></thead><tbody>");
+
+        int index = 1;
+        for (NhanVien emp : employees) {
+            String phongBan = emp.getChucVu() != null && emp.getChucVu().getPhongBan() != null ?
+                    emp.getChucVu().getPhongBan().getTenPhongBan() : "Chưa có";
+            String chucVu = emp.getChucVu() != null ? emp.getChucVu().getTenChucVu() : "Chưa có";
+            String email = emp.getEmail() != null ? emp.getEmail() : "Chưa có";
+            String sdt = emp.getSoDienThoai() != null ? emp.getSoDienThoai() : "Chưa có";
+            String trangThai = emp.getTrangThai() != null ? emp.getTrangThai() : "Chưa xác định";
+
+            writer.println("<tr>");
+            writer.printf("<td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>%n",
+                    index++, emp.getId(), emp.getHoTen() != null ? emp.getHoTen() : "",
+                    phongBan, chucVu, email, sdt, trangThai
+            );
+            writer.println("</tr>");
+        }
+
+        writer.println("</tbody></table>");
+        writer.println("</body></html>");
+        writer.flush();
+    }
 }
