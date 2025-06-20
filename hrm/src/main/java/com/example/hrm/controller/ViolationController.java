@@ -123,5 +123,4 @@ public class ViolationController {
         this.nvViolationRepository.deleteById(ID);
         return "redirect:/violation-type";
     }
-
 }

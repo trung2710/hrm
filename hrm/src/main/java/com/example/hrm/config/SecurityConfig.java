@@ -52,7 +52,15 @@ public class SecurityConfig {
                                 DispatcherType.INCLUDE) .permitAll()
                         .requestMatchers("/login", "/css/**", "/js/**",
                                 "/images/**").permitAll()
+                        .requestMatchers("/api/ai-chat/**").permitAll()
+                        .requestMatchers("/chat-demo").permitAll()
+                        .requestMatchers("/chat-test").permitAll()
                         .anyRequest().authenticated())
+                .csrf(csrf -> csrf
+                        // Disable CSRF cho API endpoints
+                        .ignoringRequestMatchers("/api/ai-chat/**")
+                )
+                .cors(cors -> cors.configure(http))
                 .formLogin(formLogin -> formLogin
                         .failureUrl("/login?error")
                         .defaultSuccessUrl("/", true)
