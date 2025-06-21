@@ -9,9 +9,11 @@ import com.example.hrm.repository.DepartmentRepository;
 import com.example.hrm.repository.NV_DuAnRepository;
 import com.example.hrm.repository.ProjectReppository;
 import com.example.hrm.repository.UserRepository;
+import com.example.hrm.service.CustomUserDetail;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,23 +38,55 @@ public class ProjectController {
     @Autowired
     private DepartmentRepository departmentRepository;
     @GetMapping("/project")
-    public String getProjectPage(Model model){
-        List<DuAn> duAns = projectReppository.findAllProjects();
-        for(DuAn x : duAns){
-            String s="";
-            for(NV_DuAn y : x.getListNhanVien()){
-                s+=y.getNhanVien().getEmail()+":"+y.getNhanVien().getHoTen()+":"+y.getVaiTro()+",";
+    public String getProjectPage(Model model, Authentication authentication){
+        CustomUserDetail cus=(CustomUserDetail) authentication.getPrincipal();
+        NhanVien nhanVien=cus.getNhanVien();
+        if(nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Admin") || nhanVien.getChucVu().getQuyen().getTenQuyen().equals("Manager")){
+            List<DuAn> duAns = projectReppository.findAllProjects();
+            for(DuAn x : duAns){
+                String s="";
+                for(NV_DuAn y : x.getListNhanVien()){
+                    s+=y.getNhanVien().getEmail()+":"+y.getNhanVien().getHoTen()+":"+y.getVaiTro()+",";
+                }
+                s=s.substring(0,s.length()-1);
+                x.setNhanViens(s);
             }
-            s=s.substring(0,s.length()-1);
-            x.setNhanViens(s);
+            List<PhongBan> pb=this.departmentRepository.findAll();
+            model.addAttribute("pbs",pb);
+            List<NhanVien> nv=this.userRepository.findAll();
+            model.addAttribute("employees",nv);
+            model.addAttribute("duAns",duAns);
+            DuAn duAn = new DuAn();
+            model.addAttribute("newDuAn",duAn);
         }
-        List<PhongBan> pb=this.departmentRepository.findAll();
-        model.addAttribute("pbs",pb);
-        List<NhanVien> nv=this.userRepository.findAll();
-        model.addAttribute("employees",nv);
-        model.addAttribute("duAns",duAns);
-        DuAn duAn = new DuAn();
-        model.addAttribute("newDuAn",duAn);
+        else{
+            List<DuAn> duAns = projectReppository.findAllProjects();
+            List<DuAn> da=new ArrayList<>();
+            for(DuAn x : duAns){
+                for(NV_DuAn  y : x.getListNhanVien()){
+                    if(nhanVien.getId().equals(y.getNhanVien().getEmail())){
+                        da.add(x);
+                        break;
+                    }
+                }
+            }
+            for(DuAn x : da){
+                String s="";
+                for(NV_DuAn y : x.getListNhanVien()){
+                    s+=y.getNhanVien().getEmail()+":"+y.getNhanVien().getHoTen()+":"+y.getVaiTro()+",";
+                }
+                s=s.substring(0,s.length()-1);
+                x.setNhanViens(s);
+            }
+            List<PhongBan> pb=this.departmentRepository.findAll();
+            model.addAttribute("pbs",pb);
+            List<NhanVien> nv=this.userRepository.findAll();
+            model.addAttribute("employees",nv);
+            model.addAttribute("duAns",da);
+            DuAn duAn = new DuAn();
+            model.addAttribute("newDuAn",duAn);
+        }
+
         return "admin/project/show";
     }
 
